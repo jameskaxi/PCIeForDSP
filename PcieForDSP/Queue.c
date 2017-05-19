@@ -192,17 +192,76 @@ Return Value:
 
 		ULONG *ptr = (PULONG)in_buffer;
 		ULONG address = ptr[0];
-		ULONG size = ptr[1] / sizeof(ULONG);
+//		ULONG size = ptr[1] / sizeof(ULONG);
 		PULONG data = &ptr[2];
-		ULONG i = 0;
+//		ULONG i = 0;
 
-		if (devExt->MemBar0Base){
-			for (i = 0; i < size; i++)
-			{
-				PcieDeviceWriteReg(devExt->MemBar0Base, address + i*sizeof(ULONG), data[0]);
-			}
-			status = STATUS_SUCCESS;
+//		ULONG_PTR bufAddr;
+//		size_t bufSize = MAX_DMABUFFER_SIZE;
+		ULONG pageBase;
+
+		//if (devExt->MemBar0Base){
+		//	for (i = 0; i < size; i++)
+		//	{
+		//		PcieDeviceWriteReg(devExt->MemBar0Base, address + i*sizeof(ULONG), data[0]);
+		//	}
+		//	status = STATUS_SUCCESS;
+		//}
+
+		status = WdfMemoryCopyFromBuffer(devExt->MemoryBuffer, address, ptr, 3);
+		if (!NT_SUCCESS(status))
+		{
+			DbgPrint("zhu:WdfMemoryCopyFromBuffer failed!  status:0x%x", status);
 		}
+		else
+		{
+			DbgPrint("zhu: -->WdfMemoryCopyFromBuffer, offset:0x%x data:%u  %u  %u \n<--", address, ptr[0], ptr[1], ptr[2]);
+		}
+		
+		//if (data[0]==11)
+		//{
+		//	srcAddr = PCIE_DATA + (devExt->CommonBufferBaseLA.LowPart & (~PCIE_1MB_BITMASK));
+		//	DbgPrint("zhu:srcAddr = 0x60000000 + (devExt->CommonBufferBaseLA.LowPart & (~0xfff00000)): 0x%x", srcAddr);
+		//}
+
+		//if (data[0] == 22)
+		//{
+		//	srcAddr = (devExt->CommonBufferBaseLA.LowPart) & PCIE_1MB_BITMASK;
+		//	DbgPrint("zhu:srcAddr = (devExt->CommonBufferBaseLA.LowPart) & PCIE_1MB_BITMASK: 0x%x", srcAddr);
+		//}
+		if (data[0] == 666)
+		{
+			DbgPrint("zhu:-->Before Outbound<-- ");
+			// zhu 进行Outbound操作
+			PcieDeviceWriteReg(devExt->MemBar0Base, CMD_STATUS, 0x7);
+			PcieDeviceWriteReg(devExt->MemBar0Base, OB_SIZE, 0x0);
+			//if (data[0] <= PCIE_ADLEN_1MB)
+			//{
+			pageBase = ((ULONG_PTR)(devExt->BufferPointer)) & PCIE_1MB_BITMASK;
+			//	pageBase = srcAddr& PCIE_1MB_BITMASK;
+			DbgPrint("zhu:pageBase = srcAddr& PCIE_1MB_BITMASK: 0x%x", pageBase);
+			PcieDeviceWriteReg(devExt->MemBar0Base, OB_OFFSET_INDEX(0), (pageBase | 0x1));
+			PcieDeviceWriteReg(devExt->MemBar0Base, OB_OFFSET_HI(0), 0x00);
+		}
+
+		//}
+		//else
+		//{
+		//	for (tmp = data[0]; tmp < PCIE_ADLEN_1MB; tmp -= PCIE_ADLEN_1MB, i++)
+		//	{
+		//		pageBase = (srcAddr + (PCIE_ADLEN_1MB*i))& PCIE_1MB_BITMASK;
+		//		PcieDeviceWriteReg(devExt->MemBar0Base, OB_OFFSET_INDEX(i), (pageBase | 0x1));
+		//		PcieDeviceWriteReg(devExt->MemBar0Base, OB_OFFSET_HI(i), 0x00);
+		//	}
+		//}
+
+		DbgPrint("zhu:-->After Outbound<-- ");
+		//if (data[0] == 66)
+		//{
+		//	DbgPrint("zhu: get when we Apply MemoryBuffer is Addr:0x%x   %I64X", (ULONG_PTR)devExt->BufferPointer, (ULONG_PTR)devExt->BufferPointer);
+		//	bufAddr = (ULONG_PTR)WdfMemoryGetBuffer(devExt->MemoryBuffer, &bufSize);
+		//	DbgPrint("zhu: Maybe is Addr: 0x%x  %I64X/n", bufAddr, bufAddr);
+		//}
 
 
 		break;
@@ -408,6 +467,6 @@ _In_ ULONG Data
 // hu 写入PCIE设备寄存器值
 {
 	WRITE_REGISTER_ULONG((PULONG)((ULONG_PTR)BarXBase + Address), Data);
-	DbgPrint("zhu:BaseAddr:[%I64X]  OffAdd:0x%x  data:%d/n", (ULONG_PTR)BarXBase, Address, Data);
+	DbgPrint("zhu:BaseAddr:0x%X  OffAdd:0x%x  data:0x%x/n", (ULONG_PTR)BarXBase, Address, Data);
 
 }

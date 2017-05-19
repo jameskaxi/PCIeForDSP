@@ -226,7 +226,7 @@ NTSTATUS
 
 	// Initalize the Device Extension.
 	//
-	status = PcieInitializeDeviceContext(devExt);
+	status = PcieInitializeDeviceContext(&attributes,devExt);
 
 	if (!NT_SUCCESS(status))
 	{
@@ -390,6 +390,7 @@ WDFCMRESLIST  ResourcesTranslated
 		return status;
 	}
 
+
 #ifdef DEBUG_HU
 	TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER, "<-- %!FUNC!");
 #endif
@@ -551,6 +552,7 @@ _In_  WDF_POWER_DEVICE_STATE TargetState
 
 NTSTATUS
 PcieInitializeDeviceContext(
+_In_ PWDF_OBJECT_ATTRIBUTES Attributes,
 _In_ PDEVICE_CONTEXT DevExt
 )
 /*++
@@ -604,11 +606,44 @@ NTSTATUS
 	// 
 	// Init DMA hardware
 	//
-	
+
+	status = PcieForDspApplyMemoryBuffer(Attributes, DevExt);
+	if (!NT_SUCCESS(status))
+	{
+		return status;
+	}
 
 #ifdef DEBUG_HU
 	TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER, "<-- %!FUNC!");
 #endif
+	return status;
+}
+
+NTSTATUS
+PcieForDspApplyMemoryBuffer(
+_In_ PWDF_OBJECT_ATTRIBUTES Attributes,
+_In_ PDEVICE_CONTEXT DevExt
+)
+{
+	NTSTATUS status;
+	POOL_TYPE  PoolTag;
+	WDF_OBJECT_ATTRIBUTES  attributes;
+	UNREFERENCED_PARAMETER(Attributes);
+
+	status = STATUS_SUCCESS;
+	PoolTag = 0;
+	
+
+	WDF_OBJECT_ATTRIBUTES_INIT(&attributes);
+	//attributes.ParentObject = requestHandle;
+	status = WdfMemoryCreate(&attributes, NonPagedPool, PoolTag, (8 * 1024 * 1024), &DevExt->MemoryBuffer, &DevExt->BufferPointer);
+	if (!NT_SUCCESS(status))
+	{
+		DbgPrint("zhu: WdfMemoryCreate failed! 0x%x", status);
+		return status;
+	}
+	//上个返回的错误是：  STATUS_WDF_EXECUTION_LEVEL_INVALID
+	DbgPrint("zhu: -->WdfMemoryCreate successful!<--");
 	return status;
 }
 

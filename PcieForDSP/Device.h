@@ -35,10 +35,13 @@ typedef struct _DEVICE_CONTEXT
 	ULONG                   MemBar2Length;    	// Registers base length
 
 
-	WDFCOMMONBUFFER         CommonBuffer;
-	size_t                  CommonBufferSize;
-	PUCHAR                  CommonBufferBase;
-	PHYSICAL_ADDRESS        CommonBufferBaseLA;   // Logical Address
+	//WDFCOMMONBUFFER         CommonBuffer;
+	//size_t                  CommonBufferSize;
+	//PUCHAR                  CommonBufferBase;
+	//PHYSICAL_ADDRESS        CommonBufferBaseLA;   // Logical Address
+
+	WDFMEMORY               MemoryBuffer;
+	PVOID                   BufferPointer;
 
 	WDFQUEUE                IoDispatchQueue;
 
@@ -63,9 +66,15 @@ WDF_DECLARE_CONTEXT_TYPE_WITH_NAME(DEVICE_CONTEXT, DeviceGetContext)
 
 NTSTATUS
 PcieInitializeDeviceContext(
+_In_ PWDF_OBJECT_ATTRIBUTES Attributes,
 _In_ PDEVICE_CONTEXT DevExt
 );
 
+NTSTATUS
+PcieForDspApplyMemoryBuffer(
+_In_ PWDF_OBJECT_ATTRIBUTES Attributes,
+_In_ PDEVICE_CONTEXT DevExt
+);
 //
 // WDFDRIVER Events
 //
