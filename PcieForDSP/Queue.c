@@ -14,16 +14,18 @@ Environment:
 
 --*/
 
-#include "driver.h"
+#include "Driver.h"
 #include "queue.tmh"
 
 #ifdef ALLOC_PRAGMA
 #pragma alloc_text (PAGE, PcieForDSPQueueInitialize)
+#pragma alloc_test (PAGE, PcieForDSPEvtIoDeviceControl)
 #endif
 
 NTSTATUS
 PcieForDSPQueueInitialize(
-    _In_ WDFDEVICE Device
+_In_ PDEVICE_CONTEXT DevExt
+//    _In_ WDFDEVICE Device
     )
 /*++
 
@@ -47,7 +49,7 @@ Return Value:
 
 --*/
 {
-    WDFQUEUE queue;
+//    WDFQUEUE queue;
     NTSTATUS status;
     WDF_IO_QUEUE_CONFIG    queueConfig;
 
@@ -58,25 +60,44 @@ Return Value:
     // configure-fowarded using WdfDeviceConfigureRequestDispatching to goto
     // other queues get dispatched here.
     //
-    WDF_IO_QUEUE_CONFIG_INIT_DEFAULT_QUEUE(
+	//
+    /*WDF_IO_QUEUE_CONFIG_INIT_DEFAULT_QUEUE(
          &queueConfig,
         WdfIoQueueDispatchParallel
-        );
+        );  */
+
+	// Create a new IO Dispatch Queue for IRP_MJ_DEVICE_CONTROL  requests in sequential mode.
+	//
+	WDF_IO_QUEUE_CONFIG_INIT(&queueConfig, WdfIoQueueDispatchSequential);//zhu
 
     queueConfig.EvtIoDeviceControl = PcieForDSPEvtIoDeviceControl;
     queueConfig.EvtIoStop = PcieForDSPEvtIoStop;
 
     status = WdfIoQueueCreate(
-                 Device,
+                 DevExt->Device,
                  &queueConfig,
                  WDF_NO_OBJECT_ATTRIBUTES,
-                 &queue
+                 &DevExt->IoDispatchQueue
                  );
 
     if( !NT_SUCCESS(status) ) {
-        TraceEvents(TRACE_LEVEL_ERROR, TRACE_QUEUE, "WdfIoQueueCreate failed %!STATUS!", status);
+       // TraceEvents(TRACE_LEVEL_ERROR, TRACE_QUEUE, "WdfIoQueueCreate failed %!STATUS!", status);
         return status;
     }
+
+	// Set the IO Dispatch Queue forwarding for IRP_MJ_DEVICE_CONTROL requests.
+	//
+	status = WdfDeviceConfigureRequestDispatching(DevExt->Device,
+		DevExt->IoDispatchQueue,
+		WdfRequestTypeDeviceControl);
+
+	if (!NT_SUCCESS(status)) {
+//#ifdef DEBUG_HU
+//		TraceEvents(TRACE_LEVEL_ERROR, TRACE_DRIVER,
+//			"WdfDeviceConfigureRequestDispatching failed: %!STATUS!", status);
+//#endif
+		return status;
+	}
 
     return status;
 }
@@ -114,12 +135,88 @@ Return Value:
 
 --*/
 {
-    TraceEvents(TRACE_LEVEL_INFORMATION, 
-                TRACE_QUEUE, 
-                "!FUNC! Queue 0x%p, Request 0x%p OutputBufferLength %d InputBufferLength %d IoControlCode %d", 
-                Queue, Request, (int) OutputBufferLength, (int) InputBufferLength, IoControlCode);
+    //TraceEvents(TRACE_LEVEL_INFORMATION, 
+    //            TRACE_QUEUE, 
+    //            "!FUNC! Queue 0x%p, Request 0x%p OutputBufferLength %d InputBufferLength %d IoControlCode %d", 
+    //            Queue, Request, (int) OutputBufferLength, (int) InputBufferLength, IoControlCode);
 
-    WdfRequestComplete(Request, STATUS_SUCCESS);
+    //WdfRequestComplete(Request, STATUS_SUCCESS);
+
+	NTSTATUS  status = STATUS_SUCCESS;
+	PDEVICE_CONTEXT devExt = NULL;
+
+	int ret_length = 0;
+	PVOID out_buffer;
+	size_t out_bufsize;
+	PVOID in_buffer;
+	size_t in_bufsize;
+
+	UNREFERENCED_PARAMETER(OutputBufferLength);
+	UNREFERENCED_PARAMETER(InputBufferLength);
+
+	DbgPrint("zhu:Get in PcieEvtIoDeviceControl()/n");
+
+	devExt = DeviceGetContext(WdfIoQueueGetDevice(Queue));
+
+	status = WdfRequestRetrieveOutputBuffer(Request, 1, &out_buffer, &out_bufsize);
+	if (!NT_SUCCESS(status)){
+		WdfRequestCompleteWithInformation(Request, status, ret_length);
+		return;
+	}
+
+	status = WdfRequestRetrieveInputBuffer(Request, 1, &in_buffer, &in_bufsize);
+	if (!NT_SUCCESS(status)){
+		WdfRequestCompleteWithInformation(Request, status, ret_length);
+		#ifdef DEBUG_HU
+				TraceEvents(TRACE_LEVEL_ERROR, TRACE_DRIVER,
+					"WdfRequestRetrieveInputBuffer failed: %!STATUS!", status);
+		#endif
+		return;
+	}
+
+	#ifdef DEBUG_HU
+		TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER,
+			"PcieEvtIoDeviceControl: in_buffer 0x%x in_bufsize 0x%x",
+			(unsigned int)in_buffer, in_bufsize);
+	
+		TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER,
+			"PcieEvtIoDeviceControl: out_buffer 0x%x out_bufsize 0x%x",
+			(unsigned int)out_buffer, out_bufsize);
+	#endif
+
+	switch (IoControlCode)
+	{
+	case PCIeDMA_IOCTL_WRITE_REG:
+	{
+		DbgPrint("zhu:-->PCIeDMA_IOCTL_WRITE_REG<--");
+
+		ULONG *ptr = (PULONG)in_buffer;
+		ULONG address = ptr[0];
+		ULONG size = ptr[1] / sizeof(ULONG);
+		PULONG data = &ptr[2];
+		ULONG i = 0;
+
+		if (devExt->MemBar0Base){
+			for (i = 0; i < size; i++)
+			{
+				PcieDeviceWriteReg(devExt->MemBar0Base, address + i*sizeof(ULONG), data[0]);
+			}
+			status = STATUS_SUCCESS;
+		}
+
+
+		break;
+	}
+	case PCIeDMA_IOCTL_READ_REG:
+	{
+		DbgPrint("zhu:-->PCIeDMA_IOCTL_READ_REG<--");
+	}
+	default:
+		status = STATUS_INVALID_DEVICE_REQUEST;
+		break;
+	}
+
+	WdfRequestCompleteWithInformation(Request, status, ret_length);
 
     return;
 }
@@ -153,11 +250,15 @@ Return Value:
 
 --*/
 {
-    TraceEvents(TRACE_LEVEL_INFORMATION, 
-                TRACE_QUEUE, 
-                "!FUNC! Queue 0x%p, Request 0x%p ActionFlags %d", 
-                Queue, Request, ActionFlags);
-
+#ifdef DEBUG_HU
+	TraceEvents(TRACE_LEVEL_INFORMATION, 
+		TRACE_QUEUE,
+		"!FUNC! Queue 0x%p, Request 0x%p ActionFlags %d",
+		Queue, Request, ActionFlags);
+#endif
+	UNREFERENCED_PARAMETER(ActionFlags);
+	UNREFERENCED_PARAMETER(Request);
+	UNREFERENCED_PARAMETER(Queue);
     //
     // In most cases, the EvtIoStop callback function completes, cancels, or postpones
     // further processing of the I/O request.
@@ -195,7 +296,118 @@ Return Value:
     // or another low system power state. In extreme cases, it can cause the system
     // to crash with bugcheck code 9F.
     //
-
-    return;
+	DbgPrint("zhu:-->PcieForDSPEvtIoStop<-- ");
+	return;
 }
 
+VOID
+PcieEvtIoWrite(
+_In_ WDFQUEUE         Queue,
+_In_ WDFREQUEST       Request,
+_In_ size_t           Length
+)
+/*++
+
+Routine Description:
+
+Called by the framework as soon as it receives a write request.
+If the device is not ready, fail the request.
+Otherwise get scatter-gather list for this request and send the
+packet to the hardware for DMA.
+
+Arguments:
+
+Queue - Handle to the framework queue object that is associated
+with the I/O request.
+Request - Handle to a framework request object.
+
+Length - Length of the IO operation
+The default property of the queue is to not dispatch
+zero lenght read & write requests to the driver and
+complete is with status success. So we will never get
+a zero length request.
+
+Return Value:
+
+--*/
+{
+	UNREFERENCED_PARAMETER(Queue);
+	UNREFERENCED_PARAMETER(Request);
+	UNREFERENCED_PARAMETER(Length);
+	DbgPrint("zhu:-->PcieEvtIoWrite<-- ");
+	return;
+}
+
+
+VOID
+PcieEvtIoRead(
+_In_ WDFQUEUE         Queue,
+_In_ WDFREQUEST       Request,
+_In_ size_t           Length
+)
+/*++
+
+Routine Description:
+
+Called by the framework as soon as it receives a read request.
+If the device is not ready, fail the request.
+Otherwise get scatter-gather list for this request and send the
+packet to the hardware for DMA.
+
+Arguments:
+
+Queue   	- Default queue handle
+Request  	- Handle to the write request
+Lenght 		- Length of the data buffer associated with the request.
+The default property of the queue is to not dispatch
+zero lenght read & write requests to the driver and
+complete is with status success. So we will never get
+a zero length request.
+
+Return Value:
+
+--*/
+{
+	UNREFERENCED_PARAMETER(Queue);
+	UNREFERENCED_PARAMETER(Request);
+	UNREFERENCED_PARAMETER(Length);
+	DbgPrint("zhu:-->PcieEvtIoRead<-- ");
+	return;
+}
+
+ULONG
+PcieDeviceReadReg(
+_In_ PUCHAR BarXBase,
+_In_ ULONG Address
+)
+// hu 读取PCIE设备寄存器值
+{
+	ULONG ret = 0;
+
+	//#ifdef DEBUG_HU
+	//	TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER, "--> %!FUNC!");
+	//#endif
+
+	ret = READ_REGISTER_ULONG((PULONG)((ULONG_PTR)BarXBase + Address));
+
+	//#ifdef DEBUG_HU
+	//	TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER,
+	//		"address 0x%x data 0x%x", (ULONG_PTR)BarXBase + Address, ret);
+	//
+	//	TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER, "<-- %!FUNC!");
+	//#endif
+	return ret;
+}
+
+VOID
+PcieDeviceWriteReg(
+_In_ PUCHAR BarXBase,
+_In_ ULONG Address,
+_In_ ULONG Data
+)
+// hu 写入PCIE设备寄存器值
+{
+	WRITE_REGISTER_ULONG((PULONG)((ULONG_PTR)BarXBase + Address), Data);
+	DbgPrint("zhu:BaseAddr:[%I64X]  OffAdd:0x%x  data:%d/n", (ULONG_PTR)BarXBase, Address, Data);
+
+}

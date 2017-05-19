@@ -25,34 +25,22 @@ typedef struct _DEVICE_CONTEXT
 {
 	WDFDEVICE               Device;
 
-	PUCHAR                  MemBarBase;      	// Registers base address (must be 32bit align)
-	ULONG                   MemBarLength;    	// Registers base length
-	PUCHAR                  PortBarBase;
-	ULONG                   PortBarLength;
+	ULONG                  PhysicalAddressRegister;
 
-	WDFDMAENABLER           DmaEnabler;
+	PUCHAR                  MemBar0Base;      	//zhu: bar0 Registers base address (must be 32bit align)
+	ULONG                   MemBar0Length;    	//zhu  bar0 Registers base length
+	PUCHAR                  MemBar1Base;      	//zhu: bar1 Registers base address (must be 32bit align)
+	ULONG                   MemBar1Length;    	//zhu  bar0 Registers base length
+	PUCHAR                  MemBar2Base;      	// Registers base address (must be 32bit align)
+	ULONG                   MemBar2Length;    	// Registers base length
+
+
 	WDFCOMMONBUFFER         CommonBuffer;
 	size_t                  CommonBufferSize;
 	PUCHAR                  CommonBufferBase;
 	PHYSICAL_ADDRESS        CommonBufferBaseLA;   // Logical Address
 
-	WDFQUEUE                WriteQueue;
-	WDFREQUEST				WriteRequest;
-	ULONG					WriteDmaLength;
-	WDFTIMER                WriteTimer;
-	BOOLEAN                 WriteTimeout;
-
-	WDFQUEUE                ReadQueue;
-	WDFREQUEST				ReadRequest;
-	ULONG					ReadDmaLength;
-	PVOID					ReadBuffer;
-	WDFTIMER                ReadTimer;
-	BOOLEAN                 ReadTimeout;
-
 	WDFQUEUE                IoDispatchQueue;
-
-	WDFINTERRUPT            Interrupt;     	// Returned by InterruptCreate
-	ULONG					IntStatus;
 
 
 } DEVICE_CONTEXT, *PDEVICE_CONTEXT;
@@ -67,10 +55,16 @@ WDF_DECLARE_CONTEXT_TYPE_WITH_NAME(DEVICE_CONTEXT, DeviceGetContext)
 //
 // Function to initialize the device and its callbacks
 //
+
+//NTSTATUS
+//PcieForDSPCreateDevice(
+//    _Inout_ PWDFDEVICE_INIT DeviceInit
+//    );
+
 NTSTATUS
-PcieForDSPCreateDevice(
-    _Inout_ PWDFDEVICE_INIT DeviceInit
-    );
+PcieInitializeDeviceContext(
+_In_ PDEVICE_CONTEXT DevExt
+);
 
 //
 // WDFDRIVER Events

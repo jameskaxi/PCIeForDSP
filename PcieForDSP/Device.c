@@ -18,7 +18,13 @@ Environment:
 #include "device.tmh"
 
 #ifdef ALLOC_PRAGMA
-#pragma alloc_text (PAGE, PcieForDSPCreateDevice)
+#pragma  alloc_text (PAGE, PcieForDSPEvtDeviceAdd)
+#pragma  alloc_text (PAGE,PcieForDSPEvtDriverContextCleanup)
+#pragma  alloc_text (PAGE,PcieForDspPreparaHardware)
+#pragma  alloc_text (PAGE,PcieForDspReleaseHardware)
+#pragma  alloc_text (PAGE,PcieForDspDeviceD0Entry)
+#pragma  alloc_text (PAGE,PcieForDspDeviceD0Exit)
+#pragma  alloc_text (PAGE,PcieInitializeDeviceContext)
 #endif
 
 //
@@ -123,7 +129,7 @@ NTSTATUS
 {
 	NTSTATUS                      status;
 	WDF_OBJECT_ATTRIBUTES         attributes;
-	PDEVICE_CONTEXT               pDevContext;
+	PDEVICE_CONTEXT               devExt;
 	WDFDEVICE                     device;
 	WDF_PNPPOWER_EVENT_CALLBACKS  pnpPowerCallbacks;
 
@@ -131,7 +137,7 @@ NTSTATUS
 
 	PAGED_CODE();// zhu  PAGED_CODE表示该代码占用分页内存，如果不说明，则占用系统的非分页内存
 
-	TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER, "%!FUNC! Entry");
+	//TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER, "%!FUNC! Entry");
 
 	// 读、写请求的缓冲方式
 	// 默认为Buffered方式，另外两种方式是Direct和Neither。
@@ -186,9 +192,51 @@ NTSTATUS
 		TraceEvents(TRACE_LEVEL_ERROR, TRACE_DRIVER,"WdfDeviceCreate failed %!STATUS!", status);
 		return status;
 	}
+
 	//status = PcieForDSPCreateDevice(DeviceInit);
 
-	TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER, "%!FUNC! Exit");
+	// Get the DeviceExtension and initialize it. PcieGetDeviceContext is an inline function
+	// defined by WDF_DECLARE_CONTEXT_TYPE_WITH_NAME macro in the
+	// private header file. This function will do the type checking and return
+	// the device context. If you pass a wrong object a wrong object handle
+	// it will return NULL and assert if run under framework verifier mode.
+	//
+	devExt = DeviceGetContext(device);
+	devExt->Device = device;
+
+	//
+	// Tell the Framework that this device will need an interface
+	//
+	// NOTE: See the note in Public.h concerning this GUID value.
+	//
+	status = WdfDeviceCreateDeviceInterface(device,
+		(LPGUID)&GUID_XILINX_PCI_INTERFACE,
+		NULL);
+
+	if (!NT_SUCCESS(status))
+	{
+//#ifdef DEBUG_HU
+//		TraceEvents(TRACE_LEVEL_ERROR, TRACE_DRIVER,
+//			"WdfDeviceCreateDeviceInterface failed %!STATUS!", status);
+//#endif
+		return status;
+	}
+
+
+
+	// Initalize the Device Extension.
+	//
+	status = PcieInitializeDeviceContext(devExt);
+
+	if (!NT_SUCCESS(status))
+	{
+		//TraceEvents(TRACE_LEVEL_ERROR, TRACE_DRIVER,
+		//	"PcieInitializeDeviceContext failed %!STATUS!", status);
+
+		return status;
+	}
+
+	//TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER, "%!FUNC! Exit");
 
 	return status;
 }
@@ -216,7 +264,7 @@ VOID.
 
 	PAGED_CODE();
 
-	TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER, "%!FUNC! Entry");
+	//TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER, "%!FUNC! Entry");
 
 	//
 	// Stop WPP Tracing
@@ -245,7 +293,107 @@ WDFCMRESLIST  Resources,
 WDFCMRESLIST  ResourcesTranslated
 )
 {
+	NTSTATUS         status = STATUS_SUCCESS;
+	PDEVICE_CONTEXT   devExt;
+	ULONG i;
+	PCM_PARTIAL_RESOURCE_DESCRIPTOR  desc;
 
+	UNREFERENCED_PARAMETER(Resources);
+
+	PAGED_CODE();
+
+//#ifdef DEBUG_HU
+//	TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER, "--> %!FUNC!");
+//#endif
+
+	devExt = DeviceGetContext(Device);
+
+	//
+	// Parse the resource list and save the resource information.
+	//
+	for (i = 0; i < 5/*WdfCmResourceListGetCount(ResourcesTranslated)*/; i++) 
+	{
+
+		desc = WdfCmResourceListGetDescriptor(ResourcesTranslated, i);
+
+		if (!desc)
+		{
+			status = STATUS_DEVICE_CONFIGURATION_ERROR;
+#ifdef DEBUG_HU
+			TraceEvents(TRACE_LEVEL_ERROR, TRACE_DRIVER,
+				"WdfCmResourceListGetDescriptor failed %!STATUS!", status);
+#endif
+			return status;
+		}
+
+		switch (desc->Type)
+		{
+		case CmResourceTypeMemory:
+			//
+			// hu 将物理地址映射到虚拟地址
+			// 
+			//devExt->MemBarBase = (PUCHAR)MmMapIoSpace(desc->u.Memory.Start,
+			//	desc->u.Memory.Length,
+			//	MmNonCached);
+			//devExt->MemBarLength = desc->u.Memory.Length;
+
+			if (i == 0)
+			{
+				devExt->PhysicalAddressRegister = desc->u.Memory.Start.LowPart;
+				devExt->MemBar0Base = (PUCHAR)MmMapIoSpace(
+					desc->u.Memory.Start,
+					desc->u.Memory.Length,
+					MmNonCached);
+				devExt->MemBar0Length = desc->u.Memory.Length;
+			}
+			if (i == 2)
+			{
+				devExt->MemBar1Base = (PUCHAR)MmMapIoSpace(
+					desc->u.Memory.Start,
+					desc->u.Memory.Length,
+					MmNonCached);
+				devExt->MemBar1Length = desc->u.Memory.Length;
+			}
+
+			devExt->MemBar2Base = (PUCHAR)MmMapIoSpace(
+				desc->u.Memory.Start,
+				desc->u.Memory.Length,
+				MmNonCached);
+			devExt->MemBar2Length = desc->u.Memory.Length;
+
+
+
+#ifdef DEBUG_HU
+			TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER,
+				" - Memory Resource [%I64X-%I64X] BAR%d",
+				desc->u.Memory.Start.QuadPart,
+				desc->u.Memory.Start.QuadPart +
+				desc->u.Memory.Length,
+				i);
+#endif
+			DbgPrint("zhu:AType[%I64X--%I64X]  BAR%d/n", desc->u.Memory.Start.QuadPart, desc->u.Memory.Start.QuadPart + desc->u.Memory.Length - 1, i);
+			break;
+		
+		default:
+			DbgPrint("zhu: i=%u not case the CmResourceTypeMemory!");
+			break;
+		}
+	}
+
+	if ((!devExt->MemBar2Base) && (!devExt->MemBar0Base) && (!devExt->MemBar1Base) )
+	{
+		status = STATUS_INSUFFICIENT_RESOURCES;
+#ifdef DEBUG_HU
+		TraceEvents(TRACE_LEVEL_ERROR, TRACE_DRIVER,
+			"PcieMapResources: Missing resources BAR0");
+#endif
+		return status;
+	}
+
+#ifdef DEBUG_HU
+	TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER, "<-- %!FUNC!");
+#endif
+	return status;
 }
 
 
@@ -267,6 +415,42 @@ WDFCMRESLIST  ResourcesTranslated
 )
 {
 
+	NTSTATUS status = STATUS_SUCCESS;
+	PDEVICE_CONTEXT   devExt;
+
+	UNREFERENCED_PARAMETER(ResourcesTranslated);
+
+	PAGED_CODE();
+
+#ifdef DEBUG_HU
+	TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER, "--> %!FUNC!");
+#endif
+
+	devExt = DeviceGetContext(Device);
+
+	if (devExt->MemBar0Base)
+	{
+		MmUnmapIoSpace(devExt->MemBar0Base, devExt->MemBar0Length);
+		devExt->MemBar0Base = NULL;
+		devExt->MemBar0Length = 0;
+	}
+	if (devExt->MemBar1Base)
+	{
+		MmUnmapIoSpace(devExt->MemBar1Base, devExt->MemBar1Length);
+		devExt->MemBar1Base = NULL;
+		devExt->MemBar1Length = 0;
+	}
+	if (devExt->MemBar2Base)
+	{
+		MmUnmapIoSpace(devExt->MemBar2Base, devExt->MemBar2Length);
+		devExt->MemBar2Base = NULL;
+		devExt->MemBar2Length = 0;
+	}
+
+#ifdef DEBUG_HU
+	TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER, "<-- %!FUNC!");
+#endif
+	return status;
 }
 
 /*
@@ -322,7 +506,7 @@ _In_  WDF_POWER_DEVICE_STATE TargetState
 
 	TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER, "--> %!FUNC!");
 
-	devExt = PcieGetDeviceContext(Device);
+	devExt = DeviceGetContext(Device);
 
 	switch (TargetState) {
 	case WdfPowerDeviceD1:
@@ -354,9 +538,9 @@ _In_  WDF_POWER_DEVICE_STATE TargetState
 		//
 		// Reset the hardware, as we're shutting down for the last time.
 		//
-		if (devExt->MemBarBase){
-			PcieDeviceResetDMA(devExt->MemBarBase);
-		}
+		//if (devExt->MemBarBase){
+		//	PcieDeviceResetDMA(devExt->MemBarBase);
+		//}
 		break;
 	}
 
@@ -364,3 +548,67 @@ _In_  WDF_POWER_DEVICE_STATE TargetState
 
 	return status;
 }
+
+NTSTATUS
+PcieInitializeDeviceContext(
+_In_ PDEVICE_CONTEXT DevExt
+)
+/*++
+Routine Description:
+
+This routine is called by EvtDeviceAdd. Here the device context is
+initialized and all the software resources required by the device is
+allocated.
+
+Arguments:
+
+DevExt     Pointer to the Device Extension
+
+Return Value:
+
+NTSTATUS
+
+--*/
+{
+	NTSTATUS    status = STATUS_SUCCESS;
+
+	PAGED_CODE();
+
+#ifdef DEBUG_HU
+	TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER, "--> %!FUNC!");
+#endif
+
+	status = PcieForDSPQueueInitialize(DevExt);
+
+	if (!NT_SUCCESS(status))
+	{
+#ifdef DEBUG_HU
+		TraceEvents(TRACE_LEVEL_ERROR, TRACE_DRIVER,
+			"PcieQueueInitialize failed: %!STATUS!", status);
+#endif
+		return status;
+	}
+
+	//
+	// Create a WDFINTERRUPT object.
+	//
+	/*status = PcieInterruptCreate(DevExt);
+	if (!NT_SUCCESS(status)) {
+	#ifdef DEBUG_HU
+	TraceEvents(TRACE_LEVEL_ERROR, TRACE_DRIVER,
+	"PcieInterruptCreate failed: %!STATUS!", status);
+	#endif
+	return status;
+	}
+	*/
+	// 
+	// Init DMA hardware
+	//
+	
+
+#ifdef DEBUG_HU
+	TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER, "<-- %!FUNC!");
+#endif
+	return status;
+}
+

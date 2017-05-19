@@ -5,10 +5,10 @@
 [Version]
 Signature="$WINDOWS NT$"
 Class=Sample ; TODO: edit Class
-ClassGuid={78A1C341-4539-11d3-B88D-00C04FAD5171} ; TODO: edit ClassGuid
+ClassGuid={93E95EEF-AB6A-4C9C-807B-C7828D205BB5} ; TODO: edit ClassGuid
 Provider=%ManufacturerName%
 CatalogFile=PcieForDSP.cat
-DriverVer= ; TODO: set DriverVer in stampinf property pages
+DriverVer=; TODO: set DriverVer in stampinf property pages
 
 [DestinationDirs]
 DefaultDestDir = 12
@@ -36,7 +36,7 @@ PcieForDSP.sys  = 1,,
 %ManufacturerName%=Standard,NT$ARCH$
 
 [Standard.NT$ARCH$]
-%PcieForDSP.DeviceDesc%=PcieForDSP_Device, Root\PcieForDSP ; TODO: edit hw-id
+%PcieForDSP.DeviceDesc%=PcieForDSP_Device, PCI\VEN_104c&DEV_b005 ; TODO: edit hw-id
 
 [PcieForDSP_Device.NT]
 CopyFiles=Drivers_Dir

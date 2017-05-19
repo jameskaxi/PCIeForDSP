@@ -28,9 +28,16 @@ WDF_DECLARE_CONTEXT_TYPE_WITH_NAME(QUEUE_CONTEXT, QueueGetContext)
 
 NTSTATUS
 PcieForDSPQueueInitialize(
-    _In_ WDFDEVICE hDevice
+_In_ PDEVICE_CONTEXT DevExt
     );
 
+ULONG
+PcieDeviceReadReg(
+_In_ PUCHAR BarXBase,
+_In_ ULONG Address
+);
+
+VOID PcieDeviceWriteReg(_In_ PUCHAR BarXBase, _In_ ULONG Address, _In_ ULONG Data);
 //
 // Events from the IoQueue object
 //

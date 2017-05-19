@@ -22,12 +22,12 @@ Environment:
 #include "device.h"
 #include "queue.h"
 #include "trace.h"
+#include "RegPcie.h"
 
 //
 // WDFDRIVER Events
 //
 
 DRIVER_INITIALIZE DriverEntry;
-EVT_WDF_DRIVER_DEVICE_ADD PcieForDSPEvtDeviceAdd;
-EVT_WDF_OBJECT_CONTEXT_CLEANUP PcieForDSPEvtDriverContextCleanup;
+
 
