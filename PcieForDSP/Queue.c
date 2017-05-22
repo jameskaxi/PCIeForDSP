@@ -208,15 +208,7 @@ Return Value:
 		//	status = STATUS_SUCCESS;
 		//}
 
-		status = WdfMemoryCopyFromBuffer(devExt->MemoryBuffer, address, ptr, 3);
-		if (!NT_SUCCESS(status))
-		{
-			DbgPrint("zhu:WdfMemoryCopyFromBuffer failed!  status:0x%x", status);
-		}
-		else
-		{
-			DbgPrint("zhu: -->WdfMemoryCopyFromBuffer, offset:0x%x data:%u  %u  %u \n<--", address, ptr[0], ptr[1], ptr[2]);
-		}
+		
 		
 		//if (data[0]==11)
 		//{
@@ -232,6 +224,9 @@ Return Value:
 		if (data[0] == 666)
 		{
 			DbgPrint("zhu:-->Before Outbound<-- ");
+			DbgPrint("zhu:BufferAddr:0x%x", ((ULONG_PTR)(devExt->BufferPointer)));
+			DbgPrint("zhu:BufferAddr:[%I64X]", ((ULONG_PTR)(devExt->BufferPointer)));
+			DbgPrint("zhu:BufferAddr:[%I32X]", ((ULONG_PTR)(devExt->BufferPointer)));
 			// zhu 进行Outbound操作
 			PcieDeviceWriteReg(devExt->MemBar0Base, CMD_STATUS, 0x7);
 			PcieDeviceWriteReg(devExt->MemBar0Base, OB_SIZE, 0x0);
@@ -242,8 +237,43 @@ Return Value:
 			DbgPrint("zhu:pageBase = srcAddr& PCIE_1MB_BITMASK: 0x%x", pageBase);
 			PcieDeviceWriteReg(devExt->MemBar0Base, OB_OFFSET_INDEX(0), (pageBase | 0x1));
 			PcieDeviceWriteReg(devExt->MemBar0Base, OB_OFFSET_HI(0), 0x00);
+			DbgPrint("zhu:-->After Outbound<-- ");
 		}
 
+		if (data[0] == 555)
+		{
+			status = WdfMemoryCopyFromBuffer(devExt->MemoryBuffer, address, ptr, 3);
+			if (!NT_SUCCESS(status))
+			{
+				DbgPrint("zhu:WdfMemoryCopyFromBuffer failed!  status:0x%x", status);
+			}
+			else
+			{
+				DbgPrint("zhu: -->WdfMemoryCopyFromBuffer, offset:0x%x data:%u  %u  %u \n<--", address, ptr[0], ptr[1], ptr[2]);
+			}
+		}
+
+		if (data[0]==444)
+		{
+			DbgPrint("zhu:-->Before Outbound(0xED00 0000)<-- ");
+			// zhu 进行Outbound操作
+			PcieDeviceWriteReg(devExt->MemBar0Base, CMD_STATUS, 0x7);
+			PcieDeviceWriteReg(devExt->MemBar0Base, OB_SIZE, 0x0);
+			//if (data[0] <= PCIE_ADLEN_1MB)
+			//{
+			pageBase = ((ULONG_PTR)0xED000000) & PCIE_1MB_BITMASK;
+			//	pageBase = srcAddr& PCIE_1MB_BITMASK;
+			DbgPrint("zhu:pageBase = srcAddr& PCIE_1MB_BITMASK: 0x%x", pageBase);
+			PcieDeviceWriteReg(devExt->MemBar0Base, 0x200, (pageBase | 0x1));
+			PcieDeviceWriteReg(devExt->MemBar0Base, 0x204, 0x00);
+			DbgPrint("zhu:-->After Outbound(0xED00 0000)<-- ");
+		}
+		if (data[0]==333)
+		{
+			WRITE_REGISTER_ULONG((PULONG)((0xED000000) + address), 0xffff);
+			DbgPrint("zhu:BaseAddr:0x%x  offset:0x%x   data:0x%x", 0xED000000, address, 0xffff);
+			//PcieDeviceWriteReg()
+		}
 		//}
 		//else
 		//{
@@ -255,7 +285,7 @@ Return Value:
 		//	}
 		//}
 
-		DbgPrint("zhu:-->After Outbound<-- ");
+		
 		//if (data[0] == 66)
 		//{
 		//	DbgPrint("zhu: get when we Apply MemoryBuffer is Addr:0x%x   %I64X", (ULONG_PTR)devExt->BufferPointer, (ULONG_PTR)devExt->BufferPointer);
