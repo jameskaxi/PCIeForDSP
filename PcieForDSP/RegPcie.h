@@ -43,6 +43,7 @@
 #define IESR                         0x1060
 #define IPR                          0x1068 
 #define ICR                          0x1070 
+#define EMCR                         0x308               
 
 #define PARAM_0_OPT                  0x4000
 #define PARAM_0_SRC                  0x4004
