@@ -35,13 +35,29 @@ typedef struct _DEVICE_CONTEXT
 	ULONG                   MemBar2Length;    	// Registers base length
 
 
-	//WDFCOMMONBUFFER         CommonBuffer;
-	//size_t                  CommonBufferSize;
-	//PUCHAR                  CommonBufferBase;
-	//PHYSICAL_ADDRESS        CommonBufferBaseLA;   // Logical Address
+	WDFDMAENABLER           DmaEnabler;
+	WDFCOMMONBUFFER         CommonBuffer;
+	size_t                  CommonBufferSize;
+	PUCHAR                  CommonBufferBase;
+	PHYSICAL_ADDRESS        CommonBufferBaseLA;   // Logical Address
 
-	WDFMEMORY               MemoryBuffer;
-	PVOID                   BufferPointer;
+	WDFQUEUE                WriteQueue;
+	WDFREQUEST				WriteRequest;
+	ULONG					WriteDmaLength;
+	WDFTIMER                WriteTimer;
+	BOOLEAN                 WriteTimeout;
+
+	WDFQUEUE                ReadQueue;
+	WDFREQUEST				ReadRequest;
+	ULONG					ReadDmaLength;
+	PVOID					ReadBuffer;
+	WDFTIMER                ReadTimer;
+	BOOLEAN                 ReadTimeout;
+
+	//WDFMEMORY               MemoryBuffer;
+	//PVOID                   BufferPointer;
+
+	WDFINTERRUPT            Interrupt;     	// Returned by InterruptCreate
 
 	WDFQUEUE                IoDispatchQueue;
 
@@ -66,15 +82,19 @@ WDF_DECLARE_CONTEXT_TYPE_WITH_NAME(DEVICE_CONTEXT, DeviceGetContext)
 
 NTSTATUS
 PcieInitializeDeviceContext(
-_In_ PWDF_OBJECT_ATTRIBUTES Attributes,
+//_In_ PWDF_OBJECT_ATTRIBUTES Attributes,
 _In_ PDEVICE_CONTEXT DevExt
 );
 
 NTSTATUS
-PcieForDspApplyMemoryBuffer(
-_In_ PWDF_OBJECT_ATTRIBUTES Attributes,
+PcieInitializeDMA(
 _In_ PDEVICE_CONTEXT DevExt
 );
+//NTSTATUS
+//PcieForDspApplyMemoryBuffer(
+//_In_ PWDF_OBJECT_ATTRIBUTES Attributes,
+//_In_ PDEVICE_CONTEXT DevExt
+//);
 //
 // WDFDRIVER Events
 //

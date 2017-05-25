@@ -14,12 +14,12 @@ Environment:
 
 --*/
 
-#include "Driver.h"
+#include "driver.h"
 #include "queue.tmh"
 
 #ifdef ALLOC_PRAGMA
 #pragma alloc_text (PAGE, PcieForDSPQueueInitialize)
-#pragma alloc_test (PAGE, PcieForDSPEvtIoDeviceControl)
+//#pragma alloc_test (PAGE, PcieForDSPEvtIoDeviceControl)
 #endif
 
 NTSTATUS
@@ -66,6 +66,59 @@ Return Value:
         WdfIoQueueDispatchParallel
         );  */
 
+
+	// hu 初始化缺省队列配置，设置I/O请求分发处理方式为串行
+	WDF_IO_QUEUE_CONFIG_INIT(&queueConfig, WdfIoQueueDispatchSequential);
+
+	queueConfig.EvtIoWrite = PcieEvtIoWrite;
+
+	status = WdfIoQueueCreate(DevExt->Device,
+		&queueConfig,
+		WDF_NO_OBJECT_ATTRIBUTES,
+		&DevExt->WriteQueue);
+
+	if (!NT_SUCCESS(status)) {
+//#ifdef DEBUG_HU
+//		TraceEvents(TRACE_LEVEL_ERROR, TRACE_DRIVER,
+//			"WdfIoQueueCreate failed: %!STATUS!", status);
+//#endif
+		return status;
+	}
+
+	//
+	// Set the Write Queue forwarding for IRP_MJ_WRITE requests.
+	//
+	status = WdfDeviceConfigureRequestDispatching(DevExt->Device,
+		DevExt->WriteQueue,
+		WdfRequestTypeWrite);
+
+	if (!NT_SUCCESS(status)) {
+//#ifdef DEBUG_HU
+//		TraceEvents(TRACE_LEVEL_ERROR, TRACE_DRIVER,
+//			"WdfDeviceConfigureRequestDispatching failed: %!STATUS!", status);
+//#endif
+		return status;
+	}
+
+	//
+	// Create a new IO Queue for IRP_MJ_READ requests in sequential mode.
+	//
+	WDF_IO_QUEUE_CONFIG_INIT(&queueConfig, WdfIoQueueDispatchSequential);
+
+	queueConfig.EvtIoRead = PcieEvtIoRead;
+
+	status = WdfIoQueueCreate(DevExt->Device,
+		&queueConfig,
+		WDF_NO_OBJECT_ATTRIBUTES,
+		&DevExt->ReadQueue);
+
+	if (!NT_SUCCESS(status)) {
+//#ifdef DEBUG_HU
+//		TraceEvents(TRACE_LEVEL_ERROR, TRACE_DRIVER,
+//			"WdfIoQueueCreate failed: %!STATUS!", status);
+//#endif
+		return status;
+	}
 	// Create a new IO Dispatch Queue for IRP_MJ_DEVICE_CONTROL  requests in sequential mode.
 	//
 	WDF_IO_QUEUE_CONFIG_INIT(&queueConfig, WdfIoQueueDispatchSequential);//zhu
@@ -192,21 +245,21 @@ Return Value:
 
 		ULONG *ptr = (PULONG)in_buffer;
 		ULONG address = ptr[0];
-//		ULONG size = ptr[1] / sizeof(ULONG);
+		ULONG size = ptr[1] / sizeof(ULONG);
 		PULONG data = &ptr[2];
-//		ULONG i = 0;
+		ULONG i;
 
 //		ULONG_PTR bufAddr;
 //		size_t bufSize = MAX_DMABUFFER_SIZE;
-		ULONG pageBase;
+//		ULONG pageBase;
 
-		//if (devExt->MemBar0Base){
-		//	for (i = 0; i < size; i++)
-		//	{
-		//		PcieDeviceWriteReg(devExt->MemBar0Base, address + i*sizeof(ULONG), data[0]);
-		//	}
-		//	status = STATUS_SUCCESS;
-		//}
+		if (devExt->MemBar0Base){
+			for (i = 0; i < size; i++)
+			{
+				PcieDeviceWriteReg(devExt->MemBar1Base, address + i*sizeof(ULONG), data[0]);
+			}
+			status = STATUS_SUCCESS;
+		}
 
 		
 		
@@ -221,59 +274,57 @@ Return Value:
 		//	srcAddr = (devExt->CommonBufferBaseLA.LowPart) & PCIE_1MB_BITMASK;
 		//	DbgPrint("zhu:srcAddr = (devExt->CommonBufferBaseLA.LowPart) & PCIE_1MB_BITMASK: 0x%x", srcAddr);
 		//}
-		if (data[0] == 666)
-		{
-			DbgPrint("zhu:-->Before Outbound<-- ");
-			DbgPrint("zhu:BufferAddr:0x%x", ((ULONG_PTR)(devExt->BufferPointer)));
-			DbgPrint("zhu:BufferAddr:[%I64X]", ((ULONG_PTR)(devExt->BufferPointer)));
-			DbgPrint("zhu:BufferAddr:[%I32X]", ((ULONG_PTR)(devExt->BufferPointer)));
-			// zhu 进行Outbound操作
-			PcieDeviceWriteReg(devExt->MemBar0Base, CMD_STATUS, 0x7);
-			PcieDeviceWriteReg(devExt->MemBar0Base, OB_SIZE, 0x0);
-			//if (data[0] <= PCIE_ADLEN_1MB)
-			//{
-			pageBase = ((ULONG_PTR)(devExt->BufferPointer)) & PCIE_1MB_BITMASK;
-			//	pageBase = srcAddr& PCIE_1MB_BITMASK;
-			DbgPrint("zhu:pageBase = srcAddr& PCIE_1MB_BITMASK: 0x%x", pageBase);
-			PcieDeviceWriteReg(devExt->MemBar0Base, OB_OFFSET_INDEX(0), (pageBase | 0x1));
-			PcieDeviceWriteReg(devExt->MemBar0Base, OB_OFFSET_HI(0), 0x00);
-			DbgPrint("zhu:-->After Outbound<-- ");
-		}
+		//if (data[0] == 666)
+		//{
+		//	DbgPrint("zhu:-->Before Outbound<-- ");
+		//	DbgPrint("zhu:BufferAddr:[%I32X]", ((ULONG_PTR)(devExt->BufferPointer)));
+		//	// zhu 进行Outbound操作
+		//	PcieDeviceWriteReg(devExt->MemBar0Base, CMD_STATUS, 0x7);
+		//	PcieDeviceWriteReg(devExt->MemBar0Base, OB_SIZE, 0x0);
+		//	//if (data[0] <= PCIE_ADLEN_1MB)
+		//	//{
+		//	pageBase = ((ULONG_PTR)(devExt->BufferPointer)) & PCIE_1MB_BITMASK;
+		//	//	pageBase = srcAddr& PCIE_1MB_BITMASK;
+		//	DbgPrint("zhu:pageBase = srcAddr& PCIE_1MB_BITMASK: 0x%x", pageBase);
+		//	PcieDeviceWriteReg(devExt->MemBar0Base, OB_OFFSET_INDEX(0), (pageBase | 0x1));
+		//	PcieDeviceWriteReg(devExt->MemBar0Base, OB_OFFSET_HI(0), 0x00);
+		//	DbgPrint("zhu:-->After Outbound<-- ");
+		//}
 
-		if (data[0] == 555)
-		{
-			status = WdfMemoryCopyFromBuffer(devExt->MemoryBuffer, address, ptr, 3);
-			if (!NT_SUCCESS(status))
-			{
-				DbgPrint("zhu:WdfMemoryCopyFromBuffer failed!  status:0x%x", status);
-			}
-			else
-			{
-				DbgPrint("zhu: -->WdfMemoryCopyFromBuffer, offset:0x%x data:%u  %u  %u \n<--", address, ptr[0], ptr[1], ptr[2]);
-			}
-		}
+		//if (data[0] == 555)
+		//{
+		//	status = WdfMemoryCopyFromBuffer(devExt->MemoryBuffer, address, ptr, 3);
+		//	if (!NT_SUCCESS(status))
+		//	{
+		//		DbgPrint("zhu:WdfMemoryCopyFromBuffer failed!  status:0x%x", status);
+		//	}
+		//	else
+		//	{
+		//		DbgPrint("zhu: -->WdfMemoryCopyFromBuffer, offset:0x%x data:%u  %u  %u \n<--", address, ptr[0], ptr[1], ptr[2]);
+		//	}
+		//}
 
-		if (data[0]==444)
-		{
-			DbgPrint("zhu:-->Before Outbound(0xED00 0000)<-- ");
-			// zhu 进行Outbound操作
-			PcieDeviceWriteReg(devExt->MemBar0Base, CMD_STATUS, 0x7);
-			PcieDeviceWriteReg(devExt->MemBar0Base, OB_SIZE, 0x0);
-			//if (data[0] <= PCIE_ADLEN_1MB)
-			//{
-			pageBase = ((ULONG_PTR)0xED000000) & PCIE_1MB_BITMASK;
-			//	pageBase = srcAddr& PCIE_1MB_BITMASK;
-			DbgPrint("zhu:pageBase = srcAddr& PCIE_1MB_BITMASK: 0x%x", pageBase);
-			PcieDeviceWriteReg(devExt->MemBar0Base, 0x200, (pageBase | 0x1));
-			PcieDeviceWriteReg(devExt->MemBar0Base, 0x204, 0x00);
-			DbgPrint("zhu:-->After Outbound(0xED00 0000)<-- ");
-		}
-		if (data[0]==333)
-		{
-			WRITE_REGISTER_ULONG((PULONG)((0xED000000) + address), 0xffff);
-			DbgPrint("zhu:BaseAddr:0x%x  offset:0x%x   data:0x%x", 0xED000000, address, 0xffff);
-			//PcieDeviceWriteReg()
-		}
+		//if (data[0]==444)
+		//{
+		//	DbgPrint("zhu:-->Before Outbound(0xED00 0000)<-- ");
+		//	// zhu 进行Outbound操作
+		//	PcieDeviceWriteReg(devExt->MemBar0Base, CMD_STATUS, 0x7);
+		//	PcieDeviceWriteReg(devExt->MemBar0Base, OB_SIZE, 0x0);
+		//	//if (data[0] <= PCIE_ADLEN_1MB)
+		//	//{
+		//	pageBase = ((ULONG_PTR)0xED000000) & PCIE_1MB_BITMASK;
+		//	//	pageBase = srcAddr& PCIE_1MB_BITMASK;
+		//	DbgPrint("zhu:pageBase = srcAddr& PCIE_1MB_BITMASK: 0x%x", pageBase);
+		//	PcieDeviceWriteReg(devExt->MemBar0Base, 0x200, (pageBase | 0x1));
+		//	PcieDeviceWriteReg(devExt->MemBar0Base, 0x204, 0x00);
+		//	DbgPrint("zhu:-->After Outbound(0xED00 0000)<-- ");
+		//}
+		//if (data[0]==333)
+		//{
+		//	WRITE_REGISTER_ULONG((PULONG)((0xED000000) + address), 0xffff);
+		//	DbgPrint("zhu:BaseAddr:0x%x  offset:0x%x   data:0x%x", 0xED000000, address, 0xffff);
+		//	//PcieDeviceWriteReg()
+		//}
 		//}
 		//else
 		//{
@@ -420,13 +471,221 @@ Return Value:
 
 --*/
 {
-	UNREFERENCED_PARAMETER(Queue);
-	UNREFERENCED_PARAMETER(Request);
-	UNREFERENCED_PARAMETER(Length);
+	//UNREFERENCED_PARAMETER(Queue);
+	//UNREFERENCED_PARAMETER(Request);
+	//UNREFERENCED_PARAMETER(Length);
+
+	NTSTATUS status = STATUS_SUCCESS;
+	PDEVICE_CONTEXT devExt;
+	PVOID 	in_buffer;
+	size_t 	in_bufsize;
+
+//#ifdef DEBUG_HU
+//	TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER, "--> %!FUNC!: Request %p", Request);
+//#endif
 	DbgPrint("zhu:-->PcieEvtIoWrite<-- ");
+
+	//
+	// Get the DevExt from the Queue handle
+	//
+	devExt = DeviceGetContext(WdfIoQueueGetDevice(Queue));
+
+	//
+	// Validate the Length parameter.
+	//
+	if (Length > MAX_DMA_SIZE_COMMONBUFFER)  {
+		status = STATUS_INVALID_BUFFER_SIZE;
+//#ifdef DEBUG_HU
+//		TraceEvents(TRACE_LEVEL_ERROR, TRACE_DRIVER,
+//			"%!FUNC! failed: %!STATUS!", status);
+//#endif
+		WdfRequestComplete(Request, status);
+		return;
+	}
+
+	status = WdfRequestRetrieveInputBuffer(Request, 1, &in_buffer, &in_bufsize);
+	if (!NT_SUCCESS(status)){
+//#ifdef DEBUG_HU
+//		TraceEvents(TRACE_LEVEL_ERROR, TRACE_DRIVER,
+//			"WdfRequestRetrieveInputBuffer failed: %!STATUS!", status);
+//#endif
+		WdfRequestComplete(Request, status);
+		return;
+	}
+
+	RtlCopyMemory(devExt->CommonBufferBase, in_buffer, in_bufsize);
+	devExt->WriteDmaLength = in_bufsize;
+	KeMemoryBarrier();
+
+	devExt->WriteRequest = Request;
+	//devExt->DmaMode.bits.RdWr = TRUE;
+
+	if (devExt->MemBar0Base)
+	{
+		PcieDeviceSetupDMA(devExt->MemBar0Base,
+			//devExt->Interrupt,
+			devExt->MemBar1Base,
+			devExt->CommonBufferBaseLA,
+			devExt->WriteDmaLength			);
+
+		KeMemoryBarrier();
+
+		PcieDeviceReadReg(devExt->CommonBufferBase,0x0);
+		PcieDeviceReadReg(devExt->CommonBufferBase, 0x4);
+		PcieDeviceReadReg(devExt->CommonBufferBase, 0x8);
+		PcieDeviceReadReg(devExt->CommonBufferBase, 0xc);
+
+		status = PcieDeviceStartDMA(devExt->MemBar1Base, devExt->Interrupt);
+		if (!NT_SUCCESS(status)){
+//#ifdef DEBUG_HU
+//			TraceEvents(TRACE_LEVEL_ERROR, TRACE_DRIVER,
+//				"PcieDeviceStartDMA failed: %!STATUS!", status);
+//#endif
+			WdfRequestComplete(Request, status);
+			return;
+		}
+	}
+
+//	devExt->WriteTimeout = FALSE;
+//	PcieDMATimerStart(devExt->WriteTimer);
 	return;
 }
 
+/*
+ *-->说明<--
+ * 进行Outbound配置操作
+ */
+VOID
+PcieDeviceSetupDMA(
+_In_ PUCHAR Bar0Base,
+_In_ PUCHAR Bar1Base,
+//_In_ WDFINTERRUPT interrupt,
+_In_ PHYSICAL_ADDRESS hostAddress,
+_In_ ULONG size
+//_In_ ULONG direction,
+//_In_ BOOLEAN descLoc	// Descriptor location : 0 - external 1 - internal
+)
+// hu 设置DMA寄存器
+{
+	//DbgPrint("-->zhu:PcieDeviceSetupDMA<--");
+	ULONG srcAddr;
+	ULONG pageBase;
+	ULONG tmp;
+
+	DbgPrint("zhu:-->Outbound Start<-- ");
+	srcAddr = hostAddress.LowPart;
+
+	// zhu 进行Outbound操作
+	PcieDeviceWriteReg(Bar0Base, CMD_STATUS, 0x7);
+	PcieDeviceWriteReg(Bar0Base, OB_SIZE, 0x0);
+	for (ULONG i = 0;i<2; i++)
+	{
+		pageBase = (srcAddr + (PCIE_ADLEN_8MB * i)) & PCIE_8MB_BITMASK;				
+		DbgPrint("zhu:(srcAddr + (PCIE_ADLEN_8MB * %d)) & PCIE_8MB_BITMASK : 0x%x",i, pageBase);
+		PcieDeviceWriteReg(Bar0Base, OB_OFFSET_INDEX(i), (pageBase | 0x1));
+		PcieDeviceWriteReg(Bar0Base, OB_OFFSET_HI(i), 0x00);
+	}
+	DbgPrint("zhu:-->Outbound End<-- ");
+
+	/* map channel1 to PaRAM1. */
+//	PcieDeviceWriteReg(Bar1Base, DCHMAP1, 0x20);
+
+	/* Use TC2 for DBS = 128 bytes */
+//	PcieDeviceWriteReg(Bar1Base, DMAQNUM0, 0x20);
+
+	/* Set the interrupt enable for 1st Channel (IER). */
+//	PcieDeviceWriteReg(Bar1Base, IESR, 0x2);
+
+	/* Clear any pending interrupt (IPR). */
+//	PcieDeviceWriteReg(Bar1Base, ICR, 0x2);
+
+	/* Populate the Param entry. */
+	/* Enable SYNCDIM and TCINTEN, TCC = 0 */
+	PcieDeviceWriteReg(Bar1Base, PARAM_0_OPT, 0x00101004);//0x00101004
+
+	/* Calculate the DSP PCI address for the PC address */
+	tmp = PCIE_DATA + (srcAddr & ~PCIE_8MB_BITMASK);
+	PcieDeviceWriteReg(Bar1Base, PARAM_0_SRC, tmp);
+
+	if (size > PCIE_TRANSFER_SIZE)
+	{
+		tmp = size / PCIE_TRANSFER_SIZE;
+		//tSize = tmp*PCIE_TRANSFER_SIZE;
+		//size -= (tmp*PCIE_TRANSFER_SIZE);
+		tmp <<= 16;
+		tmp |= PCIE_TRANSFER_SIZE;
+	}
+	else
+	{
+		tmp = 0x10000 | size;
+		//tSize = size;
+		size = 0;
+	}
+
+	PcieDeviceWriteReg(Bar1Base,PARAM_0_A_B_CNT,tmp);
+	PcieDeviceWriteReg(Bar1Base, PARAM_0_DST, DDR_START);
+	PcieDeviceWriteReg(Bar1Base, PARAM_0_SRC_DST_BIDX,0x0); //((PCIE_TRANSFER_SIZE << 16) | PCIE_TRANSFER_SIZE)
+	PcieDeviceWriteReg(Bar1Base, PARAM_0_LINK_BCNTRLD, 0xFFFF);
+	PcieDeviceWriteReg(Bar1Base, PARAM_0_SRC_DST_CIDX, 0x0);
+	/* C Count is set to 1 since mostly size will not be more than 1.75GB */
+	PcieDeviceWriteReg(Bar1Base, PARAM_0_CCNT, 0x1);
+	/* Set the Event Enable Set Register. */
+//	PcieDeviceWriteReg(Bar1Base, EESR,0x2);
+
+	
+}
+
+NTSTATUS
+PcieDeviceStartDMA(
+_In_ PUCHAR Bar1Base,
+_In_ WDFINTERRUPT interrupt
+)
+// hu 开始DMA传输
+{
+	NTSTATUS status = STATUS_SUCCESS;
+
+	UNREFERENCED_PARAMETER(interrupt);
+	UNREFERENCED_PARAMETER(Bar1Base);
+	//PCIE_DMA_REGS *dmaRegs;
+	//DmaCtl_u_t DmaCtl;
+
+
+
+
+	//
+	// Start the DMA operation.
+	// Acquire this device's InterruptSpinLock.
+	// Note: ISR would access registers of DMA engine also
+//	WdfInterruptAcquireLock(interrupt);
+
+//	// Check if DMA busy or not?
+//	DmaCtl.ulong = READ_REGISTER_ULONG((PULONG)&dmaRegs->DmaCtl);
+//	if (DmaCtl.bits.DmaEna){
+//		WdfInterruptReleaseLock(interrupt);
+//		status = STATUS_UNSUCCESSFUL;
+////#ifdef DEBUG_HU
+////		TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER, "DMA is busy, reject Start request"); // should not reach here
+////#endif
+//		return status;
+//	}
+
+	// Clear all the interrupt status flags
+//	PcieDeviceClearInterrupt(BarXBase);
+
+	// Enable interrupt
+//	PcieDeviceEnableInterrupt(BarXBase);
+
+	// Start the DMA operation: Set Enable bit
+	//DmaCtl.ulong = READ_REGISTER_ULONG((PULONG)&dmaRegs->DmaCtl);
+	//DmaCtl.bits.DmaEna = TRUE;
+	//WRITE_REGISTER_ULONG((PULONG)&dmaRegs->DmaCtl, DmaCtl.ulong);
+	DbgPrint("zhu:-->Start EDMA<--");
+//	PcieDeviceWriteReg(Bar1Base, ESR, 0x1);
+
+//	WdfInterruptReleaseLock(interrupt);
+
+	return status;
+}
 
 VOID
 PcieEvtIoRead(
@@ -479,6 +738,7 @@ _In_ ULONG Address
 
 	ret = READ_REGISTER_ULONG((PULONG)((ULONG_PTR)BarXBase + Address));
 
+	DbgPrint("BaseAddr:0x%x  offset:0x%x   data:0x%x",(ULONG_PTR)BarXBase,Address,ret);
 	//#ifdef DEBUG_HU
 	//	TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER,
 	//		"address 0x%x data 0x%x", (ULONG_PTR)BarXBase + Address, ret);

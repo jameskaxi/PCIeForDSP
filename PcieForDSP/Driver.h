@@ -17,7 +17,9 @@ Environment:
 #define INITGUID
 
 #include <ntddk.h>
+#include <stdarg.h>
 #include <wdf.h>
+
 
 #include "device.h"
 #include "queue.h"

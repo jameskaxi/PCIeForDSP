@@ -226,7 +226,7 @@ NTSTATUS
 
 	// Initalize the Device Extension.
 	//
-	status = PcieInitializeDeviceContext(&attributes,devExt);
+	status = PcieInitializeDeviceContext(devExt);
 
 	if (!NT_SUCCESS(status))
 	{
@@ -375,7 +375,7 @@ WDFCMRESLIST  ResourcesTranslated
 			break;
 		
 		default:
-			DbgPrint("zhu: i=%u not case the CmResourceTypeMemory!");
+			DbgPrint("zhu: i=%u not case the CmResourceTypeMemory!",status);
 			break;
 		}
 	}
@@ -552,7 +552,7 @@ _In_  WDF_POWER_DEVICE_STATE TargetState
 
 NTSTATUS
 PcieInitializeDeviceContext(
-_In_ PWDF_OBJECT_ATTRIBUTES Attributes,
+//_In_ PWDF_OBJECT_ATTRIBUTES Attributes,
 _In_ PDEVICE_CONTEXT DevExt
 )
 /*++
@@ -606,8 +606,8 @@ NTSTATUS
 	// 
 	// Init DMA hardware
 	//
-
-	status = PcieForDspApplyMemoryBuffer(Attributes, DevExt);
+	status = PcieInitializeDMA(DevExt);
+//	status = PcieForDspApplyMemoryBuffer(Attributes, DevExt);
 	if (!NT_SUCCESS(status))
 	{
 		return status;
@@ -618,7 +618,7 @@ NTSTATUS
 #endif
 	return status;
 }
-
+/*
 NTSTATUS
 PcieForDspApplyMemoryBuffer(
 _In_ PWDF_OBJECT_ATTRIBUTES Attributes,
@@ -646,4 +646,116 @@ _In_ PDEVICE_CONTEXT DevExt
 	DbgPrint("zhu: -->WdfMemoryCreate successful!<--");
 	return status;
 }
+*/
 
+NTSTATUS
+PcieInitializeDMA(
+_In_ PDEVICE_CONTEXT DevExt
+)
+/*++
+Routine Description:
+
+Initializes the DMA adapter.
+
+Arguments:
+
+DevExt      Pointer to our DEVICE_EXTENSION
+
+Return Value:
+
+None
+
+--*/
+{
+	NTSTATUS  status = STATUS_SUCCESS;
+	WDF_DMA_ENABLER_CONFIG   	dmaConfig;
+
+	PAGED_CODE();
+
+	//#ifdef DEBUG_HU
+	//	TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER, "--> %!FUNC!");
+	//#endif
+
+	//
+	// DMA_TRANSFER_ELEMENTS must be 128-byte aligned
+	//
+	WdfDeviceSetAlignmentRequirement(DevExt->Device,
+		/*PCI_DTE_ALIGNMENT_16 ); */
+		FILE_128_BYTE_ALIGNMENT);
+
+	//
+	// Create a new DMA Enabler instance.
+	// Use Scatter/Gather, 32-bit Addresses, Duplex-type profile.
+	//
+	WDF_DMA_ENABLER_CONFIG_INIT(&dmaConfig,
+		//#ifdef SUPPORT_DMA64
+		//		WdfDmaProfileScatterGather64Duplex,
+		//#else
+		WdfDmaProfileScatterGatherDuplex,
+		//#endif
+		MAX_DMA_SIZE_COMMONBUFFER);
+
+	//#ifdef DEBUG_HU
+	//	TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER,
+	//		"The DMA Profile is WdfDmaProfileScatterGatherDuplex");
+	//#endif
+
+	status = WdfDmaEnablerCreate(DevExt->Device,
+		&dmaConfig,
+		WDF_NO_OBJECT_ATTRIBUTES,
+		&DevExt->DmaEnabler);
+
+	if (!NT_SUCCESS(status)) {
+		//#ifdef DEBUG_HU
+		//		TraceEvents(TRACE_LEVEL_ERROR, TRACE_DRIVER,
+		//			"WdfDmaEnablerCreate failed: %!STATUS!", status);
+		//#endif
+		return status;
+	}
+
+	//
+	// Allocate common buffer
+	//
+	// NOTE: This common buffer will not be cached.
+	//       Perhaps in some future revision, cached option could
+	//       be used. This would have faster access, but requires
+	//       flushing before starting the DMA in PcieStartReadDma.
+	//
+	DevExt->CommonBufferSize = MAX_DMA_SIZE_COMMONBUFFER;
+
+	status = WdfCommonBufferCreate(DevExt->DmaEnabler,
+		DevExt->CommonBufferSize,
+		WDF_NO_OBJECT_ATTRIBUTES,
+		&DevExt->CommonBuffer);
+
+	if (!NT_SUCCESS(status)) {
+		//#ifdef DEBUG_HU
+		//		TraceEvents(TRACE_LEVEL_ERROR, TRACE_DRIVER,
+		//			"WdfCommonBufferCreate failed %!STATUS!", status);
+		//#endif
+		return status;
+	}
+
+	//zhu 获取驱动程序可以访问的缓冲区的虚拟地址
+	DevExt->CommonBufferBase =
+		(PUCHAR)WdfCommonBufferGetAlignedVirtualAddress(DevExt->CommonBuffer);
+	//zhu 获取设备可以访问的缓冲区的逻辑地址
+	DevExt->CommonBufferBaseLA =
+		WdfCommonBufferGetAlignedLogicalAddress(DevExt->CommonBuffer);
+
+	RtlZeroMemory(DevExt->CommonBufferBase,
+		DevExt->CommonBufferSize);
+
+	//#ifdef DEBUG_HU
+	//	TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER,
+	//		"CommonBuffer  0x%p  (#0x%I64X), length %I64d",
+	//		DevExt->CommonBufferBase,
+	//		DevExt->CommonBufferBaseLA.QuadPart,
+	//		WdfCommonBufferGetLength(DevExt->CommonBuffer));
+	//#endif
+	//
+	//#ifdef DEBUG_HU
+	//	TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER, "<-- %!FUNC!");
+	//#endif
+	return status;
+}

@@ -23,15 +23,81 @@
 #define IB_OFFSET(n)                 (0x30C + (0x10 * (n)))
 #define CMD_STATUS			 0X4
 /* For 1MB outbound translation window size */
-#define PCIE_ADLEN_1MB               (0x00100000)
-#define PCIE_1MB_BITMASK             (0xFFF00000)
-#define LL2_START                    (0x00800000)
-#define MSMC_START                   (0x0C000000)  /* Shared L2 */
+#define PCIE_ADLEN_8MB               (0x00800000)
+#define PCIE_8MB_BITMASK             (0xFF800000)
+//#define LL2_START                    (0x00800000)
+//#define MSMC_START                   (0x0C000000)  /* Shared L2 */
 #define DDR_START                    (0x80000000)
 #define PCIE_DATA                    (0x60000000)  
 
 #define OUTBOUND_BUFFER_SIZE         (8*1024*1024)
 
+/*EDMA registers*/
+/* remap to CC1 */
+#define EDMA_TPCC1_BASE_ADDRESS      0x02720000
+#define DCHMAP0						 0x0100
+#define DCHMAP1						 0x0104
+#define DMAQNUM0                     0x0240  
+#define ESR                          0x1010 
+#define EESR                         0x1030                 
+#define IESR                         0x1060
+#define IPR                          0x1068 
+#define ICR                          0x1070 
+
+#define PARAM_0_OPT                  0x4000
+#define PARAM_0_SRC                  0x4004
+#define PARAM_0_A_B_CNT              0x4008
+#define PARAM_0_DST                  0x400C
+#define PARAM_0_SRC_DST_BIDX         0x4010
+#define PARAM_0_LINK_BCNTRLD         0x4014
+#define PARAM_0_SRC_DST_CIDX         0x4018
+#define PARAM_0_CCNT                 0x401C
+
+#define PARAM_1_OPT                  0x4020
+#define PARAM_1_SRC                  0x4024
+#define PARAM_1_A_B_CNT              0x4028
+#define PARAM_1_DST                  0x402C
+#define PARAM_1_SRC_DST_BIDX         0x4030
+#define PARAM_1_LINK_BCNTRLD         0x4034
+#define PARAM_1_SRC_DST_CIDX         0x4038
+#define PARAM_1_CCNT                 0x403C
+
+
+#define PCIE_TRANSFER_SIZE           0x80               
+
+
+
+typedef struct _EDMA_REGIST_
+{
+	ULONG_PTR EdmaTpcc1BaseAddress; // 0x02720000;
+
+	ULONG DchMap0;                  //  0x0100;
+	ULONG DchMap1;				    // 0x0104;
+	ULONG DMAQnum0;                 // 0x0240;
+	ULONG esr;                      // 0x1010;
+	ULONG eesr;                     // 0x1030;
+	ULONG iesr;                     // 0x1060;
+	ULONG ipr;                      // 0x1068;
+	ULONG icr;                      // 0x1070;
+
+	ULONG Param_0_opt;              // 0x4000;
+	ULONG Param_0_src;              // 0x4004;
+	ULONG Param_0_a_b_CNT;          // 0x4008;
+	ULONG Param_0_DST;              // 0x400C;
+	ULONG Param_0_SRC_DST_BIDX;     // 0x4010;
+	ULONG Param_0_LINK_BCNTRLD;     // 0x4014;
+	ULONG Param_0_SRC_DST_CIDX;     // 0x4018;
+	ULONG Param_0_CCNT;             // 0x401C;
+
+	ULONG Param_1_OPT;              // 0x4020;
+	ULONG Param_1_SRC;              // 0x4024;
+	ULONG Param_1_A_B_CNT;          // 0x4028;
+	ULONG Param_1_DST;              //0x402C;
+	ULONG Param_1_SRC_DST_BIDX;     // 0x4030;
+	ULONG Param_1_LINK_BCNTRLD;     // 0x4034;
+	ULONG Param_1_SRC_DST_CIDX;     // 0x4038;
+	ULONG Param_1_CCNT;             //  0x403C;
+}EDMA_RegData , *PEDMA_RegData;
 
 
 //////////////////////////////////////////////////////

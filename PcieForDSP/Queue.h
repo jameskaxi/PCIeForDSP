@@ -37,10 +37,31 @@ _In_ PUCHAR BarXBase,
 _In_ ULONG Address
 );
 
-VOID PcieDeviceWriteReg(_In_ PUCHAR BarXBase, _In_ ULONG Address, _In_ ULONG Data);
-//
+VOID
+PcieDeviceWriteReg(
+_In_ PUCHAR BarXBase,
+_In_ ULONG Address, 
+_In_ ULONG Data);
+
+VOID
+PcieDeviceSetupDMA(
+_In_ PUCHAR Bar0Base,
+_In_ PUCHAR Bar1Base,
+//_In_ WDFINTERRUPT interrupt,
+_In_ PHYSICAL_ADDRESS hostAddress,
+_In_ ULONG size
+);
+
+NTSTATUS
+PcieDeviceStartDMA(
+_In_ PUCHAR Bar1Base,
+_In_ WDFINTERRUPT interrupt
+);
+
 // Events from the IoQueue object
 //
 EVT_WDF_IO_QUEUE_IO_DEVICE_CONTROL PcieForDSPEvtIoDeviceControl;
 EVT_WDF_IO_QUEUE_IO_STOP PcieForDSPEvtIoStop;
+EVT_WDF_IO_QUEUE_IO_READ PcieEvtIoRead;
+EVT_WDF_IO_QUEUE_IO_WRITE PcieEvtIoWrite;
 
