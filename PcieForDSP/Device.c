@@ -371,7 +371,7 @@ WDFCMRESLIST  ResourcesTranslated
 				desc->u.Memory.Length,
 				i);
 #endif
-			DbgPrint("zhu:AType[%I64X--%I64X]  BAR%d/n", desc->u.Memory.Start.QuadPart, desc->u.Memory.Start.QuadPart + desc->u.Memory.Length - 1, i);
+			DbgPrint("zhu:AType[%I64X--%I64X]  BAR%d", desc->u.Memory.Start.QuadPart, desc->u.Memory.Start.QuadPart + desc->u.Memory.Length - 1, i);
 			break;
 		
 		default:
