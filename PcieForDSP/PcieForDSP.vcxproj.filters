@@ -45,6 +45,12 @@
     <ClInclude Include="RegPcie.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Interrupt.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Timer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Device.c">
@@ -54,6 +60,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Queue.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Interrupt.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Timer.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="RegPcie.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

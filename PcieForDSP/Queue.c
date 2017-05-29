@@ -455,7 +455,7 @@ Return Value:
 	if (devExt->MemBar0Base)
 	{
 		PcieDeviceSetupDMA(devExt->MemBar0Base,
-			//devExt->Interrupt,
+			devExt->Interrupt,
 			//devExt->MemBar1Base,
 			devExt->CommonBufferBaseLA);
 
@@ -485,7 +485,7 @@ Return Value:
 VOID
 PcieDeviceSetupDMA(
 _In_ PUCHAR Bar0Base,
-//_In_ WDFINTERRUPT interrupt,
+_In_ WDFINTERRUPT interrupt,
 _In_ PHYSICAL_ADDRESS hostAddress
 //_In_ ULONG size
 //_In_ ULONG direction,
@@ -497,7 +497,7 @@ _In_ PHYSICAL_ADDRESS hostAddress
 	ULONG srcAddr;
 	ULONG pageBase;
 
-
+	WdfInterruptAcquireLock(interrupt);
 
 	DbgPrint("zhu:-->Outbound Start<-- ");
 	srcAddr = hostAddress.LowPart;
@@ -514,6 +514,7 @@ _In_ PHYSICAL_ADDRESS hostAddress
 	}
 	DbgPrint("zhu:-->Outbound End<-- ");
 
+	WdfInterruptReleaseLock(interrupt);
 }
 
 VOID
@@ -529,8 +530,20 @@ _In_ WDFINTERRUPT interrupt
 	ULONG uiTmp;
 	ULONG srcAddr;
 
-	UNREFERENCED_PARAMETER(interrupt);
+	//UNREFERENCED_PARAMETER(interrupt);
 	//UNREFERENCED_PARAMETER(Bar1Base);
+
+	WdfInterruptAcquireLock(interrupt);
+
+	// Check if DMA busy or not?
+	//DmaCtl.ulong = READ_REGISTER_ULONG((PULONG)&dmaRegs->DmaCtl);
+
+
+	// Clear all the interrupt status flags
+	PcieDeviceClearInterrupt(BarXBase);
+
+	// Enable interrupt
+	PcieDeviceEnableInterrupt(BarXBase);
 
 	DbgPrint("zhu:-->Start EDMA<--");
 
@@ -579,7 +592,7 @@ _In_ WDFINTERRUPT interrupt
 	/* Set the Event Enable Set Register. */
 	//	PcieDeviceWriteReg(Bar1Base, EESR,0x2);
 	//PcieDeviceWriteReg(devExt->MemBar1Base, ESR, 0x1);
-
+	WdfInterruptReleaseLock(interrupt);
 	//return status;
 }
 
@@ -618,6 +631,7 @@ Return Value:
 	DbgPrint("zhu:-->PcieEvtIoRead<-- ");
 	return;
 }
+/*
 
 ULONG
 PcieDeviceReadReg(
@@ -656,3 +670,4 @@ _In_ ULONG Data
 	DbgPrint("zhu:BaseAddr:0x%X  OffAdd:0x%x  data:0x%x", (ULONG_PTR)BarXBase, Address, Data);
 
 }
+*/

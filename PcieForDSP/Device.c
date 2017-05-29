@@ -274,7 +274,7 @@ VOID.
 }
 
 
-/*
+/*  zhu 
  *  程序描述：
  *  在启动设备需要初始化时运行，建立一个DMA通道和任一I/O端口。该函数只在设备启动或重启时调用。
  *
@@ -375,7 +375,7 @@ WDFCMRESLIST  ResourcesTranslated
 			break;
 		
 		default:
-			DbgPrint("zhu: i=%u not case the CmResourceTypeMemory!",status);
+			DbgPrint("zhu: i=%u not case the CmResourceTypeMemory!",i);
 			break;
 		}
 	}
@@ -398,7 +398,7 @@ WDFCMRESLIST  ResourcesTranslated
 }
 
 
-/*
+/*  zhu
  *  程序描述：
  *  取消PcieForDspPreparaHardware中的映射。在设备因resource rebalance,surprise-removed or query-removed被停止时调用
  *
@@ -594,15 +594,15 @@ NTSTATUS
 	//
 	// Create a WDFINTERRUPT object.
 	//
-	/*status = PcieInterruptCreate(DevExt);
+	status = PcieInterruptCreate(DevExt);
 	if (!NT_SUCCESS(status)) {
-	#ifdef DEBUG_HU
-	TraceEvents(TRACE_LEVEL_ERROR, TRACE_DRIVER,
-	"PcieInterruptCreate failed: %!STATUS!", status);
-	#endif
-	return status;
+#ifdef DEBUG_HU
+		TraceEvents(TRACE_LEVEL_ERROR, TRACE_DRIVER,
+			"PcieInterruptCreate failed: %!STATUS!", status);
+#endif
+		return status;
 	}
-	*/
+
 	// 
 	// Init DMA hardware
 	//
@@ -612,10 +612,23 @@ NTSTATUS
 	{
 		return status;
 	}
+	//
+	// Init Timers
+	//
+	status = PcieDMATimerCreate(
+		&DevExt->WriteTimer,
+		DevExt->Device,
+		DmaWriteTimerEventFunc);
 
-#ifdef DEBUG_HU
-	TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER, "<-- %!FUNC!");
-#endif
+	if (!NT_SUCCESS(status)) {	return status;	}
+
+	status = PcieDMATimerCreate(
+		&DevExt->ReadTimer,
+		DevExt->Device,
+		DmaReadTimerEventFunc);
+
+	if (!NT_SUCCESS(status)) {	return status; }
+
 	return status;
 }
 /*

@@ -56,14 +56,19 @@
   <ItemGroup>
     <ClCompile Include="Device.c" />
     <ClCompile Include="Driver.c" />
+    <ClCompile Include="Interrupt.c" />
     <ClCompile Include="Queue.c" />
+    <ClCompile Include="RegPcie.c" />
+    <ClCompile Include="Timer.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Device.h" />
     <ClInclude Include="Driver.h" />
+    <ClInclude Include="Interrupt.h" />
     <ClInclude Include="Public.h" />
     <ClInclude Include="Queue.h" />
     <ClInclude Include="RegPcie.h" />
+    <ClInclude Include="Timer.h" />
     <ClInclude Include="Trace.h" />
   </ItemGroup>
   <ItemGroup>

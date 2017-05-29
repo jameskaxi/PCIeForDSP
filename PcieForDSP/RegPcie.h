@@ -100,6 +100,79 @@ typedef struct _EDMA_REGIST_
 	ULONG Param_1_CCNT;             //  0x403C;
 }EDMA_RegData , *PEDMA_RegData;
 
+VOID
+PcieDeviceResetHardWare(
+_In_ PUCHAR BarXBase
+);
+
+VOID
+PcieDeviceResetDMA(
+_In_ PUCHAR BarXBase
+);
+
+ULONG
+PcieDeviceGetInterrupt(
+_In_ PUCHAR BarXBase
+);
+
+VOID
+PcieDeviceClearInterrupt(
+_In_ PUCHAR BarXBase
+);
+
+VOID
+PcieDeviceEnableInterrupt(
+_In_ PUCHAR BarXBase
+);
+
+VOID
+PcieDeviceDisableInterrupt(
+_In_ PUCHAR BarXBase
+);
+
+VOID
+PcieDeviceSetupDMA(
+_In_ PUCHAR BarXBase,
+_In_ WDFINTERRUPT interrupt,
+_In_ PHYSICAL_ADDRESS hostAddress,
+_In_ ULONG size,
+_In_ ULONG direction,
+_In_ BOOLEAN descLoc	// Descriptor location : 0 - external 1 - internal
+);
+
+NTSTATUS
+PcieDeviceStartDMA(
+_In_ PUCHAR BarXBase,
+_In_ WDFINTERRUPT interrupt
+);
+
+ULONG
+PcieDeviceGetDMATime(
+_In_ PUCHAR BarXBase
+);
+
+ULONG64
+PcieDeviceGetVersion(
+_In_ PUCHAR BarXBase
+);
+
+ULONG
+PcieDeviceReadReg(
+_In_ PUCHAR BarXBase,
+_In_ ULONG Address
+);
+
+VOID
+PcieDeviceWriteReg(
+_In_ PUCHAR BarXBase,
+_In_ ULONG Address,
+_In_ ULONG Data
+);
+
+VOID
+PcieDeviceTriggerInterrupt(
+_In_ PUCHAR BarXBase
+);
 
 //////////////////////////////////////////////////////
 #endif  // __REGPCIE_H_

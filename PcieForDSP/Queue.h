@@ -30,7 +30,7 @@ NTSTATUS
 PcieForDSPQueueInitialize(
 _In_ PDEVICE_CONTEXT DevExt
     );
-
+/*
 ULONG
 PcieDeviceReadReg(
 _In_ PUCHAR BarXBase,
@@ -42,7 +42,7 @@ PcieDeviceWriteReg(
 _In_ PUCHAR BarXBase,
 _In_ ULONG Address, 
 _In_ ULONG Data);
-
+*/
 VOID
 PcieDeviceSetupDMA(
 _In_ PUCHAR Bar0Base,
