@@ -253,13 +253,13 @@ Return Value:
 //		size_t bufSize = MAX_DMABUFFER_SIZE;
 //		ULONG pageBase;
 
-		if (devExt->MemBar1Base){
+		/*if (devExt->MemBar1Base){
 			for (i = 0; i < size; i++)
 			{
 				PcieDeviceWriteReg(devExt->MemBar1Base, address + i*sizeof(ULONG), data[0]);
 			}
 			status = STATUS_SUCCESS;
-		}
+		}*/
 
 		
 		if (data[0] == 66)
@@ -271,7 +271,22 @@ Return Value:
 			}
 		}
 		
+		else if (data[0] == 11)
+		{
+			DbgPrint("zhu:-->ready to send 0x1 to 0x180 at Bar0 Space!<--");
+			PcieDeviceEnableInterrupt(devExt->MemBar0Base);
 
+		}
+		else
+		{
+			if (devExt->MemBar1Base){
+				for (i = 0; i < size; i++)
+				{
+					PcieDeviceWriteReg(devExt->MemBar1Base, address + i*sizeof(ULONG), data[0]);
+				}
+				status = STATUS_SUCCESS;
+			}
+		}
 
 		break;
 	}
@@ -472,6 +487,7 @@ Return Value:
 		PcieDeviceStartDMA(devExt, devExt->Interrupt);
 	}
 	*/
+	PcieDeviceStartDMA(devExt, devExt->Interrupt);
 	WdfRequestComplete(Request, status);
 //	devExt->WriteTimeout = FALSE;
 //	PcieDMATimerStart(devExt->WriteTimer);
@@ -485,6 +501,7 @@ Return Value:
 VOID
 PcieDeviceSetupDMA(
 _In_ PUCHAR Bar0Base,
+//_In_ PUCHAR Bar1Base,
 _In_ WDFINTERRUPT interrupt,
 _In_ PHYSICAL_ADDRESS hostAddress
 //_In_ ULONG size
@@ -514,85 +531,90 @@ _In_ PHYSICAL_ADDRESS hostAddress
 	}
 	DbgPrint("zhu:-->Outbound End<-- ");
 
+	
+
 	WdfInterruptReleaseLock(interrupt);
 }
 
 VOID
 PcieDeviceStartDMA(
 _In_ PDEVICE_CONTEXT devExt,
-//_In_ PUCHAR Bar1Base,
+//_In_ ULONG DataLength,
 _In_ WDFINTERRUPT interrupt
 )
 // hu ¿ªÊ¼DMA´«Êä
 {
 //	NTSTATUS status = STATUS_SUCCESS;
-	ULONG uiSize;
-	ULONG uiTmp;
+	//ULONG uiSize;
+	//ULONG uiTmp;
 	ULONG srcAddr;
 
-	//UNREFERENCED_PARAMETER(interrupt);
+	DbgPrint("zhu:-->Start EDMA<--");
+	UNREFERENCED_PARAMETER(interrupt);
 	//UNREFERENCED_PARAMETER(Bar1Base);
-
-	WdfInterruptAcquireLock(interrupt);
+	srcAddr = PCIE_DATA + (devExt->CommonBufferBaseLA.LowPart & ~PCIE_8MB_BITMASK);
+	PcieDeviceWriteReg(devExt->MemBar1Base, 0x0, srcAddr);
+	PcieDeviceWriteReg(devExt->MemBar1Base, 0x4, devExt->WriteDmaLength);
+	//WdfInterruptAcquireLock(interrupt);
 
 	// Check if DMA busy or not?
 	//DmaCtl.ulong = READ_REGISTER_ULONG((PULONG)&dmaRegs->DmaCtl);
 
 
 	// Clear all the interrupt status flags
-	PcieDeviceClearInterrupt(BarXBase);
+	//PcieDeviceClearInterrupt(BarXBase);
 
 	// Enable interrupt
-	PcieDeviceEnableInterrupt(BarXBase);
-
-	DbgPrint("zhu:-->Start EDMA<--");
-
-	//clear the EMR
-	PcieDeviceWriteReg(devExt->MemBar1Base, EMCR, 0x1);
-
-
-	if (devExt->WriteDmaLength > PCIE_TRANSFER_SIZE)
-	{
-		if (devExt->WriteDmaLength > (0x7fff80))
-		{
-			uiSize = 0xffff * PCIE_TRANSFER_SIZE;
-			devExt->WriteDmaLength -= uiSize;
-			uiTmp = 0xffff0080;
-		}
-		else
-		{
-			uiTmp = devExt->WriteDmaLength / PCIE_TRANSFER_SIZE;
-			uiSize = uiTmp * PCIE_TRANSFER_SIZE;
-			devExt->WriteDmaLength -= uiSize;
-			uiTmp <<= 16;
-			uiTmp |= PCIE_TRANSFER_SIZE;
-		}
-	}
-	else
-	{
-		uiTmp = 0x10000 | devExt->WriteDmaLength;
-		uiSize = devExt->WriteDmaLength;
-		devExt->WriteDmaLength = 0;
-	}
+	PcieDeviceEnableInterrupt(devExt->MemBar0Base);
 
 	
-	//ÍùOPTËÍ0x80D0 0000
-	PcieDeviceWriteReg(devExt->MemBar1Base, PARAM_0_OPT, 0x80D00000);//0x00101004
-	/* Calculate the DSP PCI address for the PC address */
-	srcAddr = PCIE_DATA + (devExt->CommonBufferBaseLA.LowPart & ~PCIE_8MB_BITMASK);
-	PcieDeviceWriteReg(devExt->MemBar1Base, PARAM_0_SRC, srcAddr);
 
-	PcieDeviceWriteReg(devExt->MemBar1Base, PARAM_0_A_B_CNT, uiTmp);
-	PcieDeviceWriteReg(devExt->MemBar1Base, PARAM_0_DST, DDR_START);
-	PcieDeviceWriteReg(devExt->MemBar1Base, PARAM_0_SRC_DST_BIDX, 0x800080); //((PCIE_TRANSFER_SIZE << 16) | PCIE_TRANSFER_SIZE)
-	PcieDeviceWriteReg(devExt->MemBar1Base, PARAM_0_LINK_BCNTRLD, 0xFFFF);
-	PcieDeviceWriteReg(devExt->MemBar1Base, PARAM_0_SRC_DST_CIDX, 0x0);
-	/* C Count is set to 1 since mostly size will not be more than 1.75GB */
-	PcieDeviceWriteReg(devExt->MemBar1Base, PARAM_0_CCNT, 0x1);
-	/* Set the Event Enable Set Register. */
-	//	PcieDeviceWriteReg(Bar1Base, EESR,0x2);
-	//PcieDeviceWriteReg(devExt->MemBar1Base, ESR, 0x1);
-	WdfInterruptReleaseLock(interrupt);
+	//clear the EMR
+	//PcieDeviceWriteReg(devExt->MemBar1Base, EMCR, 0x1);
+
+
+	//if (devExt->WriteDmaLength > PCIE_TRANSFER_SIZE)
+	//{
+	//	if (devExt->WriteDmaLength > (0x7fff80))
+	//	{
+	//		uiSize = 0xffff * PCIE_TRANSFER_SIZE;
+	//		devExt->WriteDmaLength -= uiSize;
+	//		uiTmp = 0xffff0080;
+	//	}
+	//	else
+	//	{
+	//		uiTmp = devExt->WriteDmaLength / PCIE_TRANSFER_SIZE;
+	//		uiSize = uiTmp * PCIE_TRANSFER_SIZE;
+	//		devExt->WriteDmaLength -= uiSize;
+	//		uiTmp <<= 16;
+	//		uiTmp |= PCIE_TRANSFER_SIZE;
+	//	}
+	//}
+	//else
+	//{
+	//	uiTmp = 0x10000 | devExt->WriteDmaLength;
+	//	uiSize = devExt->WriteDmaLength;
+	//	devExt->WriteDmaLength = 0;
+	//}
+
+	//
+	////ÍùOPTËÍ0x80D0 0000
+	//PcieDeviceWriteReg(devExt->MemBar1Base, PARAM_0_OPT, 0x80D00000);//0x00101004
+	///* Calculate the DSP PCI address for the PC address */
+	//srcAddr = PCIE_DATA + (devExt->CommonBufferBaseLA.LowPart & ~PCIE_8MB_BITMASK);
+	//PcieDeviceWriteReg(devExt->MemBar1Base, PARAM_0_SRC, srcAddr);
+
+	//PcieDeviceWriteReg(devExt->MemBar1Base, PARAM_0_A_B_CNT, uiTmp);
+	//PcieDeviceWriteReg(devExt->MemBar1Base, PARAM_0_DST, DDR_START);
+	//PcieDeviceWriteReg(devExt->MemBar1Base, PARAM_0_SRC_DST_BIDX, 0x800080); //((PCIE_TRANSFER_SIZE << 16) | PCIE_TRANSFER_SIZE)
+	//PcieDeviceWriteReg(devExt->MemBar1Base, PARAM_0_LINK_BCNTRLD, 0xFFFF);
+	//PcieDeviceWriteReg(devExt->MemBar1Base, PARAM_0_SRC_DST_CIDX, 0x0);
+	///* C Count is set to 1 since mostly size will not be more than 1.75GB */
+	//PcieDeviceWriteReg(devExt->MemBar1Base, PARAM_0_CCNT, 0x1);
+	///* Set the Event Enable Set Register. */
+	////	PcieDeviceWriteReg(Bar1Base, EESR,0x2);
+	////PcieDeviceWriteReg(devExt->MemBar1Base, ESR, 0x1);
+	//WdfInterruptReleaseLock(interrupt);
 	//return status;
 }
 

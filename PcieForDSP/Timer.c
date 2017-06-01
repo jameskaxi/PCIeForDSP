@@ -71,6 +71,7 @@ _In_ WDFTIMER Timer
 	return status;
 }
 
+
 VOID
 DmaWriteTimerEventFunc(
 _In_ WDFTIMER Timer
@@ -84,16 +85,16 @@ _In_ WDFTIMER Timer
 	TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER, "DmaWrite timeout\n");
 #endif
 
-	devExt = PcieGetDeviceContext(WdfTimerGetParentObject(Timer));
+	devExt = DeviceGetContext(WdfTimerGetParentObject(Timer));
 
 	// Disable DMA interrupt
 	WdfInterruptAcquireLock(devExt->Interrupt);
 
-	devExt->WriteTimeout = TRUE;
-	if (devExt->MemBar0Base){
-	//	PcieDeviceResetDMA(devExt->MemBarBase);
-		PcieDeviceDisableInterrupt(devExt->MemBar0Base);
-	}
+//	devExt->WriteTimeout = TRUE;
+//	if (devExt->MemBar0Base){
+//	//	PcieDeviceResetDMA(devExt->MemBarBase);
+////		PcieDeviceDisableInterrupt(devExt->MemBar0Base);
+//	}
 
 	WdfInterruptReleaseLock(devExt->Interrupt);
 
@@ -125,7 +126,7 @@ _In_ WDFTIMER Timer
 	devExt->ReadTimeout = TRUE;
 	if (devExt->MemBar0Base){
 	//	PcieDeviceResetDMA(devExt->MemBarBase);
-		PcieDeviceDisableInterrupt(devExt->MemBar0Base);
+//		PcieDeviceDisableInterrupt(devExt->MemBar0Base);
 	}
 
 	WdfInterruptReleaseLock(devExt->Interrupt);

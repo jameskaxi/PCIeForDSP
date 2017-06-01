@@ -615,7 +615,7 @@ NTSTATUS
 	//
 	// Init Timers
 	//
-	status = PcieDMATimerCreate(
+	/*status = PcieDMATimerCreate(
 		&DevExt->WriteTimer,
 		DevExt->Device,
 		DmaWriteTimerEventFunc);
@@ -625,7 +625,7 @@ NTSTATUS
 	status = PcieDMATimerCreate(
 		&DevExt->ReadTimer,
 		DevExt->Device,
-		DmaReadTimerEventFunc);
+		DmaReadTimerEventFunc);*/
 
 	if (!NT_SUCCESS(status)) {	return status; }
 
