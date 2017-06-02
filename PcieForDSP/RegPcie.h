@@ -125,5 +125,15 @@ VOID
 PcieDeviceEnableInterrupt(
 _In_ PUCHAR BarXBase
 );
+
+VOID
+PcieDeviceClearInterrupt(
+_In_ PUCHAR BarXBase
+);
+
+VOID
+PcieDeviceDisableInterrupt(
+_In_ PUCHAR BarXBase
+);
 //////////////////////////////////////////////////////
 #endif  // __REGPCIE_H_

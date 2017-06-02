@@ -465,30 +465,22 @@ Return Value:
 	KeMemoryBarrier();
 
 	devExt->WriteRequest = Request;
-	//devExt->DmaMode.bits.RdWr = TRUE;
+	/*devExt->DmaMode.bits.RdWr = TRUE;
 
-	if (devExt->MemBar0Base)
-	{
-		PcieDeviceSetupDMA(devExt->MemBar0Base,
-			devExt->Interrupt,
-			//devExt->MemBar1Base,
-			devExt->CommonBufferBaseLA);
-
-		KeMemoryBarrier();
-	}
+	
 	PcieDeviceReadReg(devExt->CommonBufferBase,0x0);
 	PcieDeviceReadReg(devExt->CommonBufferBase, 0x4);
 	PcieDeviceReadReg(devExt->CommonBufferBase, 0x8);
 	PcieDeviceReadReg(devExt->CommonBufferBase, 0xc);
 
-	/*while (devExt->WriteDmaLength)
+	while (devExt->WriteDmaLength)
 	{
 		DbgPrint("zhu:WriteDmaLength: %u ", devExt->WriteDmaLength);
 		PcieDeviceStartDMA(devExt, devExt->Interrupt);
 	}
 	*/
 	PcieDeviceStartDMA(devExt, devExt->Interrupt);
-	WdfRequestComplete(Request, status);
+	//WdfRequestComplete(Request, status);
 //	devExt->WriteTimeout = FALSE;
 //	PcieDMATimerStart(devExt->WriteTimer);
 	return;
@@ -502,7 +494,7 @@ VOID
 PcieDeviceSetupDMA(
 _In_ PUCHAR Bar0Base,
 //_In_ PUCHAR Bar1Base,
-_In_ WDFINTERRUPT interrupt,
+//_In_ WDFINTERRUPT interrupt,
 _In_ PHYSICAL_ADDRESS hostAddress
 //_In_ ULONG size
 //_In_ ULONG direction,
@@ -514,7 +506,6 @@ _In_ PHYSICAL_ADDRESS hostAddress
 	ULONG srcAddr;
 	ULONG pageBase;
 
-	WdfInterruptAcquireLock(interrupt);
 
 	DbgPrint("zhu:-->Outbound Start<-- ");
 	srcAddr = hostAddress.LowPart;
@@ -532,8 +523,6 @@ _In_ PHYSICAL_ADDRESS hostAddress
 	DbgPrint("zhu:-->Outbound End<-- ");
 
 	
-
-	WdfInterruptReleaseLock(interrupt);
 }
 
 VOID
@@ -551,71 +540,20 @@ _In_ WDFINTERRUPT interrupt
 
 	DbgPrint("zhu:-->Start EDMA<--");
 	UNREFERENCED_PARAMETER(interrupt);
-	//UNREFERENCED_PARAMETER(Bar1Base);
 	srcAddr = PCIE_DATA + (devExt->CommonBufferBaseLA.LowPart & ~PCIE_8MB_BITMASK);
-	PcieDeviceWriteReg(devExt->MemBar1Base, 0x0, srcAddr);
-	PcieDeviceWriteReg(devExt->MemBar1Base, 0x4, devExt->WriteDmaLength);
+	PcieDeviceWriteReg(devExt->MemBar1Base, 0x0, srcAddr);                //发送DMA数据地址
+	PcieDeviceWriteReg(devExt->MemBar1Base, 0x4, devExt->WriteDmaLength); //发送DMA数据长度
+	PcieDeviceWriteReg(devExt->MemBar1Base, 0x8, 0x1);                    //0x1 -- DMA模式 ，0x2 -- 寄存器模式
 	//WdfInterruptAcquireLock(interrupt);
 
 	// Check if DMA busy or not?
 	//DmaCtl.ulong = READ_REGISTER_ULONG((PULONG)&dmaRegs->DmaCtl);
 
-
-	// Clear all the interrupt status flags
-	//PcieDeviceClearInterrupt(BarXBase);
-
-	// Enable interrupt
+	//允许DSP向PC发送中断
 	PcieDeviceEnableInterrupt(devExt->MemBar0Base);
-
+	PcieDeviceWriteReg(devExt->MemBar0Base, 0x180, 0x1);//向DSP发送中断
 	
 
-	//clear the EMR
-	//PcieDeviceWriteReg(devExt->MemBar1Base, EMCR, 0x1);
-
-
-	//if (devExt->WriteDmaLength > PCIE_TRANSFER_SIZE)
-	//{
-	//	if (devExt->WriteDmaLength > (0x7fff80))
-	//	{
-	//		uiSize = 0xffff * PCIE_TRANSFER_SIZE;
-	//		devExt->WriteDmaLength -= uiSize;
-	//		uiTmp = 0xffff0080;
-	//	}
-	//	else
-	//	{
-	//		uiTmp = devExt->WriteDmaLength / PCIE_TRANSFER_SIZE;
-	//		uiSize = uiTmp * PCIE_TRANSFER_SIZE;
-	//		devExt->WriteDmaLength -= uiSize;
-	//		uiTmp <<= 16;
-	//		uiTmp |= PCIE_TRANSFER_SIZE;
-	//	}
-	//}
-	//else
-	//{
-	//	uiTmp = 0x10000 | devExt->WriteDmaLength;
-	//	uiSize = devExt->WriteDmaLength;
-	//	devExt->WriteDmaLength = 0;
-	//}
-
-	//
-	////往OPT送0x80D0 0000
-	//PcieDeviceWriteReg(devExt->MemBar1Base, PARAM_0_OPT, 0x80D00000);//0x00101004
-	///* Calculate the DSP PCI address for the PC address */
-	//srcAddr = PCIE_DATA + (devExt->CommonBufferBaseLA.LowPart & ~PCIE_8MB_BITMASK);
-	//PcieDeviceWriteReg(devExt->MemBar1Base, PARAM_0_SRC, srcAddr);
-
-	//PcieDeviceWriteReg(devExt->MemBar1Base, PARAM_0_A_B_CNT, uiTmp);
-	//PcieDeviceWriteReg(devExt->MemBar1Base, PARAM_0_DST, DDR_START);
-	//PcieDeviceWriteReg(devExt->MemBar1Base, PARAM_0_SRC_DST_BIDX, 0x800080); //((PCIE_TRANSFER_SIZE << 16) | PCIE_TRANSFER_SIZE)
-	//PcieDeviceWriteReg(devExt->MemBar1Base, PARAM_0_LINK_BCNTRLD, 0xFFFF);
-	//PcieDeviceWriteReg(devExt->MemBar1Base, PARAM_0_SRC_DST_CIDX, 0x0);
-	///* C Count is set to 1 since mostly size will not be more than 1.75GB */
-	//PcieDeviceWriteReg(devExt->MemBar1Base, PARAM_0_CCNT, 0x1);
-	///* Set the Event Enable Set Register. */
-	////	PcieDeviceWriteReg(Bar1Base, EESR,0x2);
-	////PcieDeviceWriteReg(devExt->MemBar1Base, ESR, 0x1);
-	//WdfInterruptReleaseLock(interrupt);
-	//return status;
 }
 
 VOID

@@ -38,8 +38,8 @@ NTSTATUS code
 		PcieEvtInterruptIsr,
 		PcieEvtInterruptDpc);
 
-	//InterruptConfig.EvtInterruptEnable = PcieEvtInterruptEnable;
-	//InterruptConfig.EvtInterruptDisable = PcieEvtInterruptDisable;
+	InterruptConfig.EvtInterruptEnable = PcieEvtInterruptEnable;
+	InterruptConfig.EvtInterruptDisable = PcieEvtInterruptDisable;
 
 	// JOHNR: Enable testing of the DpcForIsr Synchronization
 	InterruptConfig.AutomaticSerialization = TRUE;
@@ -68,6 +68,7 @@ NTSTATUS code
 #ifdef DEBUG_HU
 	TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER, "<-- %!FUNC!");
 #endif
+	DbgPrint("zhu:-->PcieInterruptCreate  successful!<--");
 	return status;
 }
 
@@ -106,6 +107,8 @@ FALSE  --  This device did not generated this interrupt.
 
 	UNREFERENCED_PARAMETER(MessageID);
 	DbgPrint("zhu:-->PcieEvtInterruptIsr<--");
+
+
 #ifdef DEBUG_HU
 	TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER, "--> %!FUNC!");
 #endif
@@ -115,6 +118,8 @@ FALSE  --  This device did not generated this interrupt.
 		intStatus = PcieDeviceGetInterrupt(devExt->MemBar0Base);
 
 		if (intStatus){
+			PcieDeviceDisableInterrupt(devExt->MemBar0Base);
+			PcieDeviceClearInterrupt(devExt->MemBar0Base);
 			devExt->IntStatus = intStatus;
 			WdfInterruptQueueDpcForIsr(devExt->Interrupt);
 			isRecognized = TRUE;
@@ -148,6 +153,7 @@ Return Value:
 --*/
 {
 	PDEVICE_CONTEXT     devExt;
+	NTSTATUS             status = STATUS_SUCCESS;
 
 	UNREFERENCED_PARAMETER(Device);
 	DbgPrint("zhu:-->PcieEvtInterruptDpc<--");
@@ -156,7 +162,8 @@ Return Value:
 #endif
 
 	devExt = DeviceGetContext(WdfInterruptGetDevice(Interrupt));
-
+	WdfRequestComplete(devExt->WriteRequest, status);
+	DbgPrint("zhu:writeRequestComplete!");
 	//
 	// Check interrupt from user FPGA
 	//
@@ -170,7 +177,7 @@ Return Value:
 	//
 	// Check interrupt for DMA transfer end
 	//
-	if (devExt->IntStatus){
+	//if (devExt->IntStatus){
 		/*
 #ifdef DEBUG_HU
 		TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER, "Got DMA transfer end interrupt");
@@ -191,15 +198,15 @@ Return Value:
 //			}
 
 			// Release lock
-			WdfInterruptReleaseLock(Interrupt);
+			//WdfInterruptReleaseLock(Interrupt);
 
-			WdfRequestCompleteWithInformation(devExt->WriteRequest, STATUS_SUCCESS, devExt->WriteDmaLength);
-#ifdef DEBUG_HU
-			TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER,
-				"DMA complete write transfer %d bytes\n",
-				devExt->WriteDmaLength);
-#endif
-		}
+			//WdfRequestCompleteWithInformation(devExt->WriteRequest, STATUS_SUCCESS, devExt->WriteDmaLength);
+//#ifdef DEBUG_HU
+//			TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER,
+//				"DMA complete write transfer %d bytes\n",
+//				devExt->WriteDmaLength);
+//#endif
+//		}
 //		else {
 //			// Acquire lock
 //	/*		WdfInterruptAcquireLock(Interrupt);
@@ -256,6 +263,8 @@ NTSTATUS
 	DbgPrint("zhu:->PcieEvtInterruptEnable<--");
 
 	devExt = DeviceGetContext(WdfInterruptGetDevice(Interrupt));
+
+	/*PcieDeviceWriteReg(devExt->MemBar0Base, 0x188, 0x1);*/
 //	if (devExt->MemBar0Base){
 //		PcieDeviceEnableInterrupt(devExt->MemBar0Base);
 //	}
@@ -293,9 +302,11 @@ NTSTATUS
 //#endif
 	DbgPrint("zhu:-->PcieEvtInterruptDisable<--");
 	devExt = DeviceGetContext(WdfInterruptGetDevice(Interrupt));
-//	if (devExt->MemBarBase){
-//		PcieDeviceDisableInterrupt(devExt->MemBarBase);
-//	}
+	if (devExt->MemBar0Base){
+		PcieDeviceDisableInterrupt(devExt->MemBar0Base);
+	}
+
+	
 //
 //#ifdef DEBUG_HU
 //	TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER, "<-- %!FUNC!");

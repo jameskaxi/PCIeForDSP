@@ -58,7 +58,9 @@ typedef struct _DEVICE_CONTEXT
 	//PVOID                   BufferPointer;
 
 	WDFINTERRUPT            Interrupt;     	// Returned by InterruptCreate
-	ULONG                 IntStatus;
+
+	PKINTERRUPT             InterruptObject;			// address of interrupt object
+	ULONG                   IntStatus;
 
 	WDFQUEUE                IoDispatchQueue;
 

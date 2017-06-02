@@ -113,33 +113,36 @@ _In_ PUCHAR BarXBase
 	{
 		PcieIntStatus = PcieIntMask;
 	}
-
+	DbgPrint("zhu:PcieDeviceGetInterrupt status:0x%x", PcieIntStatus);
 	return  PcieIntStatus;
 }
 
-/*
-VOID
-PcieDeviceClearInterrupt(
+
+VOID PcieDeviceClearInterrupt
+(
 _In_ PUCHAR BarXBase
 )
 // hu 清除中断标志位
 {
-	ULONG		  PcieIntStatus;
+//	ULONG		  PcieIntStatus;
 
 #ifdef DEBUG_HU
 	TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER, "--> %!FUNC!");
 #endif
 
-	dmaRegs = (PCIE_DMA_REGS *)BarXBase;
+	//dmaRegs = (PCIE_DMA_REGS *)BarXBase;
 
-	PcieIntStatus = READ_REGISTER_ULONG((PULONG)&dmaRegs->DmaSta);
-	WRITE_REGISTER_ULONG((PULONG)&dmaRegs->DmaSta, PcieIntStatus);
-
+//	PcieIntStatus = READ_REGISTER_ULONG((PULONG)&dmaRegs->DmaSta);
+	//WRITE_REGISTER_ULONG((PULONG), PcieIntStatus);
+	//WRITE_REGISTER_ULONG((PULONG)((ULONG_PTR)BarXBase + 0x18c), 0x1);
+	//(PULONG)((ULONG_PTR)BarXBase + Address)
+	DbgPrint("zhu:-->PcieDeviceClearInterrupt<--");
+	PcieDeviceWriteReg(BarXBase,0x68,0x1);
 #ifdef DEBUG_HU
 	TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER, "<-- %!FUNC!");
 #endif
 }
-*/
+
 
 /*
 VOID
@@ -191,30 +194,31 @@ _In_ PUCHAR BarXBase
 	//dmaRegs = (PCIE_DMA_REGS *)BarXBase;
 
 	//WRITE_REGISTER_ULONG((PULONG)&dmaRegs->DmaInt, INT_MASK_ENABLE);
-	PcieDeviceWriteReg(BarXBase, 0x180, 0x1);
+	PcieDeviceWriteReg(BarXBase, 0x188, 0x1);//允许DSp向PC发中断
+	
 
 }
 
 
-/*
+
 VOID
 PcieDeviceDisableInterrupt(
 _In_ PUCHAR BarXBase
 )
 // hu 屏蔽中断
 {
-	PCIE_DMA_REGS *dmaRegs;
+//	PCIE_DMA_REGS *dmaRegs;
+//
+//#ifdef DEBUG_HU
+//	TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER, "--> %!FUNC!");
+//#endif
 
-#ifdef DEBUG_HU
-	TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER, "--> %!FUNC!");
-#endif
+	//dmaRegs = (PCIE_DMA_REGS *)BarXBase;
 
-	dmaRegs = (PCIE_DMA_REGS *)BarXBase;
+	PcieDeviceWriteReg(BarXBase, 0x18c, 0x1);
+	//WRITE_REGISTER_ULONG((PULONG)&dmaRegs->DmaInt, INT_MASK_DISABLE_ALL);
 
-	WRITE_REGISTER_ULONG((PULONG)&dmaRegs->DmaInt, INT_MASK_DISABLE_ALL);
-
-#ifdef DEBUG_HU
-	TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER, "<-- %!FUNC!");
-#endif
+//#ifdef DEBUG_HU
+//	TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER, "<-- %!FUNC!");
+//#endif
 }
-*/

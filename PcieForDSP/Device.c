@@ -328,15 +328,7 @@ WDFCMRESLIST  ResourcesTranslated
 
 		switch (desc->Type)
 		{
-		case CmResourceTypeMemory:
-			//
-			// hu 将物理地址映射到虚拟地址
-			// 
-			//devExt->MemBarBase = (PUCHAR)MmMapIoSpace(desc->u.Memory.Start,
-			//	desc->u.Memory.Length,
-			//	MmNonCached);
-			//devExt->MemBarLength = desc->u.Memory.Length;
-
+		case CmResourceTypeMemory:  // zhu 物理内存资源
 			if (i == 0)
 			{
 				devExt->PhysicalAddressRegister = desc->u.Memory.Start.LowPart;
@@ -361,19 +353,9 @@ WDFCMRESLIST  ResourcesTranslated
 				MmNonCached);
 			devExt->MemBar2Length = desc->u.Memory.Length;
 
-
-
-#ifdef DEBUG_HU
-			TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER,
-				" - Memory Resource [%I64X-%I64X] BAR%d",
-				desc->u.Memory.Start.QuadPart,
-				desc->u.Memory.Start.QuadPart +
-				desc->u.Memory.Length,
-				i);
-#endif
 			DbgPrint("zhu:AType[%I64X--%I64X]  BAR%d", desc->u.Memory.Start.QuadPart, desc->u.Memory.Start.QuadPart + desc->u.Memory.Length - 1, i);
 			break;
-		
+			
 		default:
 			DbgPrint("zhu: i=%u not case the CmResourceTypeMemory!",i);
 			break;
@@ -759,6 +741,11 @@ None
 	RtlZeroMemory(DevExt->CommonBufferBase,
 		DevExt->CommonBufferSize);
 
+	if (DevExt->MemBar0Base)
+	{
+		PcieDeviceSetupDMA(DevExt->MemBar0Base,
+			DevExt->CommonBufferBaseLA);
+	}
 	//#ifdef DEBUG_HU
 	//	TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER,
 	//		"CommonBuffer  0x%p  (#0x%I64X), length %I64d",

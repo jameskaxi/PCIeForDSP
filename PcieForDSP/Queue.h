@@ -47,7 +47,7 @@ VOID
 PcieDeviceSetupDMA(
 _In_ PUCHAR Bar0Base,
 //_In_ PUCHAR Bar1Base,
-_In_ WDFINTERRUPT interrupt,
+//_In_ WDFINTERRUPT interrupt,
 _In_ PHYSICAL_ADDRESS hostAddress
 //_In_ ULONG size
 );
