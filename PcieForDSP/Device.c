@@ -372,6 +372,13 @@ WDFCMRESLIST  ResourcesTranslated
 		return status;
 	}
 
+	if (devExt->MemBar0Base)
+	{
+		DbgPrint("zhu:run in the front of PcieDeviceSetupDMA");
+		PcieDeviceSetupDMA(devExt->MemBar0Base,
+			devExt->CommonBufferBaseLA);
+	}
+
 
 #ifdef DEBUG_HU
 	TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER, "<-- %!FUNC!");
@@ -667,6 +674,7 @@ None
 
 	PAGED_CODE();
 
+	DbgPrint("zhu:-->PcieInitializeDMA<--");
 	//#ifdef DEBUG_HU
 	//	TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER, "--> %!FUNC!");
 	//#endif
@@ -741,11 +749,12 @@ None
 	RtlZeroMemory(DevExt->CommonBufferBase,
 		DevExt->CommonBufferSize);
 
-	if (DevExt->MemBar0Base)
-	{
-		PcieDeviceSetupDMA(DevExt->MemBar0Base,
-			DevExt->CommonBufferBaseLA);
-	}
+	//if (DevExt->MemBar0Base)
+	//{
+	//	DbgPrint("zhu:run in the front of PcieDeviceSetupDMA");
+	//	PcieDeviceSetupDMA(DevExt->MemBar0Base,
+	//		DevExt->CommonBufferBaseLA);
+	//}
 	//#ifdef DEBUG_HU
 	//	TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER,
 	//		"CommonBuffer  0x%p  (#0x%I64X), length %I64d",

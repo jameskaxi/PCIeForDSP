@@ -1,4 +1,4 @@
-//bf159cc6d5a631551920912b603ab196 Generated File. Do not edit.
+//62248aa0b3ec53e20d70386116dd4e13 Generated File. Do not edit.
 // File created by WPP compiler version 0.01-Tue Jun 18 06:04:29 2013
 // from template C:\Program Files (x86)\Windows Kits\8.1\bin\wppconfig\rev1\km-default.tpl
 
@@ -562,37 +562,37 @@ extern "C" {
 #define WPP_PUBLIC_ANNOT_Device_c369
 #endif
 #ifdef WPP_PUBLIC_
-#define WPP_PUBLIC_ANNOT_Device_c377
+#define WPP_PUBLIC_ANNOT_Device_c384
 #endif
 #ifdef WPP_PUBLIC_
-#define WPP_PUBLIC_ANNOT_Device_c409
+#define WPP_PUBLIC_ANNOT_Device_c416
 #endif
 #ifdef WPP_PUBLIC_
-#define WPP_PUBLIC_ANNOT_Device_c434
+#define WPP_PUBLIC_ANNOT_Device_c441
 #endif
 #ifdef WPP_PUBLIC_
-#define WPP_PUBLIC_ANNOT_Device_c461
+#define WPP_PUBLIC_ANNOT_Device_c468
 #endif
 #ifdef WPP_PUBLIC_
-#define WPP_PUBLIC_ANNOT_Device_c464
+#define WPP_PUBLIC_ANNOT_Device_c471
 #endif
 #ifdef WPP_PUBLIC_
-#define WPP_PUBLIC_ANNOT_Device_c490
+#define WPP_PUBLIC_ANNOT_Device_c497
 #endif
 #ifdef WPP_PUBLIC_
-#define WPP_PUBLIC_ANNOT_Device_c530
+#define WPP_PUBLIC_ANNOT_Device_c537
 #endif
 #ifdef WPP_PUBLIC_
-#define WPP_PUBLIC_ANNOT_Device_c562
+#define WPP_PUBLIC_ANNOT_Device_c569
 #endif
 #ifdef WPP_PUBLIC_
-#define WPP_PUBLIC_ANNOT_Device_c570
+#define WPP_PUBLIC_ANNOT_Device_c577
 #endif
 #ifdef WPP_PUBLIC_
-#define WPP_PUBLIC_ANNOT_Device_c582
+#define WPP_PUBLIC_ANNOT_Device_c589
 #endif
 #if !defined(WPP_USER_MSG_GUID)
-# define WPP_ANNOTATE_Device_c192_FINAL(P, File, Name, ...)    __annotation(L ## P, L"c69c15bf-a6d5-5531-1920-912b603ab196 PcieForDSP // SRC=" _WPPW(File) L" MJ= MN=", L"#typev "  _WPPW(Name) L" 10 \"%0WdfDeviceCreate failed %10!s!\" //   LEVEL=TRACE_LEVEL_ERROR FLAGS=TRACE_DRIVER", __VA_ARGS__)
+# define WPP_ANNOTATE_Device_c192_FINAL(P, File, Name, ...)    __annotation(L ## P, L"a08a2462-ecb3-e253-0d70-386116dd4e13 PcieForDSP // SRC=" _WPPW(File) L" MJ= MN=", L"#typev "  _WPPW(Name) L" 10 \"%0WdfDeviceCreate failed %10!s!\" //   LEVEL=TRACE_LEVEL_ERROR FLAGS=TRACE_DRIVER", __VA_ARGS__)
 #else
 # define WPP_ANNOTATE_Device_c192_FINAL(P, File, Name, ...)    __annotation(L ## P, WPP_GUID_WTEXT WPP_USER_MSG_GUID L"PcieForDSP // SRC=" _WPPW(File) L" MJ= MN=", L"#typev "  _WPPW(Name) L" 10 \"%0WdfDeviceCreate failed %10!s!\" //   LEVEL=TRACE_LEVEL_ERROR FLAGS=TRACE_DRIVER", __VA_ARGS__)
 #endif
@@ -607,7 +607,7 @@ extern "C" {
     #define WPP_ANNOTATE_Device_c192 WPP_ANNOTATE_Device_c192_FINAL("TMF:", "Device.c", "Device_c192", L"{", L"status, ItemNTSTATUS -- 10" , L"}")
 #endif
 #if !defined(WPP_USER_MSG_GUID)
-# define WPP_ANNOTATE_Device_c323_FINAL(P, File, Name, ...)    __annotation(L ## P, L"c69c15bf-a6d5-5531-1920-912b603ab196 PcieForDSP // SRC=" _WPPW(File) L" MJ= MN=", L"#typev "  _WPPW(Name) L" 11 \"%0WdfCmResourceListGetDescriptor failed %10!s!\" //   LEVEL=TRACE_LEVEL_ERROR FLAGS=TRACE_DRIVER", __VA_ARGS__)
+# define WPP_ANNOTATE_Device_c323_FINAL(P, File, Name, ...)    __annotation(L ## P, L"a08a2462-ecb3-e253-0d70-386116dd4e13 PcieForDSP // SRC=" _WPPW(File) L" MJ= MN=", L"#typev "  _WPPW(Name) L" 11 \"%0WdfCmResourceListGetDescriptor failed %10!s!\" //   LEVEL=TRACE_LEVEL_ERROR FLAGS=TRACE_DRIVER", __VA_ARGS__)
 #else
 # define WPP_ANNOTATE_Device_c323_FINAL(P, File, Name, ...)    __annotation(L ## P, WPP_GUID_WTEXT WPP_USER_MSG_GUID L"PcieForDSP // SRC=" _WPPW(File) L" MJ= MN=", L"#typev "  _WPPW(Name) L" 11 \"%0WdfCmResourceListGetDescriptor failed %10!s!\" //   LEVEL=TRACE_LEVEL_ERROR FLAGS=TRACE_DRIVER", __VA_ARGS__)
 #endif
@@ -622,7 +622,7 @@ extern "C" {
     #define WPP_ANNOTATE_Device_c323 WPP_ANNOTATE_Device_c323_FINAL("TMF:", "Device.c", "Device_c323", L"{", L"status, ItemNTSTATUS -- 10" , L"}")
 #endif
 #if !defined(WPP_USER_MSG_GUID)
-# define WPP_ANNOTATE_Device_c369_FINAL(P, File, Name, ...)    __annotation(L ## P, L"c69c15bf-a6d5-5531-1920-912b603ab196 PcieForDSP // SRC=" _WPPW(File) L" MJ= MN=", L"#typev "  _WPPW(Name) L" 12 \"%0PcieMapResources: Missing resources BAR0\" //   LEVEL=TRACE_LEVEL_ERROR FLAGS=TRACE_DRIVER", __VA_ARGS__)
+# define WPP_ANNOTATE_Device_c369_FINAL(P, File, Name, ...)    __annotation(L ## P, L"a08a2462-ecb3-e253-0d70-386116dd4e13 PcieForDSP // SRC=" _WPPW(File) L" MJ= MN=", L"#typev "  _WPPW(Name) L" 12 \"%0PcieMapResources: Missing resources BAR0\" //   LEVEL=TRACE_LEVEL_ERROR FLAGS=TRACE_DRIVER", __VA_ARGS__)
 #else
 # define WPP_ANNOTATE_Device_c369_FINAL(P, File, Name, ...)    __annotation(L ## P, WPP_GUID_WTEXT WPP_USER_MSG_GUID L"PcieForDSP // SRC=" _WPPW(File) L" MJ= MN=", L"#typev "  _WPPW(Name) L" 12 \"%0PcieMapResources: Missing resources BAR0\" //   LEVEL=TRACE_LEVEL_ERROR FLAGS=TRACE_DRIVER", __VA_ARGS__)
 #endif
@@ -637,154 +637,154 @@ extern "C" {
     #define WPP_ANNOTATE_Device_c369 WPP_ANNOTATE_Device_c369_FINAL("TMF:", "Device.c", "Device_c369", L"{", L"}")
 #endif
 #if !defined(WPP_USER_MSG_GUID)
-# define WPP_ANNOTATE_Device_c377_FINAL(P, File, Name, ...)    __annotation(L ## P, L"c69c15bf-a6d5-5531-1920-912b603ab196 PcieForDSP // SRC=" _WPPW(File) L" MJ= MN=", L"#typev "  _WPPW(Name) L" 13 \"%0<-- %!FUNC!\" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=TRACE_DRIVER", __VA_ARGS__)
+# define WPP_ANNOTATE_Device_c384_FINAL(P, File, Name, ...)    __annotation(L ## P, L"a08a2462-ecb3-e253-0d70-386116dd4e13 PcieForDSP // SRC=" _WPPW(File) L" MJ= MN=", L"#typev "  _WPPW(Name) L" 13 \"%0<-- %!FUNC!\" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=TRACE_DRIVER", __VA_ARGS__)
 #else
-# define WPP_ANNOTATE_Device_c377_FINAL(P, File, Name, ...)    __annotation(L ## P, WPP_GUID_WTEXT WPP_USER_MSG_GUID L"PcieForDSP // SRC=" _WPPW(File) L" MJ= MN=", L"#typev "  _WPPW(Name) L" 13 \"%0<-- %!FUNC!\" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=TRACE_DRIVER", __VA_ARGS__)
+# define WPP_ANNOTATE_Device_c384_FINAL(P, File, Name, ...)    __annotation(L ## P, WPP_GUID_WTEXT WPP_USER_MSG_GUID L"PcieForDSP // SRC=" _WPPW(File) L" MJ= MN=", L"#typev "  _WPPW(Name) L" 13 \"%0<-- %!FUNC!\" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=TRACE_DRIVER", __VA_ARGS__)
 #endif
 
-#ifdef WPP_PUBLIC_ANNOT_Device_c377
-    #define WPP_ANNOTATE_Device_c377 WPP_ANNOTATE_Device_c377_FINAL("TMF:", "Unknown_cxx00", "Unknown_cxx00", L"{", L"}", L"PUBLIC_TMF:")
+#ifdef WPP_PUBLIC_ANNOT_Device_c384
+    #define WPP_ANNOTATE_Device_c384 WPP_ANNOTATE_Device_c384_FINAL("TMF:", "Unknown_cxx00", "Unknown_cxx00", L"{", L"}", L"PUBLIC_TMF:")
                                         
     #ifndef WPP_PUBLIC_TMC
         #define WPP_PUBLIC_TMC
     #endif
 #else
-    #define WPP_ANNOTATE_Device_c377 WPP_ANNOTATE_Device_c377_FINAL("TMF:", "Device.c", "Device_c377", L"{", L"}")
+    #define WPP_ANNOTATE_Device_c384 WPP_ANNOTATE_Device_c384_FINAL("TMF:", "Device.c", "Device_c384", L"{", L"}")
 #endif
 #if !defined(WPP_USER_MSG_GUID)
-# define WPP_ANNOTATE_Device_c409_FINAL(P, File, Name, ...)    __annotation(L ## P, L"c69c15bf-a6d5-5531-1920-912b603ab196 PcieForDSP // SRC=" _WPPW(File) L" MJ= MN=", L"#typev "  _WPPW(Name) L" 14 \"%0--> %!FUNC!\" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=TRACE_DRIVER", __VA_ARGS__)
+# define WPP_ANNOTATE_Device_c416_FINAL(P, File, Name, ...)    __annotation(L ## P, L"a08a2462-ecb3-e253-0d70-386116dd4e13 PcieForDSP // SRC=" _WPPW(File) L" MJ= MN=", L"#typev "  _WPPW(Name) L" 14 \"%0--> %!FUNC!\" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=TRACE_DRIVER", __VA_ARGS__)
 #else
-# define WPP_ANNOTATE_Device_c409_FINAL(P, File, Name, ...)    __annotation(L ## P, WPP_GUID_WTEXT WPP_USER_MSG_GUID L"PcieForDSP // SRC=" _WPPW(File) L" MJ= MN=", L"#typev "  _WPPW(Name) L" 14 \"%0--> %!FUNC!\" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=TRACE_DRIVER", __VA_ARGS__)
+# define WPP_ANNOTATE_Device_c416_FINAL(P, File, Name, ...)    __annotation(L ## P, WPP_GUID_WTEXT WPP_USER_MSG_GUID L"PcieForDSP // SRC=" _WPPW(File) L" MJ= MN=", L"#typev "  _WPPW(Name) L" 14 \"%0--> %!FUNC!\" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=TRACE_DRIVER", __VA_ARGS__)
 #endif
 
-#ifdef WPP_PUBLIC_ANNOT_Device_c409
-    #define WPP_ANNOTATE_Device_c409 WPP_ANNOTATE_Device_c409_FINAL("TMF:", "Unknown_cxx00", "Unknown_cxx00", L"{", L"}", L"PUBLIC_TMF:")
+#ifdef WPP_PUBLIC_ANNOT_Device_c416
+    #define WPP_ANNOTATE_Device_c416 WPP_ANNOTATE_Device_c416_FINAL("TMF:", "Unknown_cxx00", "Unknown_cxx00", L"{", L"}", L"PUBLIC_TMF:")
                                         
     #ifndef WPP_PUBLIC_TMC
         #define WPP_PUBLIC_TMC
     #endif
 #else
-    #define WPP_ANNOTATE_Device_c409 WPP_ANNOTATE_Device_c409_FINAL("TMF:", "Device.c", "Device_c409", L"{", L"}")
+    #define WPP_ANNOTATE_Device_c416 WPP_ANNOTATE_Device_c416_FINAL("TMF:", "Device.c", "Device_c416", L"{", L"}")
 #endif
 #if !defined(WPP_USER_MSG_GUID)
-# define WPP_ANNOTATE_Device_c434_FINAL(P, File, Name, ...)    __annotation(L ## P, L"c69c15bf-a6d5-5531-1920-912b603ab196 PcieForDSP // SRC=" _WPPW(File) L" MJ= MN=", L"#typev "  _WPPW(Name) L" 15 \"%0<-- %!FUNC!\" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=TRACE_DRIVER", __VA_ARGS__)
+# define WPP_ANNOTATE_Device_c441_FINAL(P, File, Name, ...)    __annotation(L ## P, L"a08a2462-ecb3-e253-0d70-386116dd4e13 PcieForDSP // SRC=" _WPPW(File) L" MJ= MN=", L"#typev "  _WPPW(Name) L" 15 \"%0<-- %!FUNC!\" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=TRACE_DRIVER", __VA_ARGS__)
 #else
-# define WPP_ANNOTATE_Device_c434_FINAL(P, File, Name, ...)    __annotation(L ## P, WPP_GUID_WTEXT WPP_USER_MSG_GUID L"PcieForDSP // SRC=" _WPPW(File) L" MJ= MN=", L"#typev "  _WPPW(Name) L" 15 \"%0<-- %!FUNC!\" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=TRACE_DRIVER", __VA_ARGS__)
+# define WPP_ANNOTATE_Device_c441_FINAL(P, File, Name, ...)    __annotation(L ## P, WPP_GUID_WTEXT WPP_USER_MSG_GUID L"PcieForDSP // SRC=" _WPPW(File) L" MJ= MN=", L"#typev "  _WPPW(Name) L" 15 \"%0<-- %!FUNC!\" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=TRACE_DRIVER", __VA_ARGS__)
 #endif
 
-#ifdef WPP_PUBLIC_ANNOT_Device_c434
-    #define WPP_ANNOTATE_Device_c434 WPP_ANNOTATE_Device_c434_FINAL("TMF:", "Unknown_cxx00", "Unknown_cxx00", L"{", L"}", L"PUBLIC_TMF:")
+#ifdef WPP_PUBLIC_ANNOT_Device_c441
+    #define WPP_ANNOTATE_Device_c441 WPP_ANNOTATE_Device_c441_FINAL("TMF:", "Unknown_cxx00", "Unknown_cxx00", L"{", L"}", L"PUBLIC_TMF:")
                                         
     #ifndef WPP_PUBLIC_TMC
         #define WPP_PUBLIC_TMC
     #endif
 #else
-    #define WPP_ANNOTATE_Device_c434 WPP_ANNOTATE_Device_c434_FINAL("TMF:", "Device.c", "Device_c434", L"{", L"}")
+    #define WPP_ANNOTATE_Device_c441 WPP_ANNOTATE_Device_c441_FINAL("TMF:", "Device.c", "Device_c441", L"{", L"}")
 #endif
 #if !defined(WPP_USER_MSG_GUID)
-# define WPP_ANNOTATE_Device_c461_FINAL(P, File, Name, ...)    __annotation(L ## P, L"c69c15bf-a6d5-5531-1920-912b603ab196 PcieForDSP // SRC=" _WPPW(File) L" MJ= MN=", L"#typev "  _WPPW(Name) L" 16 \"%0--> %!FUNC!\" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=TRACE_DRIVER", __VA_ARGS__)
+# define WPP_ANNOTATE_Device_c468_FINAL(P, File, Name, ...)    __annotation(L ## P, L"a08a2462-ecb3-e253-0d70-386116dd4e13 PcieForDSP // SRC=" _WPPW(File) L" MJ= MN=", L"#typev "  _WPPW(Name) L" 16 \"%0--> %!FUNC!\" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=TRACE_DRIVER", __VA_ARGS__)
 #else
-# define WPP_ANNOTATE_Device_c461_FINAL(P, File, Name, ...)    __annotation(L ## P, WPP_GUID_WTEXT WPP_USER_MSG_GUID L"PcieForDSP // SRC=" _WPPW(File) L" MJ= MN=", L"#typev "  _WPPW(Name) L" 16 \"%0--> %!FUNC!\" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=TRACE_DRIVER", __VA_ARGS__)
+# define WPP_ANNOTATE_Device_c468_FINAL(P, File, Name, ...)    __annotation(L ## P, WPP_GUID_WTEXT WPP_USER_MSG_GUID L"PcieForDSP // SRC=" _WPPW(File) L" MJ= MN=", L"#typev "  _WPPW(Name) L" 16 \"%0--> %!FUNC!\" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=TRACE_DRIVER", __VA_ARGS__)
 #endif
 
-#ifdef WPP_PUBLIC_ANNOT_Device_c461
-    #define WPP_ANNOTATE_Device_c461 WPP_ANNOTATE_Device_c461_FINAL("TMF:", "Unknown_cxx00", "Unknown_cxx00", L"{", L"}", L"PUBLIC_TMF:")
+#ifdef WPP_PUBLIC_ANNOT_Device_c468
+    #define WPP_ANNOTATE_Device_c468 WPP_ANNOTATE_Device_c468_FINAL("TMF:", "Unknown_cxx00", "Unknown_cxx00", L"{", L"}", L"PUBLIC_TMF:")
                                         
     #ifndef WPP_PUBLIC_TMC
         #define WPP_PUBLIC_TMC
     #endif
 #else
-    #define WPP_ANNOTATE_Device_c461 WPP_ANNOTATE_Device_c461_FINAL("TMF:", "Device.c", "Device_c461", L"{", L"}")
+    #define WPP_ANNOTATE_Device_c468 WPP_ANNOTATE_Device_c468_FINAL("TMF:", "Device.c", "Device_c468", L"{", L"}")
 #endif
 #if !defined(WPP_USER_MSG_GUID)
-# define WPP_ANNOTATE_Device_c464_FINAL(P, File, Name, ...)    __annotation(L ## P, L"c69c15bf-a6d5-5531-1920-912b603ab196 PcieForDSP // SRC=" _WPPW(File) L" MJ= MN=", L"#typev "  _WPPW(Name) L" 17 \"%0<-- %!FUNC!\" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=TRACE_DRIVER", __VA_ARGS__)
+# define WPP_ANNOTATE_Device_c471_FINAL(P, File, Name, ...)    __annotation(L ## P, L"a08a2462-ecb3-e253-0d70-386116dd4e13 PcieForDSP // SRC=" _WPPW(File) L" MJ= MN=", L"#typev "  _WPPW(Name) L" 17 \"%0<-- %!FUNC!\" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=TRACE_DRIVER", __VA_ARGS__)
 #else
-# define WPP_ANNOTATE_Device_c464_FINAL(P, File, Name, ...)    __annotation(L ## P, WPP_GUID_WTEXT WPP_USER_MSG_GUID L"PcieForDSP // SRC=" _WPPW(File) L" MJ= MN=", L"#typev "  _WPPW(Name) L" 17 \"%0<-- %!FUNC!\" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=TRACE_DRIVER", __VA_ARGS__)
+# define WPP_ANNOTATE_Device_c471_FINAL(P, File, Name, ...)    __annotation(L ## P, WPP_GUID_WTEXT WPP_USER_MSG_GUID L"PcieForDSP // SRC=" _WPPW(File) L" MJ= MN=", L"#typev "  _WPPW(Name) L" 17 \"%0<-- %!FUNC!\" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=TRACE_DRIVER", __VA_ARGS__)
 #endif
 
-#ifdef WPP_PUBLIC_ANNOT_Device_c464
-    #define WPP_ANNOTATE_Device_c464 WPP_ANNOTATE_Device_c464_FINAL("TMF:", "Unknown_cxx00", "Unknown_cxx00", L"{", L"}", L"PUBLIC_TMF:")
+#ifdef WPP_PUBLIC_ANNOT_Device_c471
+    #define WPP_ANNOTATE_Device_c471 WPP_ANNOTATE_Device_c471_FINAL("TMF:", "Unknown_cxx00", "Unknown_cxx00", L"{", L"}", L"PUBLIC_TMF:")
                                         
     #ifndef WPP_PUBLIC_TMC
         #define WPP_PUBLIC_TMC
     #endif
 #else
-    #define WPP_ANNOTATE_Device_c464 WPP_ANNOTATE_Device_c464_FINAL("TMF:", "Device.c", "Device_c464", L"{", L"}")
+    #define WPP_ANNOTATE_Device_c471 WPP_ANNOTATE_Device_c471_FINAL("TMF:", "Device.c", "Device_c471", L"{", L"}")
 #endif
 #if !defined(WPP_USER_MSG_GUID)
-# define WPP_ANNOTATE_Device_c490_FINAL(P, File, Name, ...)    __annotation(L ## P, L"c69c15bf-a6d5-5531-1920-912b603ab196 PcieForDSP // SRC=" _WPPW(File) L" MJ= MN=", L"#typev "  _WPPW(Name) L" 18 \"%0--> %!FUNC!\" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=TRACE_DRIVER", __VA_ARGS__)
+# define WPP_ANNOTATE_Device_c497_FINAL(P, File, Name, ...)    __annotation(L ## P, L"a08a2462-ecb3-e253-0d70-386116dd4e13 PcieForDSP // SRC=" _WPPW(File) L" MJ= MN=", L"#typev "  _WPPW(Name) L" 18 \"%0--> %!FUNC!\" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=TRACE_DRIVER", __VA_ARGS__)
 #else
-# define WPP_ANNOTATE_Device_c490_FINAL(P, File, Name, ...)    __annotation(L ## P, WPP_GUID_WTEXT WPP_USER_MSG_GUID L"PcieForDSP // SRC=" _WPPW(File) L" MJ= MN=", L"#typev "  _WPPW(Name) L" 18 \"%0--> %!FUNC!\" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=TRACE_DRIVER", __VA_ARGS__)
+# define WPP_ANNOTATE_Device_c497_FINAL(P, File, Name, ...)    __annotation(L ## P, WPP_GUID_WTEXT WPP_USER_MSG_GUID L"PcieForDSP // SRC=" _WPPW(File) L" MJ= MN=", L"#typev "  _WPPW(Name) L" 18 \"%0--> %!FUNC!\" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=TRACE_DRIVER", __VA_ARGS__)
 #endif
 
-#ifdef WPP_PUBLIC_ANNOT_Device_c490
-    #define WPP_ANNOTATE_Device_c490 WPP_ANNOTATE_Device_c490_FINAL("TMF:", "Unknown_cxx00", "Unknown_cxx00", L"{", L"}", L"PUBLIC_TMF:")
+#ifdef WPP_PUBLIC_ANNOT_Device_c497
+    #define WPP_ANNOTATE_Device_c497 WPP_ANNOTATE_Device_c497_FINAL("TMF:", "Unknown_cxx00", "Unknown_cxx00", L"{", L"}", L"PUBLIC_TMF:")
                                         
     #ifndef WPP_PUBLIC_TMC
         #define WPP_PUBLIC_TMC
     #endif
 #else
-    #define WPP_ANNOTATE_Device_c490 WPP_ANNOTATE_Device_c490_FINAL("TMF:", "Device.c", "Device_c490", L"{", L"}")
+    #define WPP_ANNOTATE_Device_c497 WPP_ANNOTATE_Device_c497_FINAL("TMF:", "Device.c", "Device_c497", L"{", L"}")
 #endif
 #if !defined(WPP_USER_MSG_GUID)
-# define WPP_ANNOTATE_Device_c530_FINAL(P, File, Name, ...)    __annotation(L ## P, L"c69c15bf-a6d5-5531-1920-912b603ab196 PcieForDSP // SRC=" _WPPW(File) L" MJ= MN=", L"#typev "  _WPPW(Name) L" 19 \"%0<-- %!FUNC!\" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=TRACE_DRIVER", __VA_ARGS__)
+# define WPP_ANNOTATE_Device_c537_FINAL(P, File, Name, ...)    __annotation(L ## P, L"a08a2462-ecb3-e253-0d70-386116dd4e13 PcieForDSP // SRC=" _WPPW(File) L" MJ= MN=", L"#typev "  _WPPW(Name) L" 19 \"%0<-- %!FUNC!\" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=TRACE_DRIVER", __VA_ARGS__)
 #else
-# define WPP_ANNOTATE_Device_c530_FINAL(P, File, Name, ...)    __annotation(L ## P, WPP_GUID_WTEXT WPP_USER_MSG_GUID L"PcieForDSP // SRC=" _WPPW(File) L" MJ= MN=", L"#typev "  _WPPW(Name) L" 19 \"%0<-- %!FUNC!\" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=TRACE_DRIVER", __VA_ARGS__)
+# define WPP_ANNOTATE_Device_c537_FINAL(P, File, Name, ...)    __annotation(L ## P, WPP_GUID_WTEXT WPP_USER_MSG_GUID L"PcieForDSP // SRC=" _WPPW(File) L" MJ= MN=", L"#typev "  _WPPW(Name) L" 19 \"%0<-- %!FUNC!\" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=TRACE_DRIVER", __VA_ARGS__)
 #endif
 
-#ifdef WPP_PUBLIC_ANNOT_Device_c530
-    #define WPP_ANNOTATE_Device_c530 WPP_ANNOTATE_Device_c530_FINAL("TMF:", "Unknown_cxx00", "Unknown_cxx00", L"{", L"}", L"PUBLIC_TMF:")
+#ifdef WPP_PUBLIC_ANNOT_Device_c537
+    #define WPP_ANNOTATE_Device_c537 WPP_ANNOTATE_Device_c537_FINAL("TMF:", "Unknown_cxx00", "Unknown_cxx00", L"{", L"}", L"PUBLIC_TMF:")
                                         
     #ifndef WPP_PUBLIC_TMC
         #define WPP_PUBLIC_TMC
     #endif
 #else
-    #define WPP_ANNOTATE_Device_c530 WPP_ANNOTATE_Device_c530_FINAL("TMF:", "Device.c", "Device_c530", L"{", L"}")
+    #define WPP_ANNOTATE_Device_c537 WPP_ANNOTATE_Device_c537_FINAL("TMF:", "Device.c", "Device_c537", L"{", L"}")
 #endif
 #if !defined(WPP_USER_MSG_GUID)
-# define WPP_ANNOTATE_Device_c562_FINAL(P, File, Name, ...)    __annotation(L ## P, L"c69c15bf-a6d5-5531-1920-912b603ab196 PcieForDSP // SRC=" _WPPW(File) L" MJ= MN=", L"#typev "  _WPPW(Name) L" 20 \"%0--> %!FUNC!\" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=TRACE_DRIVER", __VA_ARGS__)
+# define WPP_ANNOTATE_Device_c569_FINAL(P, File, Name, ...)    __annotation(L ## P, L"a08a2462-ecb3-e253-0d70-386116dd4e13 PcieForDSP // SRC=" _WPPW(File) L" MJ= MN=", L"#typev "  _WPPW(Name) L" 20 \"%0--> %!FUNC!\" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=TRACE_DRIVER", __VA_ARGS__)
 #else
-# define WPP_ANNOTATE_Device_c562_FINAL(P, File, Name, ...)    __annotation(L ## P, WPP_GUID_WTEXT WPP_USER_MSG_GUID L"PcieForDSP // SRC=" _WPPW(File) L" MJ= MN=", L"#typev "  _WPPW(Name) L" 20 \"%0--> %!FUNC!\" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=TRACE_DRIVER", __VA_ARGS__)
+# define WPP_ANNOTATE_Device_c569_FINAL(P, File, Name, ...)    __annotation(L ## P, WPP_GUID_WTEXT WPP_USER_MSG_GUID L"PcieForDSP // SRC=" _WPPW(File) L" MJ= MN=", L"#typev "  _WPPW(Name) L" 20 \"%0--> %!FUNC!\" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=TRACE_DRIVER", __VA_ARGS__)
 #endif
 
-#ifdef WPP_PUBLIC_ANNOT_Device_c562
-    #define WPP_ANNOTATE_Device_c562 WPP_ANNOTATE_Device_c562_FINAL("TMF:", "Unknown_cxx00", "Unknown_cxx00", L"{", L"}", L"PUBLIC_TMF:")
+#ifdef WPP_PUBLIC_ANNOT_Device_c569
+    #define WPP_ANNOTATE_Device_c569 WPP_ANNOTATE_Device_c569_FINAL("TMF:", "Unknown_cxx00", "Unknown_cxx00", L"{", L"}", L"PUBLIC_TMF:")
                                         
     #ifndef WPP_PUBLIC_TMC
         #define WPP_PUBLIC_TMC
     #endif
 #else
-    #define WPP_ANNOTATE_Device_c562 WPP_ANNOTATE_Device_c562_FINAL("TMF:", "Device.c", "Device_c562", L"{", L"}")
+    #define WPP_ANNOTATE_Device_c569 WPP_ANNOTATE_Device_c569_FINAL("TMF:", "Device.c", "Device_c569", L"{", L"}")
 #endif
 #if !defined(WPP_USER_MSG_GUID)
-# define WPP_ANNOTATE_Device_c570_FINAL(P, File, Name, ...)    __annotation(L ## P, L"c69c15bf-a6d5-5531-1920-912b603ab196 PcieForDSP // SRC=" _WPPW(File) L" MJ= MN=", L"#typev "  _WPPW(Name) L" 21 \"%0PcieQueueInitialize failed: %10!s!\" //   LEVEL=TRACE_LEVEL_ERROR FLAGS=TRACE_DRIVER", __VA_ARGS__)
+# define WPP_ANNOTATE_Device_c577_FINAL(P, File, Name, ...)    __annotation(L ## P, L"a08a2462-ecb3-e253-0d70-386116dd4e13 PcieForDSP // SRC=" _WPPW(File) L" MJ= MN=", L"#typev "  _WPPW(Name) L" 21 \"%0PcieQueueInitialize failed: %10!s!\" //   LEVEL=TRACE_LEVEL_ERROR FLAGS=TRACE_DRIVER", __VA_ARGS__)
 #else
-# define WPP_ANNOTATE_Device_c570_FINAL(P, File, Name, ...)    __annotation(L ## P, WPP_GUID_WTEXT WPP_USER_MSG_GUID L"PcieForDSP // SRC=" _WPPW(File) L" MJ= MN=", L"#typev "  _WPPW(Name) L" 21 \"%0PcieQueueInitialize failed: %10!s!\" //   LEVEL=TRACE_LEVEL_ERROR FLAGS=TRACE_DRIVER", __VA_ARGS__)
+# define WPP_ANNOTATE_Device_c577_FINAL(P, File, Name, ...)    __annotation(L ## P, WPP_GUID_WTEXT WPP_USER_MSG_GUID L"PcieForDSP // SRC=" _WPPW(File) L" MJ= MN=", L"#typev "  _WPPW(Name) L" 21 \"%0PcieQueueInitialize failed: %10!s!\" //   LEVEL=TRACE_LEVEL_ERROR FLAGS=TRACE_DRIVER", __VA_ARGS__)
 #endif
 
-#ifdef WPP_PUBLIC_ANNOT_Device_c570
-    #define WPP_ANNOTATE_Device_c570 WPP_ANNOTATE_Device_c570_FINAL("TMF:", "Unknown_cxx00", "Unknown_cxx00", L"{", L"Arg, ItemNTSTATUS -- 10" , L"}", L"PUBLIC_TMF:")
+#ifdef WPP_PUBLIC_ANNOT_Device_c577
+    #define WPP_ANNOTATE_Device_c577 WPP_ANNOTATE_Device_c577_FINAL("TMF:", "Unknown_cxx00", "Unknown_cxx00", L"{", L"Arg, ItemNTSTATUS -- 10" , L"}", L"PUBLIC_TMF:")
                                         
     #ifndef WPP_PUBLIC_TMC
         #define WPP_PUBLIC_TMC
     #endif
 #else
-    #define WPP_ANNOTATE_Device_c570 WPP_ANNOTATE_Device_c570_FINAL("TMF:", "Device.c", "Device_c570", L"{", L"status, ItemNTSTATUS -- 10" , L"}")
+    #define WPP_ANNOTATE_Device_c577 WPP_ANNOTATE_Device_c577_FINAL("TMF:", "Device.c", "Device_c577", L"{", L"status, ItemNTSTATUS -- 10" , L"}")
 #endif
 #if !defined(WPP_USER_MSG_GUID)
-# define WPP_ANNOTATE_Device_c582_FINAL(P, File, Name, ...)    __annotation(L ## P, L"c69c15bf-a6d5-5531-1920-912b603ab196 PcieForDSP // SRC=" _WPPW(File) L" MJ= MN=", L"#typev "  _WPPW(Name) L" 22 \"%0PcieInterruptCreate failed: %10!s!\" //   LEVEL=TRACE_LEVEL_ERROR FLAGS=TRACE_DRIVER", __VA_ARGS__)
+# define WPP_ANNOTATE_Device_c589_FINAL(P, File, Name, ...)    __annotation(L ## P, L"a08a2462-ecb3-e253-0d70-386116dd4e13 PcieForDSP // SRC=" _WPPW(File) L" MJ= MN=", L"#typev "  _WPPW(Name) L" 22 \"%0PcieInterruptCreate failed: %10!s!\" //   LEVEL=TRACE_LEVEL_ERROR FLAGS=TRACE_DRIVER", __VA_ARGS__)
 #else
-# define WPP_ANNOTATE_Device_c582_FINAL(P, File, Name, ...)    __annotation(L ## P, WPP_GUID_WTEXT WPP_USER_MSG_GUID L"PcieForDSP // SRC=" _WPPW(File) L" MJ= MN=", L"#typev "  _WPPW(Name) L" 22 \"%0PcieInterruptCreate failed: %10!s!\" //   LEVEL=TRACE_LEVEL_ERROR FLAGS=TRACE_DRIVER", __VA_ARGS__)
+# define WPP_ANNOTATE_Device_c589_FINAL(P, File, Name, ...)    __annotation(L ## P, WPP_GUID_WTEXT WPP_USER_MSG_GUID L"PcieForDSP // SRC=" _WPPW(File) L" MJ= MN=", L"#typev "  _WPPW(Name) L" 22 \"%0PcieInterruptCreate failed: %10!s!\" //   LEVEL=TRACE_LEVEL_ERROR FLAGS=TRACE_DRIVER", __VA_ARGS__)
 #endif
 
-#ifdef WPP_PUBLIC_ANNOT_Device_c582
-    #define WPP_ANNOTATE_Device_c582 WPP_ANNOTATE_Device_c582_FINAL("TMF:", "Unknown_cxx00", "Unknown_cxx00", L"{", L"Arg, ItemNTSTATUS -- 10" , L"}", L"PUBLIC_TMF:")
+#ifdef WPP_PUBLIC_ANNOT_Device_c589
+    #define WPP_ANNOTATE_Device_c589 WPP_ANNOTATE_Device_c589_FINAL("TMF:", "Unknown_cxx00", "Unknown_cxx00", L"{", L"Arg, ItemNTSTATUS -- 10" , L"}", L"PUBLIC_TMF:")
                                         
     #ifndef WPP_PUBLIC_TMC
         #define WPP_PUBLIC_TMC
     #endif
 #else
-    #define WPP_ANNOTATE_Device_c582 WPP_ANNOTATE_Device_c582_FINAL("TMF:", "Device.c", "Device_c582", L"{", L"status, ItemNTSTATUS -- 10" , L"}")
+    #define WPP_ANNOTATE_Device_c589 WPP_ANNOTATE_Device_c589_FINAL("TMF:", "Device.c", "Device_c589", L"{", L"status, ItemNTSTATUS -- 10" , L"}")
 #endif
 # define WPP_ANNOTATE(x) WPP_ANNOTATE_ ## x,
 
@@ -792,10 +792,10 @@ extern "C" {
 # define WPP_ANNOTATE(x)
 #endif
 
-#define WPP_LOCAL_TraceGuids WPP_c69c15bfa6d555311920912b603ab196_Traceguids
+#define WPP_LOCAL_TraceGuids WPP_a08a2462ecb3e2530d70386116dd4e13_Traceguids
 
 #if 1
-extern const __declspec(selectany) GUID WPP_LOCAL_TraceGuids[] = { {0xc69c15bf,0xa6d5,0x5531,{0x19,0x20,0x91,0x2b,0x60,0x3a,0xb1,0x96}}, };
+extern const __declspec(selectany) GUID WPP_LOCAL_TraceGuids[] = { {0xa08a2462,0xecb3,0xe253,{0x0d,0x70,0x38,0x61,0x16,0xdd,0x4e,0x13}}, };
 #endif
 
 #ifndef WPP_ALREADY_INCLUDED
@@ -1027,9 +1027,9 @@ WPP_RECORDER_SF_d(
 #ifndef WPP_LEVEL_FLAGS_PRE
 #  define WPP_LEVEL_FLAGS_PRE(LEVEL,FLAGS)
 #endif
-#define WPP_CALL_Device_c377(LEVEL, FLAGS, MSG) \
+#define WPP_CALL_Device_c384(LEVEL, FLAGS, MSG) \
      WPP_LEVEL_FLAGS_PRE(LEVEL, FLAGS) \
-     WPP_ANNOTATE(Device_c377) \
+     WPP_ANNOTATE(Device_c384) \
      ((\
        WPP_RECORDER_LEVEL_FLAGS_FILTER(LEVEL, FLAGS) ? \
         WPP_RECORDER_SF_(WPP_RECORDER_LEVEL_FLAGS_ARGS(LEVEL, FLAGS), \
@@ -1044,9 +1044,9 @@ WPP_RECORDER_SF_d(
 #ifndef WPP_LEVEL_FLAGS_PRE
 #  define WPP_LEVEL_FLAGS_PRE(LEVEL,FLAGS)
 #endif
-#define WPP_CALL_Device_c409(LEVEL, FLAGS, MSG) \
+#define WPP_CALL_Device_c416(LEVEL, FLAGS, MSG) \
      WPP_LEVEL_FLAGS_PRE(LEVEL, FLAGS) \
-     WPP_ANNOTATE(Device_c409) \
+     WPP_ANNOTATE(Device_c416) \
      ((\
        WPP_RECORDER_LEVEL_FLAGS_FILTER(LEVEL, FLAGS) ? \
         WPP_RECORDER_SF_(WPP_RECORDER_LEVEL_FLAGS_ARGS(LEVEL, FLAGS), \
@@ -1061,9 +1061,9 @@ WPP_RECORDER_SF_d(
 #ifndef WPP_LEVEL_FLAGS_PRE
 #  define WPP_LEVEL_FLAGS_PRE(LEVEL,FLAGS)
 #endif
-#define WPP_CALL_Device_c434(LEVEL, FLAGS, MSG) \
+#define WPP_CALL_Device_c441(LEVEL, FLAGS, MSG) \
      WPP_LEVEL_FLAGS_PRE(LEVEL, FLAGS) \
-     WPP_ANNOTATE(Device_c434) \
+     WPP_ANNOTATE(Device_c441) \
      ((\
        WPP_RECORDER_LEVEL_FLAGS_FILTER(LEVEL, FLAGS) ? \
         WPP_RECORDER_SF_(WPP_RECORDER_LEVEL_FLAGS_ARGS(LEVEL, FLAGS), \
@@ -1078,9 +1078,9 @@ WPP_RECORDER_SF_d(
 #ifndef WPP_LEVEL_FLAGS_PRE
 #  define WPP_LEVEL_FLAGS_PRE(LEVEL,FLAGS)
 #endif
-#define WPP_CALL_Device_c461(LEVEL, FLAGS, MSG) \
+#define WPP_CALL_Device_c468(LEVEL, FLAGS, MSG) \
      WPP_LEVEL_FLAGS_PRE(LEVEL, FLAGS) \
-     WPP_ANNOTATE(Device_c461) \
+     WPP_ANNOTATE(Device_c468) \
      ((\
        WPP_RECORDER_LEVEL_FLAGS_FILTER(LEVEL, FLAGS) ? \
         WPP_RECORDER_SF_(WPP_RECORDER_LEVEL_FLAGS_ARGS(LEVEL, FLAGS), \
@@ -1095,9 +1095,9 @@ WPP_RECORDER_SF_d(
 #ifndef WPP_LEVEL_FLAGS_PRE
 #  define WPP_LEVEL_FLAGS_PRE(LEVEL,FLAGS)
 #endif
-#define WPP_CALL_Device_c464(LEVEL, FLAGS, MSG) \
+#define WPP_CALL_Device_c471(LEVEL, FLAGS, MSG) \
      WPP_LEVEL_FLAGS_PRE(LEVEL, FLAGS) \
-     WPP_ANNOTATE(Device_c464) \
+     WPP_ANNOTATE(Device_c471) \
      ((\
        WPP_RECORDER_LEVEL_FLAGS_FILTER(LEVEL, FLAGS) ? \
         WPP_RECORDER_SF_(WPP_RECORDER_LEVEL_FLAGS_ARGS(LEVEL, FLAGS), \
@@ -1112,9 +1112,9 @@ WPP_RECORDER_SF_d(
 #ifndef WPP_LEVEL_FLAGS_PRE
 #  define WPP_LEVEL_FLAGS_PRE(LEVEL,FLAGS)
 #endif
-#define WPP_CALL_Device_c490(LEVEL, FLAGS, MSG) \
+#define WPP_CALL_Device_c497(LEVEL, FLAGS, MSG) \
      WPP_LEVEL_FLAGS_PRE(LEVEL, FLAGS) \
-     WPP_ANNOTATE(Device_c490) \
+     WPP_ANNOTATE(Device_c497) \
      ((\
        WPP_RECORDER_LEVEL_FLAGS_FILTER(LEVEL, FLAGS) ? \
         WPP_RECORDER_SF_(WPP_RECORDER_LEVEL_FLAGS_ARGS(LEVEL, FLAGS), \
@@ -1129,9 +1129,9 @@ WPP_RECORDER_SF_d(
 #ifndef WPP_LEVEL_FLAGS_PRE
 #  define WPP_LEVEL_FLAGS_PRE(LEVEL,FLAGS)
 #endif
-#define WPP_CALL_Device_c530(LEVEL, FLAGS, MSG) \
+#define WPP_CALL_Device_c537(LEVEL, FLAGS, MSG) \
      WPP_LEVEL_FLAGS_PRE(LEVEL, FLAGS) \
-     WPP_ANNOTATE(Device_c530) \
+     WPP_ANNOTATE(Device_c537) \
      ((\
        WPP_RECORDER_LEVEL_FLAGS_FILTER(LEVEL, FLAGS) ? \
         WPP_RECORDER_SF_(WPP_RECORDER_LEVEL_FLAGS_ARGS(LEVEL, FLAGS), \
@@ -1146,9 +1146,9 @@ WPP_RECORDER_SF_d(
 #ifndef WPP_LEVEL_FLAGS_PRE
 #  define WPP_LEVEL_FLAGS_PRE(LEVEL,FLAGS)
 #endif
-#define WPP_CALL_Device_c562(LEVEL, FLAGS, MSG) \
+#define WPP_CALL_Device_c569(LEVEL, FLAGS, MSG) \
      WPP_LEVEL_FLAGS_PRE(LEVEL, FLAGS) \
-     WPP_ANNOTATE(Device_c562) \
+     WPP_ANNOTATE(Device_c569) \
      ((\
        WPP_RECORDER_LEVEL_FLAGS_FILTER(LEVEL, FLAGS) ? \
         WPP_RECORDER_SF_(WPP_RECORDER_LEVEL_FLAGS_ARGS(LEVEL, FLAGS), \
@@ -1163,9 +1163,9 @@ WPP_RECORDER_SF_d(
 #ifndef WPP_LEVEL_FLAGS_PRE
 #  define WPP_LEVEL_FLAGS_PRE(LEVEL,FLAGS)
 #endif
-#define WPP_CALL_Device_c570(LEVEL, FLAGS, MSG,a10) \
+#define WPP_CALL_Device_c577(LEVEL, FLAGS, MSG,a10) \
      WPP_LEVEL_FLAGS_PRE(LEVEL, FLAGS) \
-     WPP_ANNOTATE(Device_c570) \
+     WPP_ANNOTATE(Device_c577) \
      ((\
        WPP_RECORDER_LEVEL_FLAGS_FILTER(LEVEL, FLAGS) ? \
         WPP_RECORDER_SF_d(WPP_RECORDER_LEVEL_FLAGS_ARGS(LEVEL, FLAGS), \
@@ -1180,9 +1180,9 @@ WPP_RECORDER_SF_d(
 #ifndef WPP_LEVEL_FLAGS_PRE
 #  define WPP_LEVEL_FLAGS_PRE(LEVEL,FLAGS)
 #endif
-#define WPP_CALL_Device_c582(LEVEL, FLAGS, MSG,a10) \
+#define WPP_CALL_Device_c589(LEVEL, FLAGS, MSG,a10) \
      WPP_LEVEL_FLAGS_PRE(LEVEL, FLAGS) \
-     WPP_ANNOTATE(Device_c582) \
+     WPP_ANNOTATE(Device_c589) \
      ((\
        WPP_RECORDER_LEVEL_FLAGS_FILTER(LEVEL, FLAGS) ? \
         WPP_RECORDER_SF_d(WPP_RECORDER_LEVEL_FLAGS_ARGS(LEVEL, FLAGS), \
@@ -1243,9 +1243,9 @@ WPP_RECORDER_SF_d(
 #ifndef WPP_LEVEL_FLAGS_PRE
 #  define WPP_LEVEL_FLAGS_PRE(LEVEL,FLAGS)
 #endif
-#define WPP_CALL_Device_c377(LEVEL, FLAGS, MSG) \
+#define WPP_CALL_Device_c384(LEVEL, FLAGS, MSG) \
      WPP_LEVEL_FLAGS_PRE(LEVEL, FLAGS) \
-     WPP_ANNOTATE(Device_c377) \
+     WPP_ANNOTATE(Device_c384) \
      ((\
        WPP_RECORDER_LEVEL_FLAGS_FILTER(LEVEL, FLAGS) ? \
         WPP_RECORDER_SF_(WPP_RECORDER_LEVEL_FLAGS_ARGS(LEVEL, FLAGS), \
@@ -1258,9 +1258,9 @@ WPP_RECORDER_SF_d(
 #ifndef WPP_LEVEL_FLAGS_PRE
 #  define WPP_LEVEL_FLAGS_PRE(LEVEL,FLAGS)
 #endif
-#define WPP_CALL_Device_c409(LEVEL, FLAGS, MSG) \
+#define WPP_CALL_Device_c416(LEVEL, FLAGS, MSG) \
      WPP_LEVEL_FLAGS_PRE(LEVEL, FLAGS) \
-     WPP_ANNOTATE(Device_c409) \
+     WPP_ANNOTATE(Device_c416) \
      ((\
        WPP_RECORDER_LEVEL_FLAGS_FILTER(LEVEL, FLAGS) ? \
         WPP_RECORDER_SF_(WPP_RECORDER_LEVEL_FLAGS_ARGS(LEVEL, FLAGS), \
@@ -1273,9 +1273,9 @@ WPP_RECORDER_SF_d(
 #ifndef WPP_LEVEL_FLAGS_PRE
 #  define WPP_LEVEL_FLAGS_PRE(LEVEL,FLAGS)
 #endif
-#define WPP_CALL_Device_c434(LEVEL, FLAGS, MSG) \
+#define WPP_CALL_Device_c441(LEVEL, FLAGS, MSG) \
      WPP_LEVEL_FLAGS_PRE(LEVEL, FLAGS) \
-     WPP_ANNOTATE(Device_c434) \
+     WPP_ANNOTATE(Device_c441) \
      ((\
        WPP_RECORDER_LEVEL_FLAGS_FILTER(LEVEL, FLAGS) ? \
         WPP_RECORDER_SF_(WPP_RECORDER_LEVEL_FLAGS_ARGS(LEVEL, FLAGS), \
@@ -1288,9 +1288,9 @@ WPP_RECORDER_SF_d(
 #ifndef WPP_LEVEL_FLAGS_PRE
 #  define WPP_LEVEL_FLAGS_PRE(LEVEL,FLAGS)
 #endif
-#define WPP_CALL_Device_c461(LEVEL, FLAGS, MSG) \
+#define WPP_CALL_Device_c468(LEVEL, FLAGS, MSG) \
      WPP_LEVEL_FLAGS_PRE(LEVEL, FLAGS) \
-     WPP_ANNOTATE(Device_c461) \
+     WPP_ANNOTATE(Device_c468) \
      ((\
        WPP_RECORDER_LEVEL_FLAGS_FILTER(LEVEL, FLAGS) ? \
         WPP_RECORDER_SF_(WPP_RECORDER_LEVEL_FLAGS_ARGS(LEVEL, FLAGS), \
@@ -1303,9 +1303,9 @@ WPP_RECORDER_SF_d(
 #ifndef WPP_LEVEL_FLAGS_PRE
 #  define WPP_LEVEL_FLAGS_PRE(LEVEL,FLAGS)
 #endif
-#define WPP_CALL_Device_c464(LEVEL, FLAGS, MSG) \
+#define WPP_CALL_Device_c471(LEVEL, FLAGS, MSG) \
      WPP_LEVEL_FLAGS_PRE(LEVEL, FLAGS) \
-     WPP_ANNOTATE(Device_c464) \
+     WPP_ANNOTATE(Device_c471) \
      ((\
        WPP_RECORDER_LEVEL_FLAGS_FILTER(LEVEL, FLAGS) ? \
         WPP_RECORDER_SF_(WPP_RECORDER_LEVEL_FLAGS_ARGS(LEVEL, FLAGS), \
@@ -1318,9 +1318,9 @@ WPP_RECORDER_SF_d(
 #ifndef WPP_LEVEL_FLAGS_PRE
 #  define WPP_LEVEL_FLAGS_PRE(LEVEL,FLAGS)
 #endif
-#define WPP_CALL_Device_c490(LEVEL, FLAGS, MSG) \
+#define WPP_CALL_Device_c497(LEVEL, FLAGS, MSG) \
      WPP_LEVEL_FLAGS_PRE(LEVEL, FLAGS) \
-     WPP_ANNOTATE(Device_c490) \
+     WPP_ANNOTATE(Device_c497) \
      ((\
        WPP_RECORDER_LEVEL_FLAGS_FILTER(LEVEL, FLAGS) ? \
         WPP_RECORDER_SF_(WPP_RECORDER_LEVEL_FLAGS_ARGS(LEVEL, FLAGS), \
@@ -1333,9 +1333,9 @@ WPP_RECORDER_SF_d(
 #ifndef WPP_LEVEL_FLAGS_PRE
 #  define WPP_LEVEL_FLAGS_PRE(LEVEL,FLAGS)
 #endif
-#define WPP_CALL_Device_c530(LEVEL, FLAGS, MSG) \
+#define WPP_CALL_Device_c537(LEVEL, FLAGS, MSG) \
      WPP_LEVEL_FLAGS_PRE(LEVEL, FLAGS) \
-     WPP_ANNOTATE(Device_c530) \
+     WPP_ANNOTATE(Device_c537) \
      ((\
        WPP_RECORDER_LEVEL_FLAGS_FILTER(LEVEL, FLAGS) ? \
         WPP_RECORDER_SF_(WPP_RECORDER_LEVEL_FLAGS_ARGS(LEVEL, FLAGS), \
@@ -1348,9 +1348,9 @@ WPP_RECORDER_SF_d(
 #ifndef WPP_LEVEL_FLAGS_PRE
 #  define WPP_LEVEL_FLAGS_PRE(LEVEL,FLAGS)
 #endif
-#define WPP_CALL_Device_c562(LEVEL, FLAGS, MSG) \
+#define WPP_CALL_Device_c569(LEVEL, FLAGS, MSG) \
      WPP_LEVEL_FLAGS_PRE(LEVEL, FLAGS) \
-     WPP_ANNOTATE(Device_c562) \
+     WPP_ANNOTATE(Device_c569) \
      ((\
        WPP_RECORDER_LEVEL_FLAGS_FILTER(LEVEL, FLAGS) ? \
         WPP_RECORDER_SF_(WPP_RECORDER_LEVEL_FLAGS_ARGS(LEVEL, FLAGS), \
@@ -1363,9 +1363,9 @@ WPP_RECORDER_SF_d(
 #ifndef WPP_LEVEL_FLAGS_PRE
 #  define WPP_LEVEL_FLAGS_PRE(LEVEL,FLAGS)
 #endif
-#define WPP_CALL_Device_c570(LEVEL, FLAGS, MSG,a10) \
+#define WPP_CALL_Device_c577(LEVEL, FLAGS, MSG,a10) \
      WPP_LEVEL_FLAGS_PRE(LEVEL, FLAGS) \
-     WPP_ANNOTATE(Device_c570) \
+     WPP_ANNOTATE(Device_c577) \
      ((\
        WPP_RECORDER_LEVEL_FLAGS_FILTER(LEVEL, FLAGS) ? \
         WPP_RECORDER_SF_d(WPP_RECORDER_LEVEL_FLAGS_ARGS(LEVEL, FLAGS), \
@@ -1378,9 +1378,9 @@ WPP_RECORDER_SF_d(
 #ifndef WPP_LEVEL_FLAGS_PRE
 #  define WPP_LEVEL_FLAGS_PRE(LEVEL,FLAGS)
 #endif
-#define WPP_CALL_Device_c582(LEVEL, FLAGS, MSG,a10) \
+#define WPP_CALL_Device_c589(LEVEL, FLAGS, MSG,a10) \
      WPP_LEVEL_FLAGS_PRE(LEVEL, FLAGS) \
-     WPP_ANNOTATE(Device_c582) \
+     WPP_ANNOTATE(Device_c589) \
      ((\
        WPP_RECORDER_LEVEL_FLAGS_FILTER(LEVEL, FLAGS) ? \
         WPP_RECORDER_SF_d(WPP_RECORDER_LEVEL_FLAGS_ARGS(LEVEL, FLAGS), \
@@ -1446,34 +1446,34 @@ extern "C" {
 #define WPP_PUBLIC_ANNOT_Device_c369
 #endif
 #ifdef WPP_PUBLIC_
-#define WPP_PUBLIC_ANNOT_Device_c377
+#define WPP_PUBLIC_ANNOT_Device_c384
 #endif
 #ifdef WPP_PUBLIC_
-#define WPP_PUBLIC_ANNOT_Device_c409
+#define WPP_PUBLIC_ANNOT_Device_c416
 #endif
 #ifdef WPP_PUBLIC_
-#define WPP_PUBLIC_ANNOT_Device_c434
+#define WPP_PUBLIC_ANNOT_Device_c441
 #endif
 #ifdef WPP_PUBLIC_
-#define WPP_PUBLIC_ANNOT_Device_c461
+#define WPP_PUBLIC_ANNOT_Device_c468
 #endif
 #ifdef WPP_PUBLIC_
-#define WPP_PUBLIC_ANNOT_Device_c464
+#define WPP_PUBLIC_ANNOT_Device_c471
 #endif
 #ifdef WPP_PUBLIC_
-#define WPP_PUBLIC_ANNOT_Device_c490
+#define WPP_PUBLIC_ANNOT_Device_c497
 #endif
 #ifdef WPP_PUBLIC_
-#define WPP_PUBLIC_ANNOT_Device_c530
+#define WPP_PUBLIC_ANNOT_Device_c537
 #endif
 #ifdef WPP_PUBLIC_
-#define WPP_PUBLIC_ANNOT_Device_c562
+#define WPP_PUBLIC_ANNOT_Device_c569
 #endif
 #ifdef WPP_PUBLIC_
-#define WPP_PUBLIC_ANNOT_Device_c570
+#define WPP_PUBLIC_ANNOT_Device_c577
 #endif
 #ifdef WPP_PUBLIC_
-#define WPP_PUBLIC_ANNOT_Device_c582
+#define WPP_PUBLIC_ANNOT_Device_c589
 #endif
 #ifdef WPP_EMIT_FUNC_NAME
 #define WPP_FUNC_NAME L" FUNC=" _WPPW(__FUNCTION__)
@@ -1482,7 +1482,7 @@ extern "C" {
 #endif
 
 #if !defined(WPP_USER_MSG_GUID)
-# define WPP_ANNOTATE_Device_c192_FINAL(P, File, Name, ...)    __annotation(L ## P, L"c69c15bf-a6d5-5531-1920-912b603ab196 PcieForDSP // SRC=" _WPPW(File) L" MJ= MN=", L"#typev "  _WPPW(Name) L" 10 \"%0WdfDeviceCreate failed %10!s!\" //   LEVEL=TRACE_LEVEL_ERROR FLAGS=TRACE_DRIVER" WPP_FUNC_NAME, __VA_ARGS__)
+# define WPP_ANNOTATE_Device_c192_FINAL(P, File, Name, ...)    __annotation(L ## P, L"a08a2462-ecb3-e253-0d70-386116dd4e13 PcieForDSP // SRC=" _WPPW(File) L" MJ= MN=", L"#typev "  _WPPW(Name) L" 10 \"%0WdfDeviceCreate failed %10!s!\" //   LEVEL=TRACE_LEVEL_ERROR FLAGS=TRACE_DRIVER" WPP_FUNC_NAME, __VA_ARGS__)
 #else
 # define WPP_ANNOTATE_Device_c192_FINAL(P, File, Name, ...)    __annotation(L ## P, WPP_GUID_WTEXT WPP_USER_MSG_GUID L"PcieForDSP // SRC=" _WPPW(File) L" MJ= MN=", L"#typev "  _WPPW(Name) L" 10 \"%0WdfDeviceCreate failed %10!s!\" //   LEVEL=TRACE_LEVEL_ERROR FLAGS=TRACE_DRIVER" WPP_FUNC_NAME, __VA_ARGS__)
 #endif
@@ -1497,7 +1497,7 @@ extern "C" {
     #define WPP_ANNOTATE_Device_c192 WPP_ANNOTATE_Device_c192_FINAL("TMF:", "Device.c", "Device_c192", L"{", L"status, ItemNTSTATUS -- 10" , L"}")
 #endif
 #if !defined(WPP_USER_MSG_GUID)
-# define WPP_ANNOTATE_Device_c323_FINAL(P, File, Name, ...)    __annotation(L ## P, L"c69c15bf-a6d5-5531-1920-912b603ab196 PcieForDSP // SRC=" _WPPW(File) L" MJ= MN=", L"#typev "  _WPPW(Name) L" 11 \"%0WdfCmResourceListGetDescriptor failed %10!s!\" //   LEVEL=TRACE_LEVEL_ERROR FLAGS=TRACE_DRIVER" WPP_FUNC_NAME, __VA_ARGS__)
+# define WPP_ANNOTATE_Device_c323_FINAL(P, File, Name, ...)    __annotation(L ## P, L"a08a2462-ecb3-e253-0d70-386116dd4e13 PcieForDSP // SRC=" _WPPW(File) L" MJ= MN=", L"#typev "  _WPPW(Name) L" 11 \"%0WdfCmResourceListGetDescriptor failed %10!s!\" //   LEVEL=TRACE_LEVEL_ERROR FLAGS=TRACE_DRIVER" WPP_FUNC_NAME, __VA_ARGS__)
 #else
 # define WPP_ANNOTATE_Device_c323_FINAL(P, File, Name, ...)    __annotation(L ## P, WPP_GUID_WTEXT WPP_USER_MSG_GUID L"PcieForDSP // SRC=" _WPPW(File) L" MJ= MN=", L"#typev "  _WPPW(Name) L" 11 \"%0WdfCmResourceListGetDescriptor failed %10!s!\" //   LEVEL=TRACE_LEVEL_ERROR FLAGS=TRACE_DRIVER" WPP_FUNC_NAME, __VA_ARGS__)
 #endif
@@ -1512,7 +1512,7 @@ extern "C" {
     #define WPP_ANNOTATE_Device_c323 WPP_ANNOTATE_Device_c323_FINAL("TMF:", "Device.c", "Device_c323", L"{", L"status, ItemNTSTATUS -- 10" , L"}")
 #endif
 #if !defined(WPP_USER_MSG_GUID)
-# define WPP_ANNOTATE_Device_c369_FINAL(P, File, Name, ...)    __annotation(L ## P, L"c69c15bf-a6d5-5531-1920-912b603ab196 PcieForDSP // SRC=" _WPPW(File) L" MJ= MN=", L"#typev "  _WPPW(Name) L" 12 \"%0PcieMapResources: Missing resources BAR0\" //   LEVEL=TRACE_LEVEL_ERROR FLAGS=TRACE_DRIVER" WPP_FUNC_NAME, __VA_ARGS__)
+# define WPP_ANNOTATE_Device_c369_FINAL(P, File, Name, ...)    __annotation(L ## P, L"a08a2462-ecb3-e253-0d70-386116dd4e13 PcieForDSP // SRC=" _WPPW(File) L" MJ= MN=", L"#typev "  _WPPW(Name) L" 12 \"%0PcieMapResources: Missing resources BAR0\" //   LEVEL=TRACE_LEVEL_ERROR FLAGS=TRACE_DRIVER" WPP_FUNC_NAME, __VA_ARGS__)
 #else
 # define WPP_ANNOTATE_Device_c369_FINAL(P, File, Name, ...)    __annotation(L ## P, WPP_GUID_WTEXT WPP_USER_MSG_GUID L"PcieForDSP // SRC=" _WPPW(File) L" MJ= MN=", L"#typev "  _WPPW(Name) L" 12 \"%0PcieMapResources: Missing resources BAR0\" //   LEVEL=TRACE_LEVEL_ERROR FLAGS=TRACE_DRIVER" WPP_FUNC_NAME, __VA_ARGS__)
 #endif
@@ -1527,154 +1527,154 @@ extern "C" {
     #define WPP_ANNOTATE_Device_c369 WPP_ANNOTATE_Device_c369_FINAL("TMF:", "Device.c", "Device_c369", L"{", L"}")
 #endif
 #if !defined(WPP_USER_MSG_GUID)
-# define WPP_ANNOTATE_Device_c377_FINAL(P, File, Name, ...)    __annotation(L ## P, L"c69c15bf-a6d5-5531-1920-912b603ab196 PcieForDSP // SRC=" _WPPW(File) L" MJ= MN=", L"#typev "  _WPPW(Name) L" 13 \"%0<-- %!FUNC!\" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=TRACE_DRIVER" WPP_FUNC_NAME, __VA_ARGS__)
+# define WPP_ANNOTATE_Device_c384_FINAL(P, File, Name, ...)    __annotation(L ## P, L"a08a2462-ecb3-e253-0d70-386116dd4e13 PcieForDSP // SRC=" _WPPW(File) L" MJ= MN=", L"#typev "  _WPPW(Name) L" 13 \"%0<-- %!FUNC!\" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=TRACE_DRIVER" WPP_FUNC_NAME, __VA_ARGS__)
 #else
-# define WPP_ANNOTATE_Device_c377_FINAL(P, File, Name, ...)    __annotation(L ## P, WPP_GUID_WTEXT WPP_USER_MSG_GUID L"PcieForDSP // SRC=" _WPPW(File) L" MJ= MN=", L"#typev "  _WPPW(Name) L" 13 \"%0<-- %!FUNC!\" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=TRACE_DRIVER" WPP_FUNC_NAME, __VA_ARGS__)
+# define WPP_ANNOTATE_Device_c384_FINAL(P, File, Name, ...)    __annotation(L ## P, WPP_GUID_WTEXT WPP_USER_MSG_GUID L"PcieForDSP // SRC=" _WPPW(File) L" MJ= MN=", L"#typev "  _WPPW(Name) L" 13 \"%0<-- %!FUNC!\" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=TRACE_DRIVER" WPP_FUNC_NAME, __VA_ARGS__)
 #endif
 
-#ifdef WPP_PUBLIC_ANNOT_Device_c377
-    #define WPP_ANNOTATE_Device_c377 WPP_ANNOTATE_Device_c377_FINAL("TMF:", "Unknown_cxx00", "Unknown_cxx00", L"{", L"}", L"PUBLIC_TMF:")
+#ifdef WPP_PUBLIC_ANNOT_Device_c384
+    #define WPP_ANNOTATE_Device_c384 WPP_ANNOTATE_Device_c384_FINAL("TMF:", "Unknown_cxx00", "Unknown_cxx00", L"{", L"}", L"PUBLIC_TMF:")
                                         
     #ifndef WPP_PUBLIC_TMC
         #define WPP_PUBLIC_TMC
     #endif
 #else
-    #define WPP_ANNOTATE_Device_c377 WPP_ANNOTATE_Device_c377_FINAL("TMF:", "Device.c", "Device_c377", L"{", L"}")
+    #define WPP_ANNOTATE_Device_c384 WPP_ANNOTATE_Device_c384_FINAL("TMF:", "Device.c", "Device_c384", L"{", L"}")
 #endif
 #if !defined(WPP_USER_MSG_GUID)
-# define WPP_ANNOTATE_Device_c409_FINAL(P, File, Name, ...)    __annotation(L ## P, L"c69c15bf-a6d5-5531-1920-912b603ab196 PcieForDSP // SRC=" _WPPW(File) L" MJ= MN=", L"#typev "  _WPPW(Name) L" 14 \"%0--> %!FUNC!\" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=TRACE_DRIVER" WPP_FUNC_NAME, __VA_ARGS__)
+# define WPP_ANNOTATE_Device_c416_FINAL(P, File, Name, ...)    __annotation(L ## P, L"a08a2462-ecb3-e253-0d70-386116dd4e13 PcieForDSP // SRC=" _WPPW(File) L" MJ= MN=", L"#typev "  _WPPW(Name) L" 14 \"%0--> %!FUNC!\" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=TRACE_DRIVER" WPP_FUNC_NAME, __VA_ARGS__)
 #else
-# define WPP_ANNOTATE_Device_c409_FINAL(P, File, Name, ...)    __annotation(L ## P, WPP_GUID_WTEXT WPP_USER_MSG_GUID L"PcieForDSP // SRC=" _WPPW(File) L" MJ= MN=", L"#typev "  _WPPW(Name) L" 14 \"%0--> %!FUNC!\" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=TRACE_DRIVER" WPP_FUNC_NAME, __VA_ARGS__)
+# define WPP_ANNOTATE_Device_c416_FINAL(P, File, Name, ...)    __annotation(L ## P, WPP_GUID_WTEXT WPP_USER_MSG_GUID L"PcieForDSP // SRC=" _WPPW(File) L" MJ= MN=", L"#typev "  _WPPW(Name) L" 14 \"%0--> %!FUNC!\" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=TRACE_DRIVER" WPP_FUNC_NAME, __VA_ARGS__)
 #endif
 
-#ifdef WPP_PUBLIC_ANNOT_Device_c409
-    #define WPP_ANNOTATE_Device_c409 WPP_ANNOTATE_Device_c409_FINAL("TMF:", "Unknown_cxx00", "Unknown_cxx00", L"{", L"}", L"PUBLIC_TMF:")
+#ifdef WPP_PUBLIC_ANNOT_Device_c416
+    #define WPP_ANNOTATE_Device_c416 WPP_ANNOTATE_Device_c416_FINAL("TMF:", "Unknown_cxx00", "Unknown_cxx00", L"{", L"}", L"PUBLIC_TMF:")
                                         
     #ifndef WPP_PUBLIC_TMC
         #define WPP_PUBLIC_TMC
     #endif
 #else
-    #define WPP_ANNOTATE_Device_c409 WPP_ANNOTATE_Device_c409_FINAL("TMF:", "Device.c", "Device_c409", L"{", L"}")
+    #define WPP_ANNOTATE_Device_c416 WPP_ANNOTATE_Device_c416_FINAL("TMF:", "Device.c", "Device_c416", L"{", L"}")
 #endif
 #if !defined(WPP_USER_MSG_GUID)
-# define WPP_ANNOTATE_Device_c434_FINAL(P, File, Name, ...)    __annotation(L ## P, L"c69c15bf-a6d5-5531-1920-912b603ab196 PcieForDSP // SRC=" _WPPW(File) L" MJ= MN=", L"#typev "  _WPPW(Name) L" 15 \"%0<-- %!FUNC!\" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=TRACE_DRIVER" WPP_FUNC_NAME, __VA_ARGS__)
+# define WPP_ANNOTATE_Device_c441_FINAL(P, File, Name, ...)    __annotation(L ## P, L"a08a2462-ecb3-e253-0d70-386116dd4e13 PcieForDSP // SRC=" _WPPW(File) L" MJ= MN=", L"#typev "  _WPPW(Name) L" 15 \"%0<-- %!FUNC!\" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=TRACE_DRIVER" WPP_FUNC_NAME, __VA_ARGS__)
 #else
-# define WPP_ANNOTATE_Device_c434_FINAL(P, File, Name, ...)    __annotation(L ## P, WPP_GUID_WTEXT WPP_USER_MSG_GUID L"PcieForDSP // SRC=" _WPPW(File) L" MJ= MN=", L"#typev "  _WPPW(Name) L" 15 \"%0<-- %!FUNC!\" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=TRACE_DRIVER" WPP_FUNC_NAME, __VA_ARGS__)
+# define WPP_ANNOTATE_Device_c441_FINAL(P, File, Name, ...)    __annotation(L ## P, WPP_GUID_WTEXT WPP_USER_MSG_GUID L"PcieForDSP // SRC=" _WPPW(File) L" MJ= MN=", L"#typev "  _WPPW(Name) L" 15 \"%0<-- %!FUNC!\" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=TRACE_DRIVER" WPP_FUNC_NAME, __VA_ARGS__)
 #endif
 
-#ifdef WPP_PUBLIC_ANNOT_Device_c434
-    #define WPP_ANNOTATE_Device_c434 WPP_ANNOTATE_Device_c434_FINAL("TMF:", "Unknown_cxx00", "Unknown_cxx00", L"{", L"}", L"PUBLIC_TMF:")
+#ifdef WPP_PUBLIC_ANNOT_Device_c441
+    #define WPP_ANNOTATE_Device_c441 WPP_ANNOTATE_Device_c441_FINAL("TMF:", "Unknown_cxx00", "Unknown_cxx00", L"{", L"}", L"PUBLIC_TMF:")
                                         
     #ifndef WPP_PUBLIC_TMC
         #define WPP_PUBLIC_TMC
     #endif
 #else
-    #define WPP_ANNOTATE_Device_c434 WPP_ANNOTATE_Device_c434_FINAL("TMF:", "Device.c", "Device_c434", L"{", L"}")
+    #define WPP_ANNOTATE_Device_c441 WPP_ANNOTATE_Device_c441_FINAL("TMF:", "Device.c", "Device_c441", L"{", L"}")
 #endif
 #if !defined(WPP_USER_MSG_GUID)
-# define WPP_ANNOTATE_Device_c461_FINAL(P, File, Name, ...)    __annotation(L ## P, L"c69c15bf-a6d5-5531-1920-912b603ab196 PcieForDSP // SRC=" _WPPW(File) L" MJ= MN=", L"#typev "  _WPPW(Name) L" 16 \"%0--> %!FUNC!\" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=TRACE_DRIVER" WPP_FUNC_NAME, __VA_ARGS__)
+# define WPP_ANNOTATE_Device_c468_FINAL(P, File, Name, ...)    __annotation(L ## P, L"a08a2462-ecb3-e253-0d70-386116dd4e13 PcieForDSP // SRC=" _WPPW(File) L" MJ= MN=", L"#typev "  _WPPW(Name) L" 16 \"%0--> %!FUNC!\" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=TRACE_DRIVER" WPP_FUNC_NAME, __VA_ARGS__)
 #else
-# define WPP_ANNOTATE_Device_c461_FINAL(P, File, Name, ...)    __annotation(L ## P, WPP_GUID_WTEXT WPP_USER_MSG_GUID L"PcieForDSP // SRC=" _WPPW(File) L" MJ= MN=", L"#typev "  _WPPW(Name) L" 16 \"%0--> %!FUNC!\" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=TRACE_DRIVER" WPP_FUNC_NAME, __VA_ARGS__)
+# define WPP_ANNOTATE_Device_c468_FINAL(P, File, Name, ...)    __annotation(L ## P, WPP_GUID_WTEXT WPP_USER_MSG_GUID L"PcieForDSP // SRC=" _WPPW(File) L" MJ= MN=", L"#typev "  _WPPW(Name) L" 16 \"%0--> %!FUNC!\" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=TRACE_DRIVER" WPP_FUNC_NAME, __VA_ARGS__)
 #endif
 
-#ifdef WPP_PUBLIC_ANNOT_Device_c461
-    #define WPP_ANNOTATE_Device_c461 WPP_ANNOTATE_Device_c461_FINAL("TMF:", "Unknown_cxx00", "Unknown_cxx00", L"{", L"}", L"PUBLIC_TMF:")
+#ifdef WPP_PUBLIC_ANNOT_Device_c468
+    #define WPP_ANNOTATE_Device_c468 WPP_ANNOTATE_Device_c468_FINAL("TMF:", "Unknown_cxx00", "Unknown_cxx00", L"{", L"}", L"PUBLIC_TMF:")
                                         
     #ifndef WPP_PUBLIC_TMC
         #define WPP_PUBLIC_TMC
     #endif
 #else
-    #define WPP_ANNOTATE_Device_c461 WPP_ANNOTATE_Device_c461_FINAL("TMF:", "Device.c", "Device_c461", L"{", L"}")
+    #define WPP_ANNOTATE_Device_c468 WPP_ANNOTATE_Device_c468_FINAL("TMF:", "Device.c", "Device_c468", L"{", L"}")
 #endif
 #if !defined(WPP_USER_MSG_GUID)
-# define WPP_ANNOTATE_Device_c464_FINAL(P, File, Name, ...)    __annotation(L ## P, L"c69c15bf-a6d5-5531-1920-912b603ab196 PcieForDSP // SRC=" _WPPW(File) L" MJ= MN=", L"#typev "  _WPPW(Name) L" 17 \"%0<-- %!FUNC!\" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=TRACE_DRIVER" WPP_FUNC_NAME, __VA_ARGS__)
+# define WPP_ANNOTATE_Device_c471_FINAL(P, File, Name, ...)    __annotation(L ## P, L"a08a2462-ecb3-e253-0d70-386116dd4e13 PcieForDSP // SRC=" _WPPW(File) L" MJ= MN=", L"#typev "  _WPPW(Name) L" 17 \"%0<-- %!FUNC!\" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=TRACE_DRIVER" WPP_FUNC_NAME, __VA_ARGS__)
 #else
-# define WPP_ANNOTATE_Device_c464_FINAL(P, File, Name, ...)    __annotation(L ## P, WPP_GUID_WTEXT WPP_USER_MSG_GUID L"PcieForDSP // SRC=" _WPPW(File) L" MJ= MN=", L"#typev "  _WPPW(Name) L" 17 \"%0<-- %!FUNC!\" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=TRACE_DRIVER" WPP_FUNC_NAME, __VA_ARGS__)
+# define WPP_ANNOTATE_Device_c471_FINAL(P, File, Name, ...)    __annotation(L ## P, WPP_GUID_WTEXT WPP_USER_MSG_GUID L"PcieForDSP // SRC=" _WPPW(File) L" MJ= MN=", L"#typev "  _WPPW(Name) L" 17 \"%0<-- %!FUNC!\" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=TRACE_DRIVER" WPP_FUNC_NAME, __VA_ARGS__)
 #endif
 
-#ifdef WPP_PUBLIC_ANNOT_Device_c464
-    #define WPP_ANNOTATE_Device_c464 WPP_ANNOTATE_Device_c464_FINAL("TMF:", "Unknown_cxx00", "Unknown_cxx00", L"{", L"}", L"PUBLIC_TMF:")
+#ifdef WPP_PUBLIC_ANNOT_Device_c471
+    #define WPP_ANNOTATE_Device_c471 WPP_ANNOTATE_Device_c471_FINAL("TMF:", "Unknown_cxx00", "Unknown_cxx00", L"{", L"}", L"PUBLIC_TMF:")
                                         
     #ifndef WPP_PUBLIC_TMC
         #define WPP_PUBLIC_TMC
     #endif
 #else
-    #define WPP_ANNOTATE_Device_c464 WPP_ANNOTATE_Device_c464_FINAL("TMF:", "Device.c", "Device_c464", L"{", L"}")
+    #define WPP_ANNOTATE_Device_c471 WPP_ANNOTATE_Device_c471_FINAL("TMF:", "Device.c", "Device_c471", L"{", L"}")
 #endif
 #if !defined(WPP_USER_MSG_GUID)
-# define WPP_ANNOTATE_Device_c490_FINAL(P, File, Name, ...)    __annotation(L ## P, L"c69c15bf-a6d5-5531-1920-912b603ab196 PcieForDSP // SRC=" _WPPW(File) L" MJ= MN=", L"#typev "  _WPPW(Name) L" 18 \"%0--> %!FUNC!\" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=TRACE_DRIVER" WPP_FUNC_NAME, __VA_ARGS__)
+# define WPP_ANNOTATE_Device_c497_FINAL(P, File, Name, ...)    __annotation(L ## P, L"a08a2462-ecb3-e253-0d70-386116dd4e13 PcieForDSP // SRC=" _WPPW(File) L" MJ= MN=", L"#typev "  _WPPW(Name) L" 18 \"%0--> %!FUNC!\" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=TRACE_DRIVER" WPP_FUNC_NAME, __VA_ARGS__)
 #else
-# define WPP_ANNOTATE_Device_c490_FINAL(P, File, Name, ...)    __annotation(L ## P, WPP_GUID_WTEXT WPP_USER_MSG_GUID L"PcieForDSP // SRC=" _WPPW(File) L" MJ= MN=", L"#typev "  _WPPW(Name) L" 18 \"%0--> %!FUNC!\" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=TRACE_DRIVER" WPP_FUNC_NAME, __VA_ARGS__)
+# define WPP_ANNOTATE_Device_c497_FINAL(P, File, Name, ...)    __annotation(L ## P, WPP_GUID_WTEXT WPP_USER_MSG_GUID L"PcieForDSP // SRC=" _WPPW(File) L" MJ= MN=", L"#typev "  _WPPW(Name) L" 18 \"%0--> %!FUNC!\" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=TRACE_DRIVER" WPP_FUNC_NAME, __VA_ARGS__)
 #endif
 
-#ifdef WPP_PUBLIC_ANNOT_Device_c490
-    #define WPP_ANNOTATE_Device_c490 WPP_ANNOTATE_Device_c490_FINAL("TMF:", "Unknown_cxx00", "Unknown_cxx00", L"{", L"}", L"PUBLIC_TMF:")
+#ifdef WPP_PUBLIC_ANNOT_Device_c497
+    #define WPP_ANNOTATE_Device_c497 WPP_ANNOTATE_Device_c497_FINAL("TMF:", "Unknown_cxx00", "Unknown_cxx00", L"{", L"}", L"PUBLIC_TMF:")
                                         
     #ifndef WPP_PUBLIC_TMC
         #define WPP_PUBLIC_TMC
     #endif
 #else
-    #define WPP_ANNOTATE_Device_c490 WPP_ANNOTATE_Device_c490_FINAL("TMF:", "Device.c", "Device_c490", L"{", L"}")
+    #define WPP_ANNOTATE_Device_c497 WPP_ANNOTATE_Device_c497_FINAL("TMF:", "Device.c", "Device_c497", L"{", L"}")
 #endif
 #if !defined(WPP_USER_MSG_GUID)
-# define WPP_ANNOTATE_Device_c530_FINAL(P, File, Name, ...)    __annotation(L ## P, L"c69c15bf-a6d5-5531-1920-912b603ab196 PcieForDSP // SRC=" _WPPW(File) L" MJ= MN=", L"#typev "  _WPPW(Name) L" 19 \"%0<-- %!FUNC!\" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=TRACE_DRIVER" WPP_FUNC_NAME, __VA_ARGS__)
+# define WPP_ANNOTATE_Device_c537_FINAL(P, File, Name, ...)    __annotation(L ## P, L"a08a2462-ecb3-e253-0d70-386116dd4e13 PcieForDSP // SRC=" _WPPW(File) L" MJ= MN=", L"#typev "  _WPPW(Name) L" 19 \"%0<-- %!FUNC!\" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=TRACE_DRIVER" WPP_FUNC_NAME, __VA_ARGS__)
 #else
-# define WPP_ANNOTATE_Device_c530_FINAL(P, File, Name, ...)    __annotation(L ## P, WPP_GUID_WTEXT WPP_USER_MSG_GUID L"PcieForDSP // SRC=" _WPPW(File) L" MJ= MN=", L"#typev "  _WPPW(Name) L" 19 \"%0<-- %!FUNC!\" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=TRACE_DRIVER" WPP_FUNC_NAME, __VA_ARGS__)
+# define WPP_ANNOTATE_Device_c537_FINAL(P, File, Name, ...)    __annotation(L ## P, WPP_GUID_WTEXT WPP_USER_MSG_GUID L"PcieForDSP // SRC=" _WPPW(File) L" MJ= MN=", L"#typev "  _WPPW(Name) L" 19 \"%0<-- %!FUNC!\" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=TRACE_DRIVER" WPP_FUNC_NAME, __VA_ARGS__)
 #endif
 
-#ifdef WPP_PUBLIC_ANNOT_Device_c530
-    #define WPP_ANNOTATE_Device_c530 WPP_ANNOTATE_Device_c530_FINAL("TMF:", "Unknown_cxx00", "Unknown_cxx00", L"{", L"}", L"PUBLIC_TMF:")
+#ifdef WPP_PUBLIC_ANNOT_Device_c537
+    #define WPP_ANNOTATE_Device_c537 WPP_ANNOTATE_Device_c537_FINAL("TMF:", "Unknown_cxx00", "Unknown_cxx00", L"{", L"}", L"PUBLIC_TMF:")
                                         
     #ifndef WPP_PUBLIC_TMC
         #define WPP_PUBLIC_TMC
     #endif
 #else
-    #define WPP_ANNOTATE_Device_c530 WPP_ANNOTATE_Device_c530_FINAL("TMF:", "Device.c", "Device_c530", L"{", L"}")
+    #define WPP_ANNOTATE_Device_c537 WPP_ANNOTATE_Device_c537_FINAL("TMF:", "Device.c", "Device_c537", L"{", L"}")
 #endif
 #if !defined(WPP_USER_MSG_GUID)
-# define WPP_ANNOTATE_Device_c562_FINAL(P, File, Name, ...)    __annotation(L ## P, L"c69c15bf-a6d5-5531-1920-912b603ab196 PcieForDSP // SRC=" _WPPW(File) L" MJ= MN=", L"#typev "  _WPPW(Name) L" 20 \"%0--> %!FUNC!\" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=TRACE_DRIVER" WPP_FUNC_NAME, __VA_ARGS__)
+# define WPP_ANNOTATE_Device_c569_FINAL(P, File, Name, ...)    __annotation(L ## P, L"a08a2462-ecb3-e253-0d70-386116dd4e13 PcieForDSP // SRC=" _WPPW(File) L" MJ= MN=", L"#typev "  _WPPW(Name) L" 20 \"%0--> %!FUNC!\" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=TRACE_DRIVER" WPP_FUNC_NAME, __VA_ARGS__)
 #else
-# define WPP_ANNOTATE_Device_c562_FINAL(P, File, Name, ...)    __annotation(L ## P, WPP_GUID_WTEXT WPP_USER_MSG_GUID L"PcieForDSP // SRC=" _WPPW(File) L" MJ= MN=", L"#typev "  _WPPW(Name) L" 20 \"%0--> %!FUNC!\" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=TRACE_DRIVER" WPP_FUNC_NAME, __VA_ARGS__)
+# define WPP_ANNOTATE_Device_c569_FINAL(P, File, Name, ...)    __annotation(L ## P, WPP_GUID_WTEXT WPP_USER_MSG_GUID L"PcieForDSP // SRC=" _WPPW(File) L" MJ= MN=", L"#typev "  _WPPW(Name) L" 20 \"%0--> %!FUNC!\" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=TRACE_DRIVER" WPP_FUNC_NAME, __VA_ARGS__)
 #endif
 
-#ifdef WPP_PUBLIC_ANNOT_Device_c562
-    #define WPP_ANNOTATE_Device_c562 WPP_ANNOTATE_Device_c562_FINAL("TMF:", "Unknown_cxx00", "Unknown_cxx00", L"{", L"}", L"PUBLIC_TMF:")
+#ifdef WPP_PUBLIC_ANNOT_Device_c569
+    #define WPP_ANNOTATE_Device_c569 WPP_ANNOTATE_Device_c569_FINAL("TMF:", "Unknown_cxx00", "Unknown_cxx00", L"{", L"}", L"PUBLIC_TMF:")
                                         
     #ifndef WPP_PUBLIC_TMC
         #define WPP_PUBLIC_TMC
     #endif
 #else
-    #define WPP_ANNOTATE_Device_c562 WPP_ANNOTATE_Device_c562_FINAL("TMF:", "Device.c", "Device_c562", L"{", L"}")
+    #define WPP_ANNOTATE_Device_c569 WPP_ANNOTATE_Device_c569_FINAL("TMF:", "Device.c", "Device_c569", L"{", L"}")
 #endif
 #if !defined(WPP_USER_MSG_GUID)
-# define WPP_ANNOTATE_Device_c570_FINAL(P, File, Name, ...)    __annotation(L ## P, L"c69c15bf-a6d5-5531-1920-912b603ab196 PcieForDSP // SRC=" _WPPW(File) L" MJ= MN=", L"#typev "  _WPPW(Name) L" 21 \"%0PcieQueueInitialize failed: %10!s!\" //   LEVEL=TRACE_LEVEL_ERROR FLAGS=TRACE_DRIVER" WPP_FUNC_NAME, __VA_ARGS__)
+# define WPP_ANNOTATE_Device_c577_FINAL(P, File, Name, ...)    __annotation(L ## P, L"a08a2462-ecb3-e253-0d70-386116dd4e13 PcieForDSP // SRC=" _WPPW(File) L" MJ= MN=", L"#typev "  _WPPW(Name) L" 21 \"%0PcieQueueInitialize failed: %10!s!\" //   LEVEL=TRACE_LEVEL_ERROR FLAGS=TRACE_DRIVER" WPP_FUNC_NAME, __VA_ARGS__)
 #else
-# define WPP_ANNOTATE_Device_c570_FINAL(P, File, Name, ...)    __annotation(L ## P, WPP_GUID_WTEXT WPP_USER_MSG_GUID L"PcieForDSP // SRC=" _WPPW(File) L" MJ= MN=", L"#typev "  _WPPW(Name) L" 21 \"%0PcieQueueInitialize failed: %10!s!\" //   LEVEL=TRACE_LEVEL_ERROR FLAGS=TRACE_DRIVER" WPP_FUNC_NAME, __VA_ARGS__)
+# define WPP_ANNOTATE_Device_c577_FINAL(P, File, Name, ...)    __annotation(L ## P, WPP_GUID_WTEXT WPP_USER_MSG_GUID L"PcieForDSP // SRC=" _WPPW(File) L" MJ= MN=", L"#typev "  _WPPW(Name) L" 21 \"%0PcieQueueInitialize failed: %10!s!\" //   LEVEL=TRACE_LEVEL_ERROR FLAGS=TRACE_DRIVER" WPP_FUNC_NAME, __VA_ARGS__)
 #endif
 
-#ifdef WPP_PUBLIC_ANNOT_Device_c570
-    #define WPP_ANNOTATE_Device_c570 WPP_ANNOTATE_Device_c570_FINAL("TMF:", "Unknown_cxx00", "Unknown_cxx00", L"{", L"Arg, ItemNTSTATUS -- 10" , L"}", L"PUBLIC_TMF:")
+#ifdef WPP_PUBLIC_ANNOT_Device_c577
+    #define WPP_ANNOTATE_Device_c577 WPP_ANNOTATE_Device_c577_FINAL("TMF:", "Unknown_cxx00", "Unknown_cxx00", L"{", L"Arg, ItemNTSTATUS -- 10" , L"}", L"PUBLIC_TMF:")
                                         
     #ifndef WPP_PUBLIC_TMC
         #define WPP_PUBLIC_TMC
     #endif
 #else
-    #define WPP_ANNOTATE_Device_c570 WPP_ANNOTATE_Device_c570_FINAL("TMF:", "Device.c", "Device_c570", L"{", L"status, ItemNTSTATUS -- 10" , L"}")
+    #define WPP_ANNOTATE_Device_c577 WPP_ANNOTATE_Device_c577_FINAL("TMF:", "Device.c", "Device_c577", L"{", L"status, ItemNTSTATUS -- 10" , L"}")
 #endif
 #if !defined(WPP_USER_MSG_GUID)
-# define WPP_ANNOTATE_Device_c582_FINAL(P, File, Name, ...)    __annotation(L ## P, L"c69c15bf-a6d5-5531-1920-912b603ab196 PcieForDSP // SRC=" _WPPW(File) L" MJ= MN=", L"#typev "  _WPPW(Name) L" 22 \"%0PcieInterruptCreate failed: %10!s!\" //   LEVEL=TRACE_LEVEL_ERROR FLAGS=TRACE_DRIVER" WPP_FUNC_NAME, __VA_ARGS__)
+# define WPP_ANNOTATE_Device_c589_FINAL(P, File, Name, ...)    __annotation(L ## P, L"a08a2462-ecb3-e253-0d70-386116dd4e13 PcieForDSP // SRC=" _WPPW(File) L" MJ= MN=", L"#typev "  _WPPW(Name) L" 22 \"%0PcieInterruptCreate failed: %10!s!\" //   LEVEL=TRACE_LEVEL_ERROR FLAGS=TRACE_DRIVER" WPP_FUNC_NAME, __VA_ARGS__)
 #else
-# define WPP_ANNOTATE_Device_c582_FINAL(P, File, Name, ...)    __annotation(L ## P, WPP_GUID_WTEXT WPP_USER_MSG_GUID L"PcieForDSP // SRC=" _WPPW(File) L" MJ= MN=", L"#typev "  _WPPW(Name) L" 22 \"%0PcieInterruptCreate failed: %10!s!\" //   LEVEL=TRACE_LEVEL_ERROR FLAGS=TRACE_DRIVER" WPP_FUNC_NAME, __VA_ARGS__)
+# define WPP_ANNOTATE_Device_c589_FINAL(P, File, Name, ...)    __annotation(L ## P, WPP_GUID_WTEXT WPP_USER_MSG_GUID L"PcieForDSP // SRC=" _WPPW(File) L" MJ= MN=", L"#typev "  _WPPW(Name) L" 22 \"%0PcieInterruptCreate failed: %10!s!\" //   LEVEL=TRACE_LEVEL_ERROR FLAGS=TRACE_DRIVER" WPP_FUNC_NAME, __VA_ARGS__)
 #endif
 
-#ifdef WPP_PUBLIC_ANNOT_Device_c582
-    #define WPP_ANNOTATE_Device_c582 WPP_ANNOTATE_Device_c582_FINAL("TMF:", "Unknown_cxx00", "Unknown_cxx00", L"{", L"Arg, ItemNTSTATUS -- 10" , L"}", L"PUBLIC_TMF:")
+#ifdef WPP_PUBLIC_ANNOT_Device_c589
+    #define WPP_ANNOTATE_Device_c589 WPP_ANNOTATE_Device_c589_FINAL("TMF:", "Unknown_cxx00", "Unknown_cxx00", L"{", L"Arg, ItemNTSTATUS -- 10" , L"}", L"PUBLIC_TMF:")
                                         
     #ifndef WPP_PUBLIC_TMC
         #define WPP_PUBLIC_TMC
     #endif
 #else
-    #define WPP_ANNOTATE_Device_c582 WPP_ANNOTATE_Device_c582_FINAL("TMF:", "Device.c", "Device_c582", L"{", L"status, ItemNTSTATUS -- 10" , L"}")
+    #define WPP_ANNOTATE_Device_c589 WPP_ANNOTATE_Device_c589_FINAL("TMF:", "Device.c", "Device_c589", L"{", L"status, ItemNTSTATUS -- 10" , L"}")
 #endif
 # define WPP_ANNOTATE(x) WPP_ANNOTATE_ ## x,
 
@@ -1686,8 +1686,8 @@ extern "C" {
 #if 1
 #if !defined(WPP_USER_MSG_GUID)
 
-#define WPP_LOCAL_TraceGuids WPP_c69c15bfa6d555311920912b603ab196_Traceguids
-extern const __declspec(selectany) GUID WPP_LOCAL_TraceGuids[] = { {0xc69c15bf,0xa6d5,0x5531,{0x19,0x20,0x91,0x2b,0x60,0x3a,0xb1,0x96}}, };
+#define WPP_LOCAL_TraceGuids WPP_a08a2462ecb3e2530d70386116dd4e13_Traceguids
+extern const __declspec(selectany) GUID WPP_LOCAL_TraceGuids[] = { {0xa08a2462,0xecb3,0xe253,{0x0d,0x70,0x38,0x61,0x16,0xdd,0x4e,0x13}}, };
 
 #else
 
@@ -1878,10 +1878,10 @@ WPP_INLINE void WPP_SF_d(WPP_LOGGER_ARG unsigned short id, LPCGUID TraceGuid, si
 #ifndef WPP_LEVEL_FLAGS_PRE
 #  define WPP_LEVEL_FLAGS_PRE(LEVEL,FLAGS)
 #endif
-#define WPP_CALL_Device_c377(LEVEL, FLAGS, MSG) \
+#define WPP_CALL_Device_c384(LEVEL, FLAGS, MSG) \
      WPP_LOG_ALWAYS(WPP_EX_LEVEL_FLAGS(LEVEL, FLAGS),MSG)\
      WPP_LEVEL_FLAGS_PRE(LEVEL, FLAGS) \
-     WPP_ANNOTATE(Device_c377) \
+     WPP_ANNOTATE(Device_c384) \
      ( ( \
          WPP_CHECK_INIT WPP_LEVEL_FLAGS_ENABLED(LEVEL, FLAGS) ? \
           WPP_DEBUG((MSG)), \
@@ -1895,10 +1895,10 @@ WPP_INLINE void WPP_SF_d(WPP_LOGGER_ARG unsigned short id, LPCGUID TraceGuid, si
 #ifndef WPP_LEVEL_FLAGS_PRE
 #  define WPP_LEVEL_FLAGS_PRE(LEVEL,FLAGS)
 #endif
-#define WPP_CALL_Device_c409(LEVEL, FLAGS, MSG) \
+#define WPP_CALL_Device_c416(LEVEL, FLAGS, MSG) \
      WPP_LOG_ALWAYS(WPP_EX_LEVEL_FLAGS(LEVEL, FLAGS),MSG)\
      WPP_LEVEL_FLAGS_PRE(LEVEL, FLAGS) \
-     WPP_ANNOTATE(Device_c409) \
+     WPP_ANNOTATE(Device_c416) \
      ( ( \
          WPP_CHECK_INIT WPP_LEVEL_FLAGS_ENABLED(LEVEL, FLAGS) ? \
           WPP_DEBUG((MSG)), \
@@ -1912,10 +1912,10 @@ WPP_INLINE void WPP_SF_d(WPP_LOGGER_ARG unsigned short id, LPCGUID TraceGuid, si
 #ifndef WPP_LEVEL_FLAGS_PRE
 #  define WPP_LEVEL_FLAGS_PRE(LEVEL,FLAGS)
 #endif
-#define WPP_CALL_Device_c434(LEVEL, FLAGS, MSG) \
+#define WPP_CALL_Device_c441(LEVEL, FLAGS, MSG) \
      WPP_LOG_ALWAYS(WPP_EX_LEVEL_FLAGS(LEVEL, FLAGS),MSG)\
      WPP_LEVEL_FLAGS_PRE(LEVEL, FLAGS) \
-     WPP_ANNOTATE(Device_c434) \
+     WPP_ANNOTATE(Device_c441) \
      ( ( \
          WPP_CHECK_INIT WPP_LEVEL_FLAGS_ENABLED(LEVEL, FLAGS) ? \
           WPP_DEBUG((MSG)), \
@@ -1929,10 +1929,10 @@ WPP_INLINE void WPP_SF_d(WPP_LOGGER_ARG unsigned short id, LPCGUID TraceGuid, si
 #ifndef WPP_LEVEL_FLAGS_PRE
 #  define WPP_LEVEL_FLAGS_PRE(LEVEL,FLAGS)
 #endif
-#define WPP_CALL_Device_c461(LEVEL, FLAGS, MSG) \
+#define WPP_CALL_Device_c468(LEVEL, FLAGS, MSG) \
      WPP_LOG_ALWAYS(WPP_EX_LEVEL_FLAGS(LEVEL, FLAGS),MSG)\
      WPP_LEVEL_FLAGS_PRE(LEVEL, FLAGS) \
-     WPP_ANNOTATE(Device_c461) \
+     WPP_ANNOTATE(Device_c468) \
      ( ( \
          WPP_CHECK_INIT WPP_LEVEL_FLAGS_ENABLED(LEVEL, FLAGS) ? \
           WPP_DEBUG((MSG)), \
@@ -1946,10 +1946,10 @@ WPP_INLINE void WPP_SF_d(WPP_LOGGER_ARG unsigned short id, LPCGUID TraceGuid, si
 #ifndef WPP_LEVEL_FLAGS_PRE
 #  define WPP_LEVEL_FLAGS_PRE(LEVEL,FLAGS)
 #endif
-#define WPP_CALL_Device_c464(LEVEL, FLAGS, MSG) \
+#define WPP_CALL_Device_c471(LEVEL, FLAGS, MSG) \
      WPP_LOG_ALWAYS(WPP_EX_LEVEL_FLAGS(LEVEL, FLAGS),MSG)\
      WPP_LEVEL_FLAGS_PRE(LEVEL, FLAGS) \
-     WPP_ANNOTATE(Device_c464) \
+     WPP_ANNOTATE(Device_c471) \
      ( ( \
          WPP_CHECK_INIT WPP_LEVEL_FLAGS_ENABLED(LEVEL, FLAGS) ? \
           WPP_DEBUG((MSG)), \
@@ -1963,10 +1963,10 @@ WPP_INLINE void WPP_SF_d(WPP_LOGGER_ARG unsigned short id, LPCGUID TraceGuid, si
 #ifndef WPP_LEVEL_FLAGS_PRE
 #  define WPP_LEVEL_FLAGS_PRE(LEVEL,FLAGS)
 #endif
-#define WPP_CALL_Device_c490(LEVEL, FLAGS, MSG) \
+#define WPP_CALL_Device_c497(LEVEL, FLAGS, MSG) \
      WPP_LOG_ALWAYS(WPP_EX_LEVEL_FLAGS(LEVEL, FLAGS),MSG)\
      WPP_LEVEL_FLAGS_PRE(LEVEL, FLAGS) \
-     WPP_ANNOTATE(Device_c490) \
+     WPP_ANNOTATE(Device_c497) \
      ( ( \
          WPP_CHECK_INIT WPP_LEVEL_FLAGS_ENABLED(LEVEL, FLAGS) ? \
           WPP_DEBUG((MSG)), \
@@ -1980,10 +1980,10 @@ WPP_INLINE void WPP_SF_d(WPP_LOGGER_ARG unsigned short id, LPCGUID TraceGuid, si
 #ifndef WPP_LEVEL_FLAGS_PRE
 #  define WPP_LEVEL_FLAGS_PRE(LEVEL,FLAGS)
 #endif
-#define WPP_CALL_Device_c530(LEVEL, FLAGS, MSG) \
+#define WPP_CALL_Device_c537(LEVEL, FLAGS, MSG) \
      WPP_LOG_ALWAYS(WPP_EX_LEVEL_FLAGS(LEVEL, FLAGS),MSG)\
      WPP_LEVEL_FLAGS_PRE(LEVEL, FLAGS) \
-     WPP_ANNOTATE(Device_c530) \
+     WPP_ANNOTATE(Device_c537) \
      ( ( \
          WPP_CHECK_INIT WPP_LEVEL_FLAGS_ENABLED(LEVEL, FLAGS) ? \
           WPP_DEBUG((MSG)), \
@@ -1997,10 +1997,10 @@ WPP_INLINE void WPP_SF_d(WPP_LOGGER_ARG unsigned short id, LPCGUID TraceGuid, si
 #ifndef WPP_LEVEL_FLAGS_PRE
 #  define WPP_LEVEL_FLAGS_PRE(LEVEL,FLAGS)
 #endif
-#define WPP_CALL_Device_c562(LEVEL, FLAGS, MSG) \
+#define WPP_CALL_Device_c569(LEVEL, FLAGS, MSG) \
      WPP_LOG_ALWAYS(WPP_EX_LEVEL_FLAGS(LEVEL, FLAGS),MSG)\
      WPP_LEVEL_FLAGS_PRE(LEVEL, FLAGS) \
-     WPP_ANNOTATE(Device_c562) \
+     WPP_ANNOTATE(Device_c569) \
      ( ( \
          WPP_CHECK_INIT WPP_LEVEL_FLAGS_ENABLED(LEVEL, FLAGS) ? \
           WPP_DEBUG((MSG)), \
@@ -2014,10 +2014,10 @@ WPP_INLINE void WPP_SF_d(WPP_LOGGER_ARG unsigned short id, LPCGUID TraceGuid, si
 #ifndef WPP_LEVEL_FLAGS_PRE
 #  define WPP_LEVEL_FLAGS_PRE(LEVEL,FLAGS)
 #endif
-#define WPP_CALL_Device_c570(LEVEL, FLAGS, MSG,a10) \
+#define WPP_CALL_Device_c577(LEVEL, FLAGS, MSG,a10) \
      WPP_LOG_ALWAYS(WPP_EX_LEVEL_FLAGS(LEVEL, FLAGS),MSG,a10)\
      WPP_LEVEL_FLAGS_PRE(LEVEL, FLAGS) \
-     WPP_ANNOTATE(Device_c570) \
+     WPP_ANNOTATE(Device_c577) \
      ( ( \
          WPP_CHECK_INIT WPP_LEVEL_FLAGS_ENABLED(LEVEL, FLAGS) ? \
           WPP_DEBUG((MSG,a10)), \
@@ -2031,10 +2031,10 @@ WPP_INLINE void WPP_SF_d(WPP_LOGGER_ARG unsigned short id, LPCGUID TraceGuid, si
 #ifndef WPP_LEVEL_FLAGS_PRE
 #  define WPP_LEVEL_FLAGS_PRE(LEVEL,FLAGS)
 #endif
-#define WPP_CALL_Device_c582(LEVEL, FLAGS, MSG,a10) \
+#define WPP_CALL_Device_c589(LEVEL, FLAGS, MSG,a10) \
      WPP_LOG_ALWAYS(WPP_EX_LEVEL_FLAGS(LEVEL, FLAGS),MSG,a10)\
      WPP_LEVEL_FLAGS_PRE(LEVEL, FLAGS) \
-     WPP_ANNOTATE(Device_c582) \
+     WPP_ANNOTATE(Device_c589) \
      ( ( \
          WPP_CHECK_INIT WPP_LEVEL_FLAGS_ENABLED(LEVEL, FLAGS) ? \
           WPP_DEBUG((MSG,a10)), \
@@ -2097,10 +2097,10 @@ WPP_INLINE void WPP_SF_d(WPP_LOGGER_ARG unsigned short id, LPCGUID TraceGuid, si
 #ifndef WPP_LEVEL_FLAGS_PRE
 #  define WPP_LEVEL_FLAGS_PRE(LEVEL,FLAGS)
 #endif
-#define WPP_CALL_Device_c377(LEVEL, FLAGS, MSG) \
+#define WPP_CALL_Device_c384(LEVEL, FLAGS, MSG) \
      WPP_LOG_ALWAYS(WPP_EX_LEVEL_FLAGS(LEVEL, FLAGS),MSG) \
      WPP_LEVEL_FLAGS_PRE(LEVEL, FLAGS) \
-     WPP_ANNOTATE(Device_c377) \
+     WPP_ANNOTATE(Device_c384) \
      ( ( \
          WPP_CHECK_INIT WPP_LEVEL_FLAGS_ENABLED(LEVEL, FLAGS) ? \
             WPP_SF_(WPP_LEVEL_FLAGS_LOGGER(LEVEL, FLAGS) 13, \
@@ -2113,10 +2113,10 @@ WPP_INLINE void WPP_SF_d(WPP_LOGGER_ARG unsigned short id, LPCGUID TraceGuid, si
 #ifndef WPP_LEVEL_FLAGS_PRE
 #  define WPP_LEVEL_FLAGS_PRE(LEVEL,FLAGS)
 #endif
-#define WPP_CALL_Device_c409(LEVEL, FLAGS, MSG) \
+#define WPP_CALL_Device_c416(LEVEL, FLAGS, MSG) \
      WPP_LOG_ALWAYS(WPP_EX_LEVEL_FLAGS(LEVEL, FLAGS),MSG) \
      WPP_LEVEL_FLAGS_PRE(LEVEL, FLAGS) \
-     WPP_ANNOTATE(Device_c409) \
+     WPP_ANNOTATE(Device_c416) \
      ( ( \
          WPP_CHECK_INIT WPP_LEVEL_FLAGS_ENABLED(LEVEL, FLAGS) ? \
             WPP_SF_(WPP_LEVEL_FLAGS_LOGGER(LEVEL, FLAGS) 14, \
@@ -2129,10 +2129,10 @@ WPP_INLINE void WPP_SF_d(WPP_LOGGER_ARG unsigned short id, LPCGUID TraceGuid, si
 #ifndef WPP_LEVEL_FLAGS_PRE
 #  define WPP_LEVEL_FLAGS_PRE(LEVEL,FLAGS)
 #endif
-#define WPP_CALL_Device_c434(LEVEL, FLAGS, MSG) \
+#define WPP_CALL_Device_c441(LEVEL, FLAGS, MSG) \
      WPP_LOG_ALWAYS(WPP_EX_LEVEL_FLAGS(LEVEL, FLAGS),MSG) \
      WPP_LEVEL_FLAGS_PRE(LEVEL, FLAGS) \
-     WPP_ANNOTATE(Device_c434) \
+     WPP_ANNOTATE(Device_c441) \
      ( ( \
          WPP_CHECK_INIT WPP_LEVEL_FLAGS_ENABLED(LEVEL, FLAGS) ? \
             WPP_SF_(WPP_LEVEL_FLAGS_LOGGER(LEVEL, FLAGS) 15, \
@@ -2145,10 +2145,10 @@ WPP_INLINE void WPP_SF_d(WPP_LOGGER_ARG unsigned short id, LPCGUID TraceGuid, si
 #ifndef WPP_LEVEL_FLAGS_PRE
 #  define WPP_LEVEL_FLAGS_PRE(LEVEL,FLAGS)
 #endif
-#define WPP_CALL_Device_c461(LEVEL, FLAGS, MSG) \
+#define WPP_CALL_Device_c468(LEVEL, FLAGS, MSG) \
      WPP_LOG_ALWAYS(WPP_EX_LEVEL_FLAGS(LEVEL, FLAGS),MSG) \
      WPP_LEVEL_FLAGS_PRE(LEVEL, FLAGS) \
-     WPP_ANNOTATE(Device_c461) \
+     WPP_ANNOTATE(Device_c468) \
      ( ( \
          WPP_CHECK_INIT WPP_LEVEL_FLAGS_ENABLED(LEVEL, FLAGS) ? \
             WPP_SF_(WPP_LEVEL_FLAGS_LOGGER(LEVEL, FLAGS) 16, \
@@ -2161,10 +2161,10 @@ WPP_INLINE void WPP_SF_d(WPP_LOGGER_ARG unsigned short id, LPCGUID TraceGuid, si
 #ifndef WPP_LEVEL_FLAGS_PRE
 #  define WPP_LEVEL_FLAGS_PRE(LEVEL,FLAGS)
 #endif
-#define WPP_CALL_Device_c464(LEVEL, FLAGS, MSG) \
+#define WPP_CALL_Device_c471(LEVEL, FLAGS, MSG) \
      WPP_LOG_ALWAYS(WPP_EX_LEVEL_FLAGS(LEVEL, FLAGS),MSG) \
      WPP_LEVEL_FLAGS_PRE(LEVEL, FLAGS) \
-     WPP_ANNOTATE(Device_c464) \
+     WPP_ANNOTATE(Device_c471) \
      ( ( \
          WPP_CHECK_INIT WPP_LEVEL_FLAGS_ENABLED(LEVEL, FLAGS) ? \
             WPP_SF_(WPP_LEVEL_FLAGS_LOGGER(LEVEL, FLAGS) 17, \
@@ -2177,10 +2177,10 @@ WPP_INLINE void WPP_SF_d(WPP_LOGGER_ARG unsigned short id, LPCGUID TraceGuid, si
 #ifndef WPP_LEVEL_FLAGS_PRE
 #  define WPP_LEVEL_FLAGS_PRE(LEVEL,FLAGS)
 #endif
-#define WPP_CALL_Device_c490(LEVEL, FLAGS, MSG) \
+#define WPP_CALL_Device_c497(LEVEL, FLAGS, MSG) \
      WPP_LOG_ALWAYS(WPP_EX_LEVEL_FLAGS(LEVEL, FLAGS),MSG) \
      WPP_LEVEL_FLAGS_PRE(LEVEL, FLAGS) \
-     WPP_ANNOTATE(Device_c490) \
+     WPP_ANNOTATE(Device_c497) \
      ( ( \
          WPP_CHECK_INIT WPP_LEVEL_FLAGS_ENABLED(LEVEL, FLAGS) ? \
             WPP_SF_(WPP_LEVEL_FLAGS_LOGGER(LEVEL, FLAGS) 18, \
@@ -2193,10 +2193,10 @@ WPP_INLINE void WPP_SF_d(WPP_LOGGER_ARG unsigned short id, LPCGUID TraceGuid, si
 #ifndef WPP_LEVEL_FLAGS_PRE
 #  define WPP_LEVEL_FLAGS_PRE(LEVEL,FLAGS)
 #endif
-#define WPP_CALL_Device_c530(LEVEL, FLAGS, MSG) \
+#define WPP_CALL_Device_c537(LEVEL, FLAGS, MSG) \
      WPP_LOG_ALWAYS(WPP_EX_LEVEL_FLAGS(LEVEL, FLAGS),MSG) \
      WPP_LEVEL_FLAGS_PRE(LEVEL, FLAGS) \
-     WPP_ANNOTATE(Device_c530) \
+     WPP_ANNOTATE(Device_c537) \
      ( ( \
          WPP_CHECK_INIT WPP_LEVEL_FLAGS_ENABLED(LEVEL, FLAGS) ? \
             WPP_SF_(WPP_LEVEL_FLAGS_LOGGER(LEVEL, FLAGS) 19, \
@@ -2209,10 +2209,10 @@ WPP_INLINE void WPP_SF_d(WPP_LOGGER_ARG unsigned short id, LPCGUID TraceGuid, si
 #ifndef WPP_LEVEL_FLAGS_PRE
 #  define WPP_LEVEL_FLAGS_PRE(LEVEL,FLAGS)
 #endif
-#define WPP_CALL_Device_c562(LEVEL, FLAGS, MSG) \
+#define WPP_CALL_Device_c569(LEVEL, FLAGS, MSG) \
      WPP_LOG_ALWAYS(WPP_EX_LEVEL_FLAGS(LEVEL, FLAGS),MSG) \
      WPP_LEVEL_FLAGS_PRE(LEVEL, FLAGS) \
-     WPP_ANNOTATE(Device_c562) \
+     WPP_ANNOTATE(Device_c569) \
      ( ( \
          WPP_CHECK_INIT WPP_LEVEL_FLAGS_ENABLED(LEVEL, FLAGS) ? \
             WPP_SF_(WPP_LEVEL_FLAGS_LOGGER(LEVEL, FLAGS) 20, \
@@ -2225,10 +2225,10 @@ WPP_INLINE void WPP_SF_d(WPP_LOGGER_ARG unsigned short id, LPCGUID TraceGuid, si
 #ifndef WPP_LEVEL_FLAGS_PRE
 #  define WPP_LEVEL_FLAGS_PRE(LEVEL,FLAGS)
 #endif
-#define WPP_CALL_Device_c570(LEVEL, FLAGS, MSG,a10) \
+#define WPP_CALL_Device_c577(LEVEL, FLAGS, MSG,a10) \
      WPP_LOG_ALWAYS(WPP_EX_LEVEL_FLAGS(LEVEL, FLAGS),MSG,a10) \
      WPP_LEVEL_FLAGS_PRE(LEVEL, FLAGS) \
-     WPP_ANNOTATE(Device_c570) \
+     WPP_ANNOTATE(Device_c577) \
      ( ( \
          WPP_CHECK_INIT WPP_LEVEL_FLAGS_ENABLED(LEVEL, FLAGS) ? \
             WPP_SF_d(WPP_LEVEL_FLAGS_LOGGER(LEVEL, FLAGS) 21, \
@@ -2241,10 +2241,10 @@ WPP_INLINE void WPP_SF_d(WPP_LOGGER_ARG unsigned short id, LPCGUID TraceGuid, si
 #ifndef WPP_LEVEL_FLAGS_PRE
 #  define WPP_LEVEL_FLAGS_PRE(LEVEL,FLAGS)
 #endif
-#define WPP_CALL_Device_c582(LEVEL, FLAGS, MSG,a10) \
+#define WPP_CALL_Device_c589(LEVEL, FLAGS, MSG,a10) \
      WPP_LOG_ALWAYS(WPP_EX_LEVEL_FLAGS(LEVEL, FLAGS),MSG,a10) \
      WPP_LEVEL_FLAGS_PRE(LEVEL, FLAGS) \
-     WPP_ANNOTATE(Device_c582) \
+     WPP_ANNOTATE(Device_c589) \
      ( ( \
          WPP_CHECK_INIT WPP_LEVEL_FLAGS_ENABLED(LEVEL, FLAGS) ? \
             WPP_SF_d(WPP_LEVEL_FLAGS_LOGGER(LEVEL, FLAGS) 22, \
