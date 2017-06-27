@@ -244,55 +244,62 @@ Return Value:
 		DbgPrint("zhu:-->PCIeDMA_IOCTL_WRITE_REG<--");
 
 		ULONG *ptr = (PULONG)in_buffer;
-		ULONG address = ptr[0];
-		ULONG size = ptr[1] / sizeof(ULONG);
+		ULONG size = ptr[0] / sizeof(ULONG);
 		PULONG data = &ptr[2];
 		ULONG i;
 
-//		ULONG_PTR bufAddr;
-//		size_t bufSize = MAX_DMABUFFER_SIZE;
-//		ULONG pageBase;
 
-		/*if (devExt->MemBar1Base){
+		//向 bar1 的  0x8 发 2 表示CPU方式
+		PcieDeviceWriteReg(devExt->MemBar1Base, 0x8, 2);
+		//向 bar1 的  0xc 发 CPU方式的数据长度（真实的数据长度，地址不算在内）
+		PcieDeviceWriteReg(devExt->MemBar1Base, 0xc,size);
+
+		//从 bar1 的 0x100 开始发地址和数据，以一个地址一个数据的方式依次发送
+		if (devExt->MemBar1Base)
+		{
 			for (i = 0; i < size; i++)
 			{
-				PcieDeviceWriteReg(devExt->MemBar1Base, address + i*sizeof(ULONG), data[0]);
+				//地址
+				PcieDeviceWriteReg(devExt->MemBar1Base, 0x100 + i*sizeof(ULONG), data[i*2]);
+				//数据
+				PcieDeviceWriteReg(devExt->MemBar1Base, 0x104 + i*sizeof(ULONG), data[i*2 +1]);
 			}
 			status = STATUS_SUCCESS;
-		}*/
-
-		
-		if (data[0] == 66)
-		{
-			while (devExt->WriteDmaLength)
-			{
-				DbgPrint("zhu:WriteDmaLength: %u ", devExt->WriteDmaLength);
-				PcieDeviceStartDMA(devExt, devExt->Interrupt);
-			}
-		}
-		
-		else if (data[0] == 11)
-		{
-			DbgPrint("zhu:-->ready to send 0x1 to 0x180 at Bar0 Space!<--");
-			PcieDeviceEnableInterrupt(devExt->MemBar0Base);
-
-		}
-		else
-		{
-			if (devExt->MemBar1Base){
-				for (i = 0; i < size; i++)
-				{
-					PcieDeviceWriteReg(devExt->MemBar1Base, address + i*sizeof(ULONG), data[0]);
-				}
-				status = STATUS_SUCCESS;
-			}
 		}
 
+		//发送中断，通知DSP开始向FPGA搬数据
+		PcieDeviceWriteReg(devExt->MemBar0Base, 0x180, 0x1);
 		break;
 	}
 	case PCIeDMA_IOCTL_READ_REG:
 	{
 		DbgPrint("zhu:-->PCIeDMA_IOCTL_READ_REG<--");
+	}
+	case PCIE_IOCTL_DEBUG:
+	{
+
+		DbgPrint("zhu:-->PCIE_IOCTL_DEBUG<--");
+
+		ULONG *ptr = (PULONG)in_buffer;
+		ULONG barX = ptr[0];
+		ULONG addr = ptr[1];
+		ULONG data = ptr[2];
+
+		if (barX == 0)
+		{
+			PcieDeviceWriteReg(devExt->MemBar0Base, addr, data);
+			status = STATUS_SUCCESS;
+		}
+		else if (barX == 1)
+		{
+			PcieDeviceWriteReg(devExt->MemBar1Base, addr, data);
+			status = STATUS_SUCCESS;
+		}
+		else if (barX == 2)
+		{
+			PcieDeviceWriteReg(devExt->MemBar2Base,addr, data);
+			status = STATUS_SUCCESS;
+		}
 	}
 	default:
 		status = STATUS_INVALID_DEVICE_REQUEST;
