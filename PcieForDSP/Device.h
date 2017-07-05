@@ -47,12 +47,12 @@ typedef struct _DEVICE_CONTEXT
 	WDFTIMER                WriteTimer;
 	BOOLEAN                 WriteTimeout;
 
-	WDFQUEUE                ReadQueue;
-	WDFREQUEST				ReadRequest;
-	ULONG					ReadDmaLength;
-	PVOID					ReadBuffer;
-	WDFTIMER                ReadTimer;
-	BOOLEAN                 ReadTimeout;
+	//WDFQUEUE                ReadQueue;
+	//WDFREQUEST				ReadRequest;
+	//ULONG					ReadDmaLength;
+	//PVOID					ReadBuffer;
+	//WDFTIMER                ReadTimer;
+	//BOOLEAN                 ReadTimeout;
 
 	//WDFMEMORY               MemoryBuffer;
 	//PVOID                   BufferPointer;

@@ -105,35 +105,35 @@ _In_ WDFTIMER Timer
 #endif
 }
 
-VOID
-DmaReadTimerEventFunc(
-_In_ WDFTIMER Timer
-)
-{
-	PDEVICE_CONTEXT devExt;
-
-#ifdef DEBUG_HU
-	TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER, "--> %!FUNC!");
-
-	TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER, "DmaRead timeout\n");
-#endif
-
-	devExt = DeviceGetContext(WdfTimerGetParentObject(Timer));
-
-	// Disable DMA interrupt
-	WdfInterruptAcquireLock(devExt->Interrupt);
-
-	devExt->ReadTimeout = TRUE;
-	if (devExt->MemBar0Base){
-	//	PcieDeviceResetDMA(devExt->MemBarBase);
-//		PcieDeviceDisableInterrupt(devExt->MemBar0Base);
-	}
-
-	WdfInterruptReleaseLock(devExt->Interrupt);
-
-	WdfRequestCompleteWithInformation(devExt->ReadRequest, STATUS_INVALID_DEVICE_STATE, 0);
-
-#ifdef DEBUG_HU
-	TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER, "<-- %!FUNC!");
-#endif
-}
+//VOID
+//DmaReadTimerEventFunc(
+//_In_ WDFTIMER Timer
+//)
+//{
+//	PDEVICE_CONTEXT devExt;
+//
+//#ifdef DEBUG_HU
+//	TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER, "--> %!FUNC!");
+//
+//	TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER, "DmaRead timeout\n");
+//#endif
+//
+//	devExt = DeviceGetContext(WdfTimerGetParentObject(Timer));
+//
+//	// Disable DMA interrupt
+//	WdfInterruptAcquireLock(devExt->Interrupt);
+//
+//	devExt->ReadTimeout = TRUE;
+//	if (devExt->MemBar0Base){
+//	//	PcieDeviceResetDMA(devExt->MemBarBase);
+////		PcieDeviceDisableInterrupt(devExt->MemBar0Base);
+//	}
+//
+//	WdfInterruptReleaseLock(devExt->Interrupt);
+//
+//	WdfRequestCompleteWithInformation(devExt->ReadRequest, STATUS_INVALID_DEVICE_STATE, 0);
+//
+//#ifdef DEBUG_HU
+//	TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER, "<-- %!FUNC!");
+//#endif
+//}

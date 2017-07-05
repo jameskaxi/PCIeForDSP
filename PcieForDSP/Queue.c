@@ -103,22 +103,22 @@ Return Value:
 	//
 	// Create a new IO Queue for IRP_MJ_READ requests in sequential mode.
 	//
-	WDF_IO_QUEUE_CONFIG_INIT(&queueConfig, WdfIoQueueDispatchSequential);
-
-	queueConfig.EvtIoRead = PcieEvtIoRead;
-
-	status = WdfIoQueueCreate(DevExt->Device,
-		&queueConfig,
-		WDF_NO_OBJECT_ATTRIBUTES,
-		&DevExt->ReadQueue);
-
-	if (!NT_SUCCESS(status)) {
-//#ifdef DEBUG_HU
-//		TraceEvents(TRACE_LEVEL_ERROR, TRACE_DRIVER,
-//			"WdfIoQueueCreate failed: %!STATUS!", status);
-//#endif
-		return status;
-	}
+//	WDF_IO_QUEUE_CONFIG_INIT(&queueConfig, WdfIoQueueDispatchSequential);
+//
+//	queueConfig.EvtIoRead = PcieEvtIoRead;
+//
+//	status = WdfIoQueueCreate(DevExt->Device,
+//		&queueConfig,
+//		WDF_NO_OBJECT_ATTRIBUTES,
+//		&DevExt->ReadQueue);
+//
+//	if (!NT_SUCCESS(status)) {
+////#ifdef DEBUG_HU
+////		TraceEvents(TRACE_LEVEL_ERROR, TRACE_DRIVER,
+////			"WdfIoQueueCreate failed: %!STATUS!", status);
+////#endif
+//		return status;
+//	}
 	// Create a new IO Dispatch Queue for IRP_MJ_DEVICE_CONTROL  requests in sequential mode.
 	//
 	WDF_IO_QUEUE_CONFIG_INIT(&queueConfig, WdfIoQueueDispatchSequential);//zhu
@@ -487,6 +487,8 @@ Return Value:
 	}
 	*/
 	PcieDeviceStartDMA(devExt, devExt->Interrupt);
+
+	PcieDMATimerStart(devExt->WriteTimer);
 	//WdfRequestComplete(Request, status);
 //	devExt->WriteTimeout = FALSE;
 //	PcieDMATimerStart(devExt->WriteTimer);
