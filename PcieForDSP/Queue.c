@@ -245,7 +245,7 @@ Return Value:
 
 		ULONG *ptr = (PULONG)in_buffer;
 		ULONG size = ptr[0] / sizeof(ULONG);
-		PULONG data = &ptr[2];
+		PULONG data = &ptr[1];
 		ULONG i;
 
 
