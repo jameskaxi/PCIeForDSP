@@ -162,7 +162,10 @@ Return Value:
 #endif
 
 	devExt = DeviceGetContext(WdfInterruptGetDevice(Interrupt));
-	WdfRequestComplete(devExt->WriteRequest, status);
+	
+	//WdfRequestComplete(devExt->WriteRequest, status);
+	WdfRequestCompleteWithInformation(devExt->WriteRequest, status, devExt->WriteDmaLength);
+	PcieDMATimerStop(devExt->WriteTimer);
 	DbgPrint("zhu:writeRequestComplete!");
 	//
 	// Check interrupt from user FPGA

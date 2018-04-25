@@ -210,7 +210,7 @@ NTSTATUS
 	// NOTE: See the note in Public.h concerning this GUID value.
 	//
 	status = WdfDeviceCreateDeviceInterface(device,
-		(LPGUID)&GUID_XILINX_PCI_INTERFACE,
+		(LPGUID)&GUID_DEVINTERFACE_PcieForDSP,
 		NULL);
 
 	if (!NT_SUCCESS(status))

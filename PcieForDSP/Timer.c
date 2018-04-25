@@ -43,12 +43,14 @@ _In_ WDFTIMER Timer
 #ifdef DEBUG_HU
 	TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER, "--> %!FUNC!");
 #endif
+	DbgPrint("zhu:-->PcieDMATimerStart<--  before WdfTimerStart");
 
 	status = WdfTimerStart(Timer, WDF_REL_TIMEOUT_IN_MS(5000));
 
 #ifdef DEBUG_HU
 	TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER, "<-- %!FUNC!");
 #endif
+	DbgPrint("zhu:-->PcieDMATimerStart<--  %d", status);
 	return status;
 }
 
@@ -62,9 +64,9 @@ _In_ WDFTIMER Timer
 #ifdef DEBUG_HU
 	TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER, "--> %!FUNC!");
 #endif
-
+	DbgPrint("zhu:-->PcieDMATimerStop<--");
 	status = WdfTimerStop(Timer, FALSE);
-
+	DbgPrint("zhu:-->PcieDMATimerStop<--  %d", status);
 #ifdef DEBUG_HU
 	TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER, "<-- %!FUNC!");
 #endif
@@ -78,12 +80,16 @@ _In_ WDFTIMER Timer
 )
 {
 	PDEVICE_CONTEXT devExt;
+	BOOLEAN             isRecognized = FALSE;
+	ULONG               intStatus;
+
 
 #ifdef DEBUG_HU
 	TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER, "--> %!FUNC!");
 
 	TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER, "DmaWrite timeout\n");
 #endif
+	DbgPrint("zhu:-->DmaWriteTimerEventFunc<--");
 
 	devExt = DeviceGetContext(WdfTimerGetParentObject(Timer));
 
@@ -95,11 +101,23 @@ _In_ WDFTIMER Timer
 //	//	PcieDeviceResetDMA(devExt->MemBarBase);
 ////		PcieDeviceDisableInterrupt(devExt->MemBar0Base);
 //	}
+	if (devExt->MemBar0Base){
+		intStatus = PcieDeviceGetInterrupt(devExt->MemBar0Base);
+
+		if (intStatus){
+			PcieDeviceDisableInterrupt(devExt->MemBar0Base);
+			PcieDeviceClearInterrupt(devExt->MemBar0Base);
+			devExt->IntStatus = intStatus;
+			isRecognized = TRUE;
+		}
+	}
 
 	WdfInterruptReleaseLock(devExt->Interrupt);
 
-	WdfRequestCompleteWithInformation(devExt->WriteRequest, STATUS_INVALID_DEVICE_STATE, 0);
 
+	WdfRequestCompleteWithInformation(devExt->WriteRequest, STATUS_INVALID_DEVICE_STATE, devExt->WriteDmaLength);
+
+	DbgPrint("zhu:-->DmaWriteTimerEventFunc<--  return requestComplete");
 #ifdef DEBUG_HU
 	TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER, "<-- %!FUNC!");
 #endif
