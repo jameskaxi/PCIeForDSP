@@ -239,11 +239,11 @@ bool __stdcall SetDevRegister(DWORD32 devRegAddr,PDWORD32 pRegAddr,DWORD32 regSi
 		return false;
 	}
 
-	inputBufNum = regSize / sizeof(DWORD32);
-	pInputBuf = new DWORD32[inputBufNum*2 +1 ];
+	inputBufNum = regSize / sizeof(DWORD32)*2 +1;
+	pInputBuf = new DWORD32[inputBufNum];
 
-	pInputBuf[0] = inputBufNum;//--》2017/06/27问题：准备让regSize直接为目标值，不再涉及数据类型的问题！《--
-	for(DWORD i=0;i< inputBufNum;i++)
+	pInputBuf[0] = regSize;//--》2017/06/27问题：准备让regSize直接为目标值，不再涉及数据类型的问题！《--
+	for(DWORD i=0;i< (inputBufNum-1)/2;i++)
 	{
 		pInputBuf[i*2+1] = devRegAddr + i*4;
 		pInputBuf[i*2+2] = pRegAddr[i];
@@ -276,7 +276,7 @@ bool __stdcall SetDevRegister(DWORD32 devRegAddr,DWORD32 regData)
 	}
 
 	
-	pInputBuf[0] = 1;//sizeof(DWORD32);
+	pInputBuf[0] = sizeof(DWORD32);
 	pInputBuf[1] = devRegAddr;
 	pInputBuf[2] = regData;
 	if (!DeviceIoControl(hPcieDev,PCIeDMA_IOCTL_WRITE_REG,
