@@ -1,0 +1,31 @@
+﻿生成启动时间为 2018/4/25 19:28:14。
+     1>项目“K:\Code\DSPDriver\pcieDriverHelper_v1.0.4_170527\pcieDriverHelper\pcieDriverHelper.vcxproj”在节点 2 上(build 个目标)。
+     1>InitializeBuildStatus:
+         正在对“Release\pcieDriverHelper.unsuccessfulbuild”执行 Touch 任务。
+       GenerateTargetFrameworkMonikerAttribute:
+       正在跳过目标“GenerateTargetFrameworkMonikerAttribute”，因为所有输出文件相对于输入文件而言都是最新的。
+       ClCompile:
+         所有输出均为最新。
+         d:\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /AI"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0" /Zi /clr /nologo /W3 /WX- /O2 /Oy- /D WIN32 /D NDEBUG /D CS_HU /D _EXPORTING /D _WINDLL /D _UNICODE /D UNICODE /EHa /MD /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yu"StdAfx.h" /Fp"Release\pcieDriverHelper.pch" /Fo"Release\\" /Fd"Release\vc100.pdb" /TP /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Core.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Data.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Xml.dll" /analyze- /errorReport:prompt pcieDriverHelper.cpp /clr:nostdlib 
+         pcieDriverHelper.cpp
+         所有输出均为最新。
+       ResourceCompile:
+         所有输出均为最新。
+       Link:
+         d:\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"K:\Code\DSPDriver\pcieDriverHelper_v1.0.4_170527\Release\pcieDriverHelper.dll" /INCREMENTAL:NO /NOLOGO setupapi.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Release\pcieDriverHelper.dll.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"K:\Code\DSPDriver\pcieDriverHelper_v1.0.4_170527\Release\pcieDriverHelper.pdb" /TLBID:1 /DYNAMICBASE /FIXED:NO /NXCOMPAT /MACHINE:X86 /DLL Release\app.res
+         Release\AssemblyInfo.obj
+         Release\pcieDriver.obj
+         Release\pcieDriverHelper.obj
+         Release\Stdafx.obj
+         "Release\.NETFramework,Version=v4.0.AssemblyAttributes.obj"
+         pcieDriverHelper.vcxproj -> K:\Code\DSPDriver\pcieDriverHelper_v1.0.4_170527\Release\pcieDriverHelper.dll
+       Manifest:
+         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /outputresource:"K:\Code\DSPDriver\pcieDriverHelper_v1.0.4_170527\Release\pcieDriverHelper.dll;#2" /manifest Release\pcieDriverHelper.dll.intermediate.manifest
+       FinalizeBuildStatus:
+         正在删除文件“Release\pcieDriverHelper.unsuccessfulbuild”。
+         正在对“Release\pcieDriverHelper.lastbuildstate”执行 Touch 任务。
+     1>已完成生成项目“K:\Code\DSPDriver\pcieDriverHelper_v1.0.4_170527\pcieDriverHelper\pcieDriverHelper.vcxproj”(build 个目标)的操作。
+
+生成成功。
+
+已用时间 00:00:02.55

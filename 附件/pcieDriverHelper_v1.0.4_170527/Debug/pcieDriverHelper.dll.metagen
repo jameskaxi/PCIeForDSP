@@ -1,0 +1,27 @@
+ImageRuntimeVersion: v4.0.30319
+Assembly pcieDriverHelper, Version=1.0.*, Culture=Invariant Language (Invariant Country): 
+	hash=SHA1, flags=PublicKey
+Assembly mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089: 
+	hash=None, flags=None
+Assembly System.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089: 
+	hash=None, flags=None
+Assembly System.Data, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089: 
+	hash=None, flags=None
+Assembly System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089: 
+	hash=None, flags=None
+Assembly System.Xml, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089: 
+	hash=None, flags=None
+Assembly Microsoft.VisualC, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a: 
+	hash=None, flags=None
+Class pcieDriverHelper.PcieDriver: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+    Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+  Fields:
+    UInt32 MAX_BUF_SIZE = 16777216 : Public, Static, Literal, HasDefault
+  Methods:
+    GetLastDeviceError(): PrivateScope, Public, Static, HideBySig
+    OpenPcieDevice(): PrivateScope, Public, Static, HideBySig
+    ClosePcieDevice(): PrivateScope, Public, Static, HideBySig
+    DmaToDevice(Byte[]): PrivateScope, Public, Static, HideBySig
+    DmaFromDevice(Byte[]): PrivateScope, Public, Static, HideBySig
+    SetDeviceRegister(UInt32, UInt32): PrivateScope, Public, Static, HideBySig
+    SetDeviceRegister(UInt32, UInt32[]): PrivateScope, Public, Static, HideBySig

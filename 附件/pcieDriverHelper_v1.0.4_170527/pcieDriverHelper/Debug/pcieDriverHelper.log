@@ -1,0 +1,24 @@
+﻿生成启动时间为 2017-04-25 21:09:10。
+     1>项目“D:\研究生的日常\4__青岛四部项目\kk\pcieDriverHelper_v1.0.3_161224\pcieDriverHelper\pcieDriverHelper.vcxproj”在节点 2 上(rebuild 个目标)。
+     1>_PrepareForClean:
+         正在删除文件“Debug\pcieDriverHelper.lastbuildstate”。
+       InitializeBuildStatus:
+         正在对“Debug\pcieDriverHelper.unsuccessfulbuild”执行 Touch 任务。
+       GenerateTargetFrameworkMonikerAttribute:
+       正在跳过目标“GenerateTargetFrameworkMonikerAttribute”，因为所有输出文件相对于输入文件而言都是最新的。
+       ClCompile:
+         E:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /AI"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0" /Zi /clr /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D CS_HU /D _EXPORTING /D _WINDLL /D _UNICODE /D UNICODE /EHa /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yc"StdAfx.h" /Fp"Debug\pcieDriverHelper.pch" /Fo"Debug\\" /Fd"Debug\vc100.pdb" /TP /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Core.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Data.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Xml.dll" /analyze- /errorReport:prompt Stdafx.cpp /clr:nostdlib 
+         Stdafx.cpp
+         E:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /AI"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0" /Zi /clr /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D CS_HU /D _EXPORTING /D _WINDLL /D _UNICODE /D UNICODE /EHa /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yu"StdAfx.h" /Fp"Debug\pcieDriverHelper.pch" /Fo"Debug\\" /Fd"Debug\vc100.pdb" /TP /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Core.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Data.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Xml.dll" /analyze- /errorReport:prompt AssemblyInfo.cpp pcieDriver.cpp pcieDriverHelper.cpp /clr:nostdlib 
+         AssemblyInfo.cpp
+         pcieDriver.cpp
+     1>pcieDriver.cpp(235): warning C4800: “BOOL”: 将值强制为布尔值“true”或“false”(性能警告)
+         pcieDriverHelper.cpp
+     1>pcieDriverHelper.cpp(62): error C2039: “SetBasebandType”: 不是“pcieDriverHelper::PcieDriver”的成员
+                 d:\研究生的日常\4__青岛四部项目\kk\pciedriverhelper_v1.0.3_161224\pciedriverhelper\pcieDriverHelper.h(14) : 参见“pcieDriverHelper::PcieDriver”的声明
+         正在生成代码...
+     1>已完成生成项目“D:\研究生的日常\4__青岛四部项目\kk\pcieDriverHelper_v1.0.3_161224\pcieDriverHelper\pcieDriverHelper.vcxproj”(rebuild 个目标)的操作 - 失败。
+
+生成失败。
+
+已用时间 00:00:04.37
