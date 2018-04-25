@@ -107,7 +107,7 @@ _In_ PUCHAR BarXBase
 
 	if (0 == (PcieIntMask & 0x00000001))
 	{
-		PcieIntStatus =  FALSE;
+		PcieIntStatus =  0;
 	}
 	else
 	{

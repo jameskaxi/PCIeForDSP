@@ -46,6 +46,7 @@ typedef struct _DEVICE_CONTEXT
 	ULONG					WriteDmaLength;
 	WDFTIMER                WriteTimer;
 	BOOLEAN                 WriteTimeout;
+	
 
 	//WDFQUEUE                ReadQueue;
 	//WDFREQUEST				ReadRequest;

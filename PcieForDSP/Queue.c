@@ -260,9 +260,9 @@ Return Value:
 			for (i = 0; i < size; i++)
 			{
 				//地址
-				PcieDeviceWriteReg(devExt->MemBar1Base, 0x100 + i*sizeof(ULONG), data[i*2]);
+				PcieDeviceWriteReg(devExt->MemBar1Base, 0x100 + i*2*sizeof(ULONG), data[i*2]);
 				//数据
-				PcieDeviceWriteReg(devExt->MemBar1Base, 0x104 + i*sizeof(ULONG), data[i*2 +1]);
+				PcieDeviceWriteReg(devExt->MemBar1Base, 0x104 + i*2*sizeof(ULONG), data[i*2 +1]);
 			}
 			status = STATUS_SUCCESS;
 		}
@@ -274,6 +274,7 @@ Return Value:
 	case PCIeDMA_IOCTL_READ_REG:
 	{
 		DbgPrint("zhu:-->PCIeDMA_IOCTL_READ_REG<--");
+		break;
 	}
 	case PCIE_IOCTL_DEBUG:
 	{
@@ -300,6 +301,7 @@ Return Value:
 			PcieDeviceWriteReg(devExt->MemBar2Base,addr, data);
 			status = STATUS_SUCCESS;
 		}
+		break;
 	}
 	default:
 		status = STATUS_INVALID_DEVICE_REQUEST;
@@ -472,20 +474,9 @@ Return Value:
 	KeMemoryBarrier();
 
 	devExt->WriteRequest = Request;
-	/*devExt->DmaMode.bits.RdWr = TRUE;
 
-	
-	PcieDeviceReadReg(devExt->CommonBufferBase,0x0);
-	PcieDeviceReadReg(devExt->CommonBufferBase, 0x4);
-	PcieDeviceReadReg(devExt->CommonBufferBase, 0x8);
-	PcieDeviceReadReg(devExt->CommonBufferBase, 0xc);
+	devExt->WriteTimeout = FALSE;
 
-	while (devExt->WriteDmaLength)
-	{
-		DbgPrint("zhu:WriteDmaLength: %u ", devExt->WriteDmaLength);
-		PcieDeviceStartDMA(devExt, devExt->Interrupt);
-	}
-	*/
 	PcieDeviceStartDMA(devExt, devExt->Interrupt);
 
 	PcieDMATimerStart(devExt->WriteTimer);
@@ -552,7 +543,7 @@ _In_ WDFINTERRUPT interrupt
 	srcAddr = PCIE_DATA + (devExt->CommonBufferBaseLA.LowPart & ~PCIE_8MB_BITMASK);
 	PcieDeviceWriteReg(devExt->MemBar1Base, 0x0, srcAddr);                //发送DMA数据地址
 	PcieDeviceWriteReg(devExt->MemBar1Base, 0x4, devExt->WriteDmaLength); //发送DMA数据长度
-	PcieDeviceWriteReg(devExt->MemBar1Base, 0x8, 0x1);                    //0x1 -- DMA模式 ，0x2 -- 寄存器模式
+	//PcieDeviceWriteReg(devExt->MemBar1Base, 0x8, 0x1);                    //0x1 -- DMA模式 ，0x2 -- 寄存器模式 ,0x3 -- 动态加载模式
 	//WdfInterruptAcquireLock(interrupt);
 
 	// Check if DMA busy or not?

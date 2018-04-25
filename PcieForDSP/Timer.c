@@ -80,8 +80,6 @@ _In_ WDFTIMER Timer
 )
 {
 	PDEVICE_CONTEXT devExt;
-	BOOLEAN             isRecognized = FALSE;
-	ULONG               intStatus;
 
 
 #ifdef DEBUG_HU
@@ -101,15 +99,10 @@ _In_ WDFTIMER Timer
 //	//	PcieDeviceResetDMA(devExt->MemBarBase);
 ////		PcieDeviceDisableInterrupt(devExt->MemBar0Base);
 //	}
+	devExt->WriteTimeout = TRUE;
 	if (devExt->MemBar0Base){
-		intStatus = PcieDeviceGetInterrupt(devExt->MemBar0Base);
-
-		if (intStatus){
-			PcieDeviceDisableInterrupt(devExt->MemBar0Base);
-			PcieDeviceClearInterrupt(devExt->MemBar0Base);
-			devExt->IntStatus = intStatus;
-			isRecognized = TRUE;
-		}
+		PcieDeviceDisableInterrupt(devExt->MemBar0Base);
+		PcieDeviceClearInterrupt(devExt->MemBar0Base);
 	}
 
 	WdfInterruptReleaseLock(devExt->Interrupt);
