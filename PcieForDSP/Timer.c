@@ -45,7 +45,7 @@ _In_ WDFTIMER Timer
 #endif
 	DbgPrint("zhu:-->PcieDMATimerStart<--  before WdfTimerStart");
 
-	status = WdfTimerStart(Timer, WDF_REL_TIMEOUT_IN_MS(5000));
+	status = WdfTimerStart(Timer, WDF_REL_TIMEOUT_IN_MS(20000));
 
 #ifdef DEBUG_HU
 	TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER, "<-- %!FUNC!");
