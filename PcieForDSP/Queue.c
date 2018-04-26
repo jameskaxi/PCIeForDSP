@@ -78,7 +78,7 @@ Return Value:
 		&DevExt->WriteQueue);
 
 	if (!NT_SUCCESS(status)) {
-//#ifdef DEBUG_HU
+//#ifdef DEBUG_ZHU
 //		TraceEvents(TRACE_LEVEL_ERROR, TRACE_DRIVER,
 //			"WdfIoQueueCreate failed: %!STATUS!", status);
 //#endif
@@ -93,7 +93,7 @@ Return Value:
 		WdfRequestTypeWrite);
 
 	if (!NT_SUCCESS(status)) {
-//#ifdef DEBUG_HU
+//#ifdef DEBUG_ZHU
 //		TraceEvents(TRACE_LEVEL_ERROR, TRACE_DRIVER,
 //			"WdfDeviceConfigureRequestDispatching failed: %!STATUS!", status);
 //#endif
@@ -113,7 +113,7 @@ Return Value:
 //		&DevExt->ReadQueue);
 //
 //	if (!NT_SUCCESS(status)) {
-////#ifdef DEBUG_HU
+////#ifdef DEBUG_ZHU
 ////		TraceEvents(TRACE_LEVEL_ERROR, TRACE_DRIVER,
 ////			"WdfIoQueueCreate failed: %!STATUS!", status);
 ////#endif
@@ -145,7 +145,7 @@ Return Value:
 		WdfRequestTypeDeviceControl);
 
 	if (!NT_SUCCESS(status)) {
-//#ifdef DEBUG_HU
+//#ifdef DEBUG_ZHU
 //		TraceEvents(TRACE_LEVEL_ERROR, TRACE_DRIVER,
 //			"WdfDeviceConfigureRequestDispatching failed: %!STATUS!", status);
 //#endif
@@ -207,7 +207,7 @@ Return Value:
 	UNREFERENCED_PARAMETER(OutputBufferLength);
 	UNREFERENCED_PARAMETER(InputBufferLength);
 
-	DbgPrint("zhu:Get in PcieEvtIoDeviceControl()");
+	DbgPrint("zhu:-->PcieEvtIoDeviceControl()<--");
 
 	devExt = DeviceGetContext(WdfIoQueueGetDevice(Queue));
 
@@ -220,14 +220,14 @@ Return Value:
 	status = WdfRequestRetrieveInputBuffer(Request, 1, &in_buffer, &in_bufsize);
 	if (!NT_SUCCESS(status)){
 		WdfRequestCompleteWithInformation(Request, status, ret_length);
-		#ifdef DEBUG_HU
+		#ifdef DEBUG_ZHU
 				TraceEvents(TRACE_LEVEL_ERROR, TRACE_DRIVER,
 					"WdfRequestRetrieveInputBuffer failed: %!STATUS!", status);
 		#endif
 		return;
 	}
 
-	#ifdef DEBUG_HU
+	#ifdef DEBUG_ZHU
 		TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER,
 			"PcieEvtIoDeviceControl: in_buffer 0x%x in_bufsize 0x%x",
 			(unsigned int)in_buffer, in_bufsize);
@@ -249,10 +249,10 @@ Return Value:
 		ULONG i;
 
 
-		//向 bar1 的  0x8 发 2 表示CPU方式
-		PcieDeviceWriteReg(devExt->MemBar1Base, 0x8, 2);
-		//向 bar1 的  0xc 发 CPU方式的数据长度（真实的数据长度，地址不算在内）
-		PcieDeviceWriteReg(devExt->MemBar1Base, 0xc,size);
+		//向 bar2 的  0x8 发 2 表示CPU方式
+		PcieDeviceWriteReg(devExt->MemBar2Base, 0x8, 2);
+		//向 bar2 的  0xc 发 CPU方式的数据长度（真实的数据长度，地址不算在内）
+		PcieDeviceWriteReg(devExt->MemBar2Base, 0xc,size);
 
 		//从 bar1 的 0x100 开始发地址和数据，以一个地址一个数据的方式依次发送
 		if (devExt->MemBar1Base)
@@ -342,7 +342,7 @@ Return Value:
 
 --*/
 {
-#ifdef DEBUG_HU
+#ifdef DEBUG_ZHU
 	TraceEvents(TRACE_LEVEL_INFORMATION, 
 		TRACE_QUEUE,
 		"!FUNC! Queue 0x%p, Request 0x%p ActionFlags %d",
@@ -436,7 +436,7 @@ Return Value:
 	size_t 	in_bufsize;
 
 
-//#ifdef DEBUG_HU
+//#ifdef DEBUG_ZHU
 //	TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER, "--> %!FUNC!: Request %p", Request);
 //#endif
 	DbgPrint("zhu:-->PcieEvtIoWrite<-- ");
@@ -451,7 +451,7 @@ Return Value:
 	//
 	if (Length > MAX_DMA_SIZE_COMMONBUFFER)  {
 		status = STATUS_INVALID_BUFFER_SIZE;
-//#ifdef DEBUG_HU
+//#ifdef DEBUG_ZHU
 //		TraceEvents(TRACE_LEVEL_ERROR, TRACE_DRIVER,
 //			"%!FUNC! failed: %!STATUS!", status);
 //#endif
@@ -461,7 +461,7 @@ Return Value:
 
 	status = WdfRequestRetrieveInputBuffer(Request, 1, &in_buffer, &in_bufsize);
 	if (!NT_SUCCESS(status)){
-//#ifdef DEBUG_HU
+//#ifdef DEBUG_ZHU
 //		TraceEvents(TRACE_LEVEL_ERROR, TRACE_DRIVER,
 //			"WdfRequestRetrieveInputBuffer failed: %!STATUS!", status);
 //#endif
@@ -541,9 +541,9 @@ _In_ WDFINTERRUPT interrupt
 	DbgPrint("zhu:-->Start EDMA<--");
 	UNREFERENCED_PARAMETER(interrupt);
 	srcAddr = PCIE_DATA + (devExt->CommonBufferBaseLA.LowPart & ~PCIE_8MB_BITMASK);
-	PcieDeviceWriteReg(devExt->MemBar1Base, 0x0, srcAddr);                //发送DMA数据地址
-	PcieDeviceWriteReg(devExt->MemBar1Base, 0x4, devExt->WriteDmaLength); //发送DMA数据长度
-	//PcieDeviceWriteReg(devExt->MemBar1Base, 0x8, 0x1);                    //0x1 -- DMA模式 ，0x2 -- 寄存器模式 ,0x3 -- 动态加载模式
+	PcieDeviceWriteReg(devExt->MemBar2Base, 0x0, srcAddr);                //发送DMA数据地址
+	PcieDeviceWriteReg(devExt->MemBar2Base, 0x4, devExt->WriteDmaLength); //发送DMA数据长度
+	//PcieDeviceWriteReg(devExt->MemBar2Base, 0x8, 0x1);                    //0x1 -- DMA模式 ，0x2 -- 寄存器模式 ,0x3 -- 动态加载模式
 	//WdfInterruptAcquireLock(interrupt);
 
 	// Check if DMA busy or not?
@@ -602,14 +602,14 @@ _In_ ULONG Address
 {
 	ULONG ret = 0;
 
-	//#ifdef DEBUG_HU
+	//#ifdef DEBUG_ZHU
 	//	TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER, "--> %!FUNC!");
 	//#endif
 
 	ret = READ_REGISTER_ULONG((PULONG)((ULONG_PTR)BarXBase + Address));
 
 	DbgPrint("BaseAddr:0x%x  offset:0x%x   data:0x%x",(ULONG_PTR)BarXBase,Address,ret);
-	//#ifdef DEBUG_HU
+	//#ifdef DEBUG_ZHU
 	//	TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER,
 	//		"address 0x%x data 0x%x", (ULONG_PTR)BarXBase + Address, ret);
 	//

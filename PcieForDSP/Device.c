@@ -215,7 +215,7 @@ NTSTATUS
 
 	if (!NT_SUCCESS(status))
 	{
-//#ifdef DEBUG_HU
+//#ifdef DEBUG_ZHU
 //		TraceEvents(TRACE_LEVEL_ERROR, TRACE_DRIVER,
 //			"WdfDeviceCreateDeviceInterface failed %!STATUS!", status);
 //#endif
@@ -302,7 +302,7 @@ WDFCMRESLIST  ResourcesTranslated
 
 	PAGED_CODE();
 
-//#ifdef DEBUG_HU
+//#ifdef DEBUG_ZHU
 //	TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER, "--> %!FUNC!");
 //#endif
 
@@ -319,7 +319,7 @@ WDFCMRESLIST  ResourcesTranslated
 		if (!desc)
 		{
 			status = STATUS_DEVICE_CONFIGURATION_ERROR;
-#ifdef DEBUG_HU
+#ifdef DEBUG_ZHU
 			TraceEvents(TRACE_LEVEL_ERROR, TRACE_DRIVER,
 				"WdfCmResourceListGetDescriptor failed %!STATUS!", status);
 #endif
@@ -346,12 +346,15 @@ WDFCMRESLIST  ResourcesTranslated
 					MmNonCached);
 				devExt->MemBar1Length = desc->u.Memory.Length;
 			}
-
-			devExt->MemBar2Base = (PUCHAR)MmMapIoSpace(
-				desc->u.Memory.Start,
-				desc->u.Memory.Length,
-				MmNonCached);
-			devExt->MemBar2Length = desc->u.Memory.Length;
+			else
+			{
+				devExt->MemBar2Base = (PUCHAR)MmMapIoSpace(
+					desc->u.Memory.Start,
+					desc->u.Memory.Length,
+					MmNonCached);
+				devExt->MemBar2Length = desc->u.Memory.Length;
+			}
+			
 
 			DbgPrint("zhu:AType[%I64X--%I64X]  BAR%d", desc->u.Memory.Start.QuadPart, desc->u.Memory.Start.QuadPart + desc->u.Memory.Length - 1, i);
 			break;
@@ -365,7 +368,7 @@ WDFCMRESLIST  ResourcesTranslated
 	if ((!devExt->MemBar2Base) && (!devExt->MemBar0Base) && (!devExt->MemBar1Base) )
 	{
 		status = STATUS_INSUFFICIENT_RESOURCES;
-#ifdef DEBUG_HU
+#ifdef DEBUG_ZHU
 		TraceEvents(TRACE_LEVEL_ERROR, TRACE_DRIVER,
 			"PcieMapResources: Missing resources BAR0");
 #endif
@@ -380,7 +383,7 @@ WDFCMRESLIST  ResourcesTranslated
 	}
 
 
-#ifdef DEBUG_HU
+#ifdef DEBUG_ZHU
 	TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER, "<-- %!FUNC!");
 #endif
 	return status;
@@ -412,7 +415,7 @@ WDFCMRESLIST  ResourcesTranslated
 
 	PAGED_CODE();
 
-#ifdef DEBUG_HU
+#ifdef DEBUG_ZHU
 	TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER, "--> %!FUNC!");
 #endif
 
@@ -437,7 +440,7 @@ WDFCMRESLIST  ResourcesTranslated
 		devExt->MemBar2Length = 0;
 	}
 
-#ifdef DEBUG_HU
+#ifdef DEBUG_ZHU
 	TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER, "<-- %!FUNC!");
 #endif
 	return status;
@@ -445,11 +448,11 @@ WDFCMRESLIST  ResourcesTranslated
 
 /*
 *  程序描述：
-*  取消PcieForDspPreparaHardware中的映射。在设备因resource rebalance,surprise-removed or query-removed被停止时调用
+*  
 *
 *  参数：
 *  Device - 指向WDFDEVICE的句柄
-*  ResourcesTranslated - 与设备相关联的translated PnP resources，对于PCI设备很重要
+*  PreviousState -  
 *
 *  返回值：
 *  NT status code - failure will result in the device stack being torn down
@@ -474,11 +477,11 @@ _In_  WDF_POWER_DEVICE_STATE PreviousState
 
 /*
 *  程序描述：
-*  取消PcieForDspPreparaHardware中的映射。在设备因resource rebalance,surprise-removed or query-removed被停止时调用
+*  
 *
 *  参数：
 *  Device - 指向WDFDEVICE的句柄
-*  ResourcesTranslated - 与设备相关联的translated PnP resources，对于PCI设备很重要
+*  TargetState - 
 *
 *  返回值：
 *  NT status code - failure will result in the device stack being torn down
@@ -565,7 +568,7 @@ NTSTATUS
 
 	PAGED_CODE();
 
-#ifdef DEBUG_HU
+#ifdef DEBUG_ZHU
 	TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER, "--> %!FUNC!");
 #endif
 
@@ -573,7 +576,7 @@ NTSTATUS
 
 	if (!NT_SUCCESS(status))
 	{
-#ifdef DEBUG_HU
+#ifdef DEBUG_ZHU
 		TraceEvents(TRACE_LEVEL_ERROR, TRACE_DRIVER,
 			"PcieQueueInitialize failed: %!STATUS!", status);
 #endif
@@ -585,7 +588,7 @@ NTSTATUS
 	//
 	status = PcieInterruptCreate(DevExt);
 	if (!NT_SUCCESS(status)) {
-#ifdef DEBUG_HU
+#ifdef DEBUG_ZHU
 		TraceEvents(TRACE_LEVEL_ERROR, TRACE_DRIVER,
 			"PcieInterruptCreate failed: %!STATUS!", status);
 #endif
@@ -675,7 +678,7 @@ None
 	PAGED_CODE();
 
 	DbgPrint("zhu:-->PcieInitializeDMA<--");
-	//#ifdef DEBUG_HU
+	//#ifdef DEBUG_ZHU
 	//	TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER, "--> %!FUNC!");
 	//#endif
 
@@ -698,7 +701,7 @@ None
 		//#endif
 		MAX_DMA_SIZE_COMMONBUFFER);
 
-	//#ifdef DEBUG_HU
+	//#ifdef DEBUG_ZHU
 	//	TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER,
 	//		"The DMA Profile is WdfDmaProfileScatterGatherDuplex");
 	//#endif
@@ -709,7 +712,7 @@ None
 		&DevExt->DmaEnabler);
 
 	if (!NT_SUCCESS(status)) {
-		//#ifdef DEBUG_HU
+		//#ifdef DEBUG_ZHU
 		//		TraceEvents(TRACE_LEVEL_ERROR, TRACE_DRIVER,
 		//			"WdfDmaEnablerCreate failed: %!STATUS!", status);
 		//#endif
@@ -732,7 +735,7 @@ None
 		&DevExt->CommonBuffer);
 
 	if (!NT_SUCCESS(status)) {
-		//#ifdef DEBUG_HU
+		//#ifdef DEBUG_ZHU
 		//		TraceEvents(TRACE_LEVEL_ERROR, TRACE_DRIVER,
 		//			"WdfCommonBufferCreate failed %!STATUS!", status);
 		//#endif
@@ -755,7 +758,7 @@ None
 	//	PcieDeviceSetupDMA(DevExt->MemBar0Base,
 	//		DevExt->CommonBufferBaseLA);
 	//}
-	//#ifdef DEBUG_HU
+	//#ifdef DEBUG_ZHU
 	//	TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER,
 	//		"CommonBuffer  0x%p  (#0x%I64X), length %I64d",
 	//		DevExt->CommonBufferBase,
@@ -763,7 +766,7 @@ None
 	//		WdfCommonBufferGetLength(DevExt->CommonBuffer));
 	//#endif
 	//
-	//#ifdef DEBUG_HU
+	//#ifdef DEBUG_ZHU
 	//	TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER, "<-- %!FUNC!");
 	//#endif
 	return status;

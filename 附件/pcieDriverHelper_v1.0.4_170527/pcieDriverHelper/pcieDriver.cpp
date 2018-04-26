@@ -152,7 +152,7 @@ bool __stdcall DmaToDevWithMode(LPDWORD pBufferAddr,DWORD bufferSize,DWORD mode)
 		DWORD32 pInputBuf[3];
 		DWORD32 outputBuf;
 		DWORD outputBufSize;
-		pInputBuf[0] = 1;
+		pInputBuf[0] = 2;
 		pInputBuf[1] = 0x8;
 		pInputBuf[2] = 0x3;
 		bool state = true;
@@ -169,7 +169,7 @@ bool __stdcall DmaToDevWithMode(LPDWORD pBufferAddr,DWORD bufferSize,DWORD mode)
 		DWORD32 pInputBuf[3];
 		DWORD32 outputBuf;
 		DWORD outputBufSize;
-		pInputBuf[0] = 1;
+		pInputBuf[0] = 2;
 		pInputBuf[1] = 0x8;
 		pInputBuf[2] = 0x1;
 		bool state = true;

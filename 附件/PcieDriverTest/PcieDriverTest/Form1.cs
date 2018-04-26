@@ -16,7 +16,7 @@ namespace PcieDriverTest
     public partial class Form1 : Form
     {
         private DmaTransfer dmaTransfer = new DmaTransfer();
-        private Stopwatch swDmaTime = new Stopwatch();  // hu 计时器
+        private Stopwatch swDmaTime = new Stopwatch();  // zhu 计时器
         private double dmaSpeedMB = 0;
         private int dmaCompleted = 0;
 
@@ -240,7 +240,7 @@ namespace PcieDriverTest
 #else
                 if (mode == 1)
                 {
-                    if (PcieDriver.SetDebugRegister(1, 0x8, 0x1) == false)
+                    if (PcieDriver.SetDebugRegister(2, 0x8, 0x1) == false)
                     {
                         swDmaTime.Stop();
                         e.Result = false;
@@ -251,7 +251,7 @@ namespace PcieDriverTest
                 }
                 else
                 {
-                    if (PcieDriver.SetDebugRegister(1, 0x8, 0x3) == false)
+                    if (PcieDriver.SetDebugRegister(2, 0x8, 0x3) == false)
                     {
                         swDmaTime.Stop();
                         e.Result = false;
@@ -265,7 +265,7 @@ namespace PcieDriverTest
                 {
                     for (uint ii = 0; ii < bufCount; ii++)
                     {
-                        swDmaTime.Start();   // hu 开始计时
+                        swDmaTime.Start();   // zhu 开始计时
 
                         buf = new byte[bufSizeMax];
                         buf = br.ReadBytes(buf.Length);
@@ -295,7 +295,7 @@ namespace PcieDriverTest
 
                 if (lenExtra > 0)
                 {
-                    swDmaTime.Start();   // hu 开始计时
+                    swDmaTime.Start();   // zhu 开始计时
 
                     buf = new byte[lenExtra];
                     br.ReadBytes((int)lenExtra).CopyTo(buf, 0);
@@ -386,7 +386,7 @@ namespace PcieDriverTest
                 //zhu 2017-02-21
                 //InputLimit(txt, e, InputMod.UInt);
                 InputLimit(txt, e, InputMod.NewHex);
-               //---zhu 2017-02-21
+               
         }
 
         private void TextBoxEditingControl_VisibleChanged(object sender, EventArgs e)
@@ -581,7 +581,7 @@ namespace PcieDriverTest
             {
                 //zhu 2017-03-10
                 string fpgaWriteDataStr;
-                //--zhu
+                
 
                 uint fpgaAddrData, fpgaWriteData;
                 bool isCheck       = (bool)  dgvRegWrite.Rows[e.RowIndex].Cells[0].EditedFormattedValue;
@@ -629,7 +629,7 @@ namespace PcieDriverTest
                     else              { fpgaWriteData = Convert.ToUInt32(fpgaNoCheck); }
 
                     fpgaWriteDataStr = fpgaNoCheck;
-                    //--zhu
+                   
                 }
 
                 //txtStatus.Text += "写入...\n0x" + fpgaAddr + ":" + fpgaWriteData.ToString() + "\n";
@@ -692,7 +692,7 @@ namespace PcieDriverTest
 #if DEBUG_HU
             txtStatus.Text += "成功！\n";
 #else
-                if (PcieDriver.SetDebugDeviceRegister(barX, addr,data))
+            if (PcieDriver.SetDebugRegister(barX, addr, data))
                     txtStatus.Text += "成功！\n";
                 else
                 {

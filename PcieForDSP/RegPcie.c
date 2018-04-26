@@ -41,7 +41,7 @@ _In_ PUCHAR BarXBase
 	ULONG* pcieRegGPIO;
 	PCIE_DMA_EXT1_REGS* pcieDmaExt1;
 
-#ifdef DEBUG_HU
+#ifdef DEBUG_ZHU
 	TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER, "--> %!FUNC!");
 #endif
 
@@ -54,7 +54,7 @@ _In_ PUCHAR BarXBase
 
 	PcieDeviceResetDMA(BarXBase);
 
-#ifdef DEBUG_HU
+#ifdef DEBUG_ZHU
 	TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER, "<-- %!FUNC!");
 #endif
 }
@@ -73,14 +73,14 @@ _In_ PUCHAR BarXBase
 	ULONG time;
 	PDMA_REGS	dmaRegs;
 
-#ifdef DEBUG_HU
+#ifdef DEBUG_ZHU
 	TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER, "--> %!FUNC!");
 #endif
 
 	dmaRegs = (PCIE_DMA_REGS *)BarXBase;
 	time = READ_REGISTER_ULONG((PULONG)&dmaRegs->Timer0);
 
-#ifdef DEBUG_HU
+#ifdef DEBUG_ZHU
 	TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER,
 		"DMA elapse time 0x%x", time);
 
@@ -126,7 +126,7 @@ _In_ PUCHAR BarXBase
 {
 //	ULONG		  PcieIntStatus;
 
-#ifdef DEBUG_HU
+#ifdef DEBUG_ZHU
 	TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER, "--> %!FUNC!");
 #endif
 
@@ -138,7 +138,7 @@ _In_ PUCHAR BarXBase
 	//(PULONG)((ULONG_PTR)BarXBase + Address)
 	DbgPrint("zhu:-->PcieDeviceClearInterrupt<--");
 	PcieDeviceWriteReg(BarXBase,0x68,0x1);
-#ifdef DEBUG_HU
+#ifdef DEBUG_ZHU
 	TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER, "<-- %!FUNC!");
 #endif
 }
@@ -155,7 +155,7 @@ _In_ PUCHAR BarXBase
 	PCIE_DMA_REGS *dmaRegs;
 	DmaInt_u_t DmaInt;
 
-#ifdef DEBUG_HU
+#ifdef DEBUG_ZHU
 	TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER, "--> %!FUNC!");
 #endif
 
@@ -169,7 +169,7 @@ _In_ PUCHAR BarXBase
 	mb = (PCIE_MAILBOX_REGS *)(BarXBase + MAILBOX_OFFSET);
 	WRITE_REGISTER_ULONG((PULONG)&mb->trig_int, TRIGGER_INT_CMD);
 
-#ifdef DEBUG_HU
+#ifdef DEBUG_ZHU
 	TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER,
 		"data at mb->trig_int 0x%x\n",
 		READ_REGISTER_ULONG((PULONG)&mb->trig_int));
@@ -187,7 +187,7 @@ _In_ PUCHAR BarXBase
 {
 	//PCIE_DMA_REGS *dmaRegs;
 
-//#ifdef DEBUG_HU
+//#ifdef DEBUG_ZHU
 //	TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER, "--> %!FUNC!");
 //#endif
 	DbgPrint("zhu:-->PcieDeviceEnableInterrupt<--");
@@ -209,7 +209,7 @@ _In_ PUCHAR BarXBase
 {
 //	PCIE_DMA_REGS *dmaRegs;
 //
-//#ifdef DEBUG_HU
+//#ifdef DEBUG_ZHU
 //	TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER, "--> %!FUNC!");
 //#endif
 
@@ -218,7 +218,7 @@ _In_ PUCHAR BarXBase
 	PcieDeviceWriteReg(BarXBase, 0x18c, 0x1);
 	//WRITE_REGISTER_ULONG((PULONG)&dmaRegs->DmaInt, INT_MASK_DISABLE_ALL);
 
-//#ifdef DEBUG_HU
+//#ifdef DEBUG_ZHU
 //	TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER, "<-- %!FUNC!");
 //#endif
 }

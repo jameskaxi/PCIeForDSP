@@ -12,7 +12,7 @@ _In_ PFN_WDF_TIMER EvtTimerFunc
 	WDF_TIMER_CONFIG timerConfig;
 	WDF_OBJECT_ATTRIBUTES timerAttributes;
 
-#ifdef DEBUG_HU
+#ifdef DEBUG_ZHU
 	TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER, "--> %!FUNC!");
 #endif
 
@@ -27,7 +27,7 @@ _In_ PFN_WDF_TIMER EvtTimerFunc
 		Timer
 		);
 
-#ifdef DEBUG_HU
+#ifdef DEBUG_ZHU
 	TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER, "<-- %!FUNC!");
 #endif
 	return status;
@@ -40,14 +40,14 @@ _In_ WDFTIMER Timer
 {
 	BOOLEAN status;
 
-#ifdef DEBUG_HU
+#ifdef DEBUG_ZHU
 	TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER, "--> %!FUNC!");
 #endif
 	DbgPrint("zhu:-->PcieDMATimerStart<--  before WdfTimerStart");
 
 	status = WdfTimerStart(Timer, WDF_REL_TIMEOUT_IN_MS(20000));
 
-#ifdef DEBUG_HU
+#ifdef DEBUG_ZHU
 	TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER, "<-- %!FUNC!");
 #endif
 	DbgPrint("zhu:-->PcieDMATimerStart<--  %d", status);
@@ -61,13 +61,13 @@ _In_ WDFTIMER Timer
 {
 	BOOLEAN status;
 
-#ifdef DEBUG_HU
+#ifdef DEBUG_ZHU
 	TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER, "--> %!FUNC!");
 #endif
 	DbgPrint("zhu:-->PcieDMATimerStop<--");
 	status = WdfTimerStop(Timer, FALSE);
 	DbgPrint("zhu:-->PcieDMATimerStop<--  %d", status);
-#ifdef DEBUG_HU
+#ifdef DEBUG_ZHU
 	TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER, "<-- %!FUNC!");
 #endif
 	return status;
@@ -82,7 +82,7 @@ _In_ WDFTIMER Timer
 	PDEVICE_CONTEXT devExt;
 
 
-#ifdef DEBUG_HU
+#ifdef DEBUG_ZHU
 	TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER, "--> %!FUNC!");
 
 	TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER, "DmaWrite timeout\n");
@@ -111,7 +111,7 @@ _In_ WDFTIMER Timer
 	WdfRequestCompleteWithInformation(devExt->WriteRequest, STATUS_INVALID_DEVICE_STATE, devExt->WriteDmaLength);
 
 	DbgPrint("zhu:-->DmaWriteTimerEventFunc<--  return requestComplete");
-#ifdef DEBUG_HU
+#ifdef DEBUG_ZHU
 	TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER, "<-- %!FUNC!");
 #endif
 }
@@ -123,7 +123,7 @@ _In_ WDFTIMER Timer
 //{
 //	PDEVICE_CONTEXT devExt;
 //
-//#ifdef DEBUG_HU
+//#ifdef DEBUG_ZHU
 //	TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER, "--> %!FUNC!");
 //
 //	TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER, "DmaRead timeout\n");
@@ -144,7 +144,7 @@ _In_ WDFTIMER Timer
 //
 //	WdfRequestCompleteWithInformation(devExt->ReadRequest, STATUS_INVALID_DEVICE_STATE, 0);
 //
-//#ifdef DEBUG_HU
+//#ifdef DEBUG_ZHU
 //	TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER, "<-- %!FUNC!");
 //#endif
 //}
