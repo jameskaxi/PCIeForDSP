@@ -194,7 +194,7 @@ _In_ PUCHAR BarXBase
 	//dmaRegs = (PCIE_DMA_REGS *)BarXBase;
 
 	//WRITE_REGISTER_ULONG((PULONG)&dmaRegs->DmaInt, INT_MASK_ENABLE);
-	PcieDeviceWriteReg(BarXBase, 0x188, 0x1);//允许DSP向PC发中断
+	PcieDeviceWriteReg(BarXBase, 0x188, 0x1);//允许使能DSP中断
 	
 
 }

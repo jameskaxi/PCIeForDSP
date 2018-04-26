@@ -268,6 +268,7 @@ Return Value:
 		}
 
 		//发送中断，通知DSP开始向FPGA搬数据
+		PcieDeviceEnableInterrupt(devExt->MemBar0Base);
 		PcieDeviceWriteReg(devExt->MemBar0Base, 0x180, 0x1);
 		break;
 	}
