@@ -142,7 +142,7 @@ namespace PcieDriverTest
 
         private void Form1_Load(object sender, EventArgs e)
         {
-#if DEBUG_HU
+#if DEBUG_ZHU
             txtStatus.Text = "打开Pcie驱动成功！\n";
 #else
             if (PcieDriver.OpenPcieDevice() == false)
@@ -158,7 +158,7 @@ namespace PcieDriverTest
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
-#if DEBUG_HU
+#if DEBUG_ZHU
 #else
             PcieDriver.ClosePcieDevice();
 #endif
@@ -236,7 +236,7 @@ namespace PcieDriverTest
                 if ((lenExtra & (alignByte - 1)) != 0)
                     lenExtra = (lenExtra & ~(alignByte - 1)) + alignByte;
 
-#if DEBUG_HU
+#if DEBUG_ZHU
 #else
                 if (mode == 1)
                 {
@@ -269,7 +269,7 @@ namespace PcieDriverTest
 
                         buf = new byte[bufSizeMax];
                         buf = br.ReadBytes(buf.Length);
-#if DEBUG_HU
+#if DEBUG_ZHU
 #else
                         
 
@@ -299,7 +299,7 @@ namespace PcieDriverTest
 
                     buf = new byte[lenExtra];
                     br.ReadBytes((int)lenExtra).CopyTo(buf, 0);
-#if DEBUG_HU
+#if DEBUG_ZHU
 #else
                     if (PcieDriver.DmaToDevice(buf) == false)
                     {
@@ -634,7 +634,7 @@ namespace PcieDriverTest
 
                 //txtStatus.Text += "写入...\n0x" + fpgaAddr + ":" + fpgaWriteData.ToString() + "\n";
                 txtStatus.Text += "写入...\n0x" + fpgaAddr + ":" + fpgaWriteDataStr + "\n";
-#if DEBUG_HU
+#if DEBUG_ZHU
                 txtStatus.Text += "成功！\n";
 #else
                 if (PcieDriver.SetDeviceRegister(fpgaAddrData, fpgaWriteData))
@@ -689,7 +689,7 @@ namespace PcieDriverTest
             }
 
             txtStatus.Text += "写入...\n bar:"+ barX + "  0x" + addrStr + ":" + data + "\n";
-#if DEBUG_HU
+#if DEBUG_ZHU
             txtStatus.Text += "成功！\n";
 #else
             if (PcieDriver.SetDebugRegister(barX, addr, data))
@@ -723,6 +723,78 @@ namespace PcieDriverTest
                 e.Handled = true;
                 return;
             }
+        }
+
+        private void 发送所有选中项ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            int maxLen = dgvRegWrite.Rows.Count;
+            uint[] addrAndData = new uint[maxLen*2];
+            uint sendLen = 0;
+
+            txtStatus.AppendText("发送FPGA控制字：\n");
+            txtStatus.AppendText("地址\t数据\n");
+            for (int i = 0; i < maxLen;i++ )
+            {                
+                bool isCheck = (bool)dgvRegWrite.Rows[i].Cells[0].EditedFormattedValue;
+
+                uint fpgaAddrData, fpgaWriteData;
+                string fpgaAddr = (string)dgvRegWrite.Rows[i].Cells[1].EditedFormattedValue;
+
+
+                if ("0x" == fpgaAddr || "" == fpgaAddr) { continue; }
+
+                if (true == isCheck)
+                {
+                    string fpgaIsCheck = (string)dgvRegWrite.Rows[i].Cells[2].EditedFormattedValue;
+
+                    if ("" == fpgaIsCheck || "0x" == fpgaIsCheck) { continue; }
+
+                    //fpgaAddr = fpgaAddr.Remove(0, 2);                    
+                    fpgaAddrData = Convert.ToUInt32(fpgaAddr, 16);
+
+                    bool isHexIsCheck = fpgaIsCheck.StartsWith("0x");
+                    if (isHexIsCheck) { fpgaWriteData = Convert.ToUInt32(fpgaIsCheck, 16); }
+                    else { fpgaWriteData = Convert.ToUInt32(fpgaIsCheck); }
+
+                    addrAndData[i * 2] = fpgaAddrData;
+                    addrAndData[1 + i * 2] = fpgaWriteData;
+
+                    txtStatus.AppendText(fpgaAddr + "\t" + fpgaIsCheck + "\n");
+                    sendLen += 1;
+                }
+                else {
+                    string fpgaNoCheck = (string)dgvRegWrite.Rows[i].Cells[3].EditedFormattedValue;
+
+                    if ("" == fpgaNoCheck || "0x" == fpgaNoCheck) { continue; }
+
+                    fpgaAddrData = Convert.ToUInt32(fpgaAddr, 16);
+
+                    bool isHexIsCheck = fpgaNoCheck.StartsWith("0x");
+                    if (isHexIsCheck) { fpgaWriteData = Convert.ToUInt32(fpgaNoCheck, 16); }
+                    else { fpgaWriteData = Convert.ToUInt32(fpgaNoCheck); }
+
+                    addrAndData[i * 2] = fpgaAddrData;
+                    addrAndData[1 + i * 2] = fpgaWriteData;
+
+                    txtStatus.AppendText(fpgaAddr + "\t" + fpgaNoCheck + "\n");
+                    sendLen += 1;
+                }
+
+            }
+#if DEBUG_ZHU
+            txtStatus.AppendText("发送成功！\n");
+#else
+            if (!PcieDriver.SetFPGARegister(addrAndData,sendLen))
+            {
+                txtStatus.AppendText("发送成功！\n");
+            }
+            else
+            {
+                txtStatus.AppendText("发送失败！\n");
+                txtStatus.AppendText(PcieDriver.GetLastDeviceError());
+                txtStatus.AppendText("\n");
+            }
+#endif
         }
 
     }

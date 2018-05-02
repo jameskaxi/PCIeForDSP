@@ -65,6 +65,7 @@
             this.tboxDebugAddr = new System.Windows.Forms.TextBox();
             this.tboxDebugData = new System.Windows.Forms.TextBox();
             this.btnDynamicLoad = new System.Windows.Forms.Button();
+            this.发送所有选中项ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.dgvRegWrite)).BeginInit();
             this.menuRegWrite.SuspendLayout();
             this.SuspendLayout();
@@ -278,35 +279,36 @@
             this.添加行ToolStripMenuItem,
             this.删除行ToolStripMenuItem,
             this.保存表格ToolStripMenuItem,
-            this.载入表格ToolStripMenuItem});
+            this.载入表格ToolStripMenuItem,
+            this.发送所有选中项ToolStripMenuItem});
             this.menuRegWrite.Name = "ListWriteMenu";
-            this.menuRegWrite.Size = new System.Drawing.Size(125, 92);
+            this.menuRegWrite.Size = new System.Drawing.Size(153, 136);
             // 
             // 添加行ToolStripMenuItem
             // 
             this.添加行ToolStripMenuItem.Name = "添加行ToolStripMenuItem";
-            this.添加行ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.添加行ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.添加行ToolStripMenuItem.Text = "添加行";
             this.添加行ToolStripMenuItem.Click += new System.EventHandler(this.添加行ToolStripMenuItem_Click);
             // 
             // 删除行ToolStripMenuItem
             // 
             this.删除行ToolStripMenuItem.Name = "删除行ToolStripMenuItem";
-            this.删除行ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.删除行ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.删除行ToolStripMenuItem.Text = "删除行";
             this.删除行ToolStripMenuItem.Click += new System.EventHandler(this.删除行ToolStripMenuItem_Click);
             // 
             // 保存表格ToolStripMenuItem
             // 
             this.保存表格ToolStripMenuItem.Name = "保存表格ToolStripMenuItem";
-            this.保存表格ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.保存表格ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.保存表格ToolStripMenuItem.Text = "保存表格";
             this.保存表格ToolStripMenuItem.Click += new System.EventHandler(this.保存表格ToolStripMenuItem_Click);
             // 
             // 载入表格ToolStripMenuItem
             // 
             this.载入表格ToolStripMenuItem.Name = "载入表格ToolStripMenuItem";
-            this.载入表格ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.载入表格ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.载入表格ToolStripMenuItem.Text = "载入表格";
             this.载入表格ToolStripMenuItem.Click += new System.EventHandler(this.载入表格ToolStripMenuItem_Click);
             // 
@@ -403,6 +405,13 @@
             this.btnDynamicLoad.UseVisualStyleBackColor = false;
             this.btnDynamicLoad.Click += new System.EventHandler(this.btnDmaLaun_Click);
             // 
+            // 发送所有选中项ToolStripMenuItem
+            // 
+            this.发送所有选中项ToolStripMenuItem.Name = "发送所有选中项ToolStripMenuItem";
+            this.发送所有选中项ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.发送所有选中项ToolStripMenuItem.Text = "发送所有项";
+            this.发送所有选中项ToolStripMenuItem.Click += new System.EventHandler(this.发送所有选中项ToolStripMenuItem_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 14F);
@@ -472,6 +481,7 @@
         private System.Windows.Forms.TextBox tboxDebugAddr;
         private System.Windows.Forms.TextBox tboxDebugData;
         private System.Windows.Forms.Button btnDynamicLoad;
+        private System.Windows.Forms.ToolStripMenuItem 发送所有选中项ToolStripMenuItem;
     }
 }
 

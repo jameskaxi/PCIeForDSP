@@ -28,6 +28,8 @@ namespace pcieDriverHelper {
 
 		//static bool DmaFromDevice(array<byte> ^inBuf);
 
+		static bool SetFPGARegister(array<unsigned int> ^regData,unsigned int dataNum);
+
 		static bool SetDeviceRegister(unsigned int devRegAddr,array<unsigned int> ^regData);
 
 		static bool SetDeviceRegister(unsigned int devRegAddr,unsigned int regData);

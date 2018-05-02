@@ -226,6 +226,45 @@ bool __stdcall DmaToDevWithMode(LPDWORD pBufferAddr,DWORD bufferSize,DWORD mode)
 // 	return true;
 // }
 
+
+bool __stdcall SetByCPUMode(PDWORD32 pRegAddr,DWORD32 dataNum)
+{
+	PDWORD32 pInputBuf;
+	DWORD32 inputBufNum;
+	DWORD32 outputBuf;
+	DWORD outputBufSize;
+
+	if (hPcieDev == INVALID_HANDLE_VALUE)
+	{
+		wcscpy_s(lastError, L"PCIE设备未打开！");
+		return false;
+	}
+
+	inputBufNum = dataNum*2 +1;
+	pInputBuf = new DWORD32[inputBufNum];
+
+	pInputBuf[0] = dataNum*sizeof(DWORD32);
+
+	
+	//for(DWORD i=0;i< dataNum*2;i++)
+	//{
+	//	pInputBuf[i+1] = pRegAddr[i];
+	//}
+	//pInputBuf[0] = devRegAddr;
+	
+	memcpy(&pInputBuf[1],pRegAddr,dataNum*2*sizeof(DWORD32));
+	if (!DeviceIoControl(hPcieDev,PCIeDMA_IOCTL_WRITE_REG,
+		pInputBuf,inputBufNum * sizeof(DWORD32),&outputBuf,sizeof(DWORD32),&outputBufSize,NULL))
+	{
+		wcscpy_s(lastError, L"写入PCIE设备寄存器失败！");
+		delete pInputBuf;
+		return false;
+	}
+	
+	delete pInputBuf;
+	return true;
+}
+
 bool __stdcall SetDevRegister(DWORD32 devRegAddr,PDWORD32 pRegAddr,DWORD32 regSize)
 {
 	PDWORD32 pInputBuf;
@@ -252,7 +291,7 @@ bool __stdcall SetDevRegister(DWORD32 devRegAddr,PDWORD32 pRegAddr,DWORD32 regSi
 	
 	//memcpy(&pInputBuf[2],pRegAddr,regSize);
 	if (!DeviceIoControl(hPcieDev,PCIeDMA_IOCTL_WRITE_REG,
-		pInputBuf,(inputBufNum*2+1) * sizeof(DWORD32),&outputBuf,sizeof(DWORD32),&outputBufSize,NULL))
+		pInputBuf,inputBufNum * sizeof(DWORD32),&outputBuf,sizeof(DWORD32),&outputBufSize,NULL))
 	{
 		wcscpy_s(lastError, L"写入PCIE设备寄存器失败！");
 		delete pInputBuf;

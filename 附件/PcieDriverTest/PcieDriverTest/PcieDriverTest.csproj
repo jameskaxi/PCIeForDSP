@@ -20,7 +20,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;DEBUG_HU</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;DEBUG_ZHU</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -37,7 +37,7 @@
     <ApplicationIcon>ico.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="pcieDriverHelper, Version=1.0.6395.32290, Culture=neutral, processorArchitecture=x86">
+    <Reference Include="pcieDriverHelper, Version=1.0.6696.36324, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Resources\pcieDriverHelper.dll</HintPath>
     </Reference>

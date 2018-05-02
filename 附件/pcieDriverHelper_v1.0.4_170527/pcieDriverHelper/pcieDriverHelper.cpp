@@ -54,6 +54,16 @@ namespace pcieDriverHelper {
 	//	return status;
 	//}
 
+	bool PcieDriver::SetFPGARegister(array<unsigned int> ^regData,unsigned int dataNum)
+	{
+		bool status = false;
+		pin_ptr<unsigned int> pRegAddr = &regData[0];
+
+		status = SetByCPUMode((PDWORD32)pRegAddr,dataNum);
+		pRegAddr = nullptr;
+		return status;
+	}
+
 	bool PcieDriver::SetDeviceRegister(unsigned int devRegAddr,array<unsigned int> ^regData)
 	{
 		bool status = false;
