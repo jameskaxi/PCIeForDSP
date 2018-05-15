@@ -656,8 +656,6 @@ namespace PcieDriverTest
             UInt32 addr = 0;
             UInt32 data = 0;
 
-            
-
             try
             {
                 barX = Convert.ToUInt32(tboxBarX.Text);
@@ -795,6 +793,46 @@ namespace PcieDriverTest
                 txtStatus.AppendText("\n");
             }
 #endif
+        }
+
+        private void btnReadFPGA_Click(object sender, EventArgs e)
+        {
+            string addrStr = tboxReadAddr.Text;
+            UInt32 addr = 0;
+            UInt32[] data = new UInt32[1];
+
+            try
+            {
+                if (addrStr.StartsWith("0x"))
+                {
+                    addr = Convert.ToUInt32(addrStr, 16);
+                }
+                else
+                {
+                    addr = Convert.ToUInt32(addrStr);
+                }
+            }
+            catch (Exception ex)
+            {
+                txtStatus.Text += ex.Message;
+                return;
+            }
+
+            txtStatus.Text += "读取FPGA寄存器：" + addrStr + "\n";
+#if DEBUG_ZHU
+            data[0] = 15;
+            txtStatus.Text += "--> 得到：" + data[0] + "\n";
+#else
+            if (PcieDriver.ReadPFGARegister(addr, data))
+                txtStatus.Text += "--> 得到：" + data[0] + "\n";
+                else
+                {
+                    txtStatus.Text += "失败！\n";
+                    txtStatus.Text += PcieDriver.GetLastDeviceError() + "\n";
+                }
+#endif
+            tboxReadData.Text = "0x" + data[0].ToString("x");
+            
         }
 
     }

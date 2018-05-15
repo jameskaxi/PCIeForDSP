@@ -612,12 +612,12 @@ NTSTATUS
 		DevExt->Device,
 		DmaWriteTimerEventFunc);
 
-	/*if (!NT_SUCCESS(status)) {	return status;	}
+	if (!NT_SUCCESS(status)) {	return status;	}
 
 	status = PcieDMATimerCreate(
 		&DevExt->ReadTimer,
 		DevExt->Device,
-		DmaReadTimerEventFunc);*/
+		DmaReadTimerEventFunc);
 
 	if (!NT_SUCCESS(status)) {	return status; }
 

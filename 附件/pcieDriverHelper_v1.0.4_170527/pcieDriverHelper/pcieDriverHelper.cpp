@@ -80,9 +80,19 @@ namespace pcieDriverHelper {
 		return SetDevRegister(devRegAddr,regData);
 	}
 
-	bool PcieDriver::SetDebugRegister(unsigned int barX, unsigned int devRegAdde,unsigned int regData)
+	bool PcieDriver::SetDebugRegister(unsigned int barX, unsigned int devRegAddr,unsigned int regData)
 	{
-		return DebugRegister(barX,devRegAdde,regData);
+		return DebugRegister(barX,devRegAddr,regData);
+	}
+
+	bool PcieDriver::ReadPFGARegister(unsigned int devRegAddr,array<unsigned int> ^outBuf)
+	{
+		bool status = false;
+		pin_ptr<unsigned int> pOutBuffer = &outBuf[0];
+
+		status = ReadFPGAReg(devRegAddr,pOutBuffer);
+		pOutBuffer = nullptr;
+		return status;
 	}
 	/*bool PcieDriver::SetFilter(unsigned int barX,unsigned int OfferAddr,unsigned int data)
 	{

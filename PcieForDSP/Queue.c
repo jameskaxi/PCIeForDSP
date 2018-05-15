@@ -208,6 +208,7 @@ Return Value:
 	UNREFERENCED_PARAMETER(InputBufferLength);
 
 	DbgPrint("zhu:-->PcieEvtIoDeviceControl()<--");
+	
 
 	devExt = DeviceGetContext(WdfIoQueueGetDevice(Queue));
 
@@ -270,11 +271,32 @@ Return Value:
 		//发送中断，通知DSP开始向FPGA搬数据
 		PcieDeviceEnableInterrupt(devExt->MemBar0Base);
 		PcieDeviceWriteReg(devExt->MemBar0Base, 0x180, 0x1);
+		WdfRequestCompleteWithInformation(Request, status, ret_length);
 		break;
 	}
 	case PCIeDMA_IOCTL_READ_REG:
 	{
 		DbgPrint("zhu:-->PCIeDMA_IOCTL_READ_REG<--");
+		ULONG *ptr = (PULONG)in_buffer;
+		ULONG addr = ptr[0];
+
+		devExt->ReadRequest = Request;
+		devExt->CurrentRequest = Request;
+		devExt->ReadBuffer = out_buffer;
+
+		//向 bar2 的  0x8 发 4 表示CPU方式
+		PcieDeviceWriteReg(devExt->MemBar2Base, 0x8, 4);
+		//向DSP写入需读取的地址
+		PcieDeviceWriteReg(devExt->MemBar1Base, 0x100, addr);
+		//发送中断，通知DSP开始向FPGA搬数据
+		PcieDeviceEnableInterrupt(devExt->MemBar0Base);
+		PcieDeviceWriteReg(devExt->MemBar0Base, 0x180, 0x1);
+
+		//启动定时器
+		devExt->ReadTimeout = FALSE;
+		PcieTimerStart(devExt->ReadTimer, 3000);
+
+
 		break;
 	}
 	case PCIE_IOCTL_DEBUG:
@@ -302,14 +324,16 @@ Return Value:
 			PcieDeviceWriteReg(devExt->MemBar2Base,addr, data);
 			status = STATUS_SUCCESS;
 		}
+		WdfRequestCompleteWithInformation(Request, status, ret_length);
 		break;
 	}
 	default:
 		status = STATUS_INVALID_DEVICE_REQUEST;
+		WdfRequestCompleteWithInformation(Request, status, ret_length);
 		break;
 	}
 
-	WdfRequestCompleteWithInformation(Request, status, ret_length);
+	
 
     return;
 }
@@ -480,7 +504,7 @@ Return Value:
 
 	PcieDeviceStartDMA(devExt, devExt->Interrupt);
 
-	PcieDMATimerStart(devExt->WriteTimer);
+	PcieTimerStart(devExt->WriteTimer,20000);
 	//WdfRequestComplete(Request, status);
 //	devExt->WriteTimeout = FALSE;
 //	PcieDMATimerStart(devExt->WriteTimer);

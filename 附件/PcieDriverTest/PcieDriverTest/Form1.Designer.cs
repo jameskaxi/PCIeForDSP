@@ -57,6 +57,7 @@
             this.删除行ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.保存表格ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.载入表格ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.发送所有选中项ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.label2 = new System.Windows.Forms.Label();
             this.tboxBarX = new System.Windows.Forms.TextBox();
             this.btnDebugSet = new System.Windows.Forms.Button();
@@ -65,7 +66,11 @@
             this.tboxDebugAddr = new System.Windows.Forms.TextBox();
             this.tboxDebugData = new System.Windows.Forms.TextBox();
             this.btnDynamicLoad = new System.Windows.Forms.Button();
-            this.发送所有选中项ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tboxReadData = new System.Windows.Forms.TextBox();
+            this.tboxReadAddr = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.btnReadFPGA = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvRegWrite)).BeginInit();
             this.menuRegWrite.SuspendLayout();
             this.SuspendLayout();
@@ -78,7 +83,7 @@
             this.txtStatus.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.txtStatus.Name = "txtStatus";
             this.txtStatus.ReadOnly = true;
-            this.txtStatus.Size = new System.Drawing.Size(310, 501);
+            this.txtStatus.Size = new System.Drawing.Size(310, 533);
             this.txtStatus.TabIndex = 0;
             this.txtStatus.Text = "";
             // 
@@ -86,7 +91,7 @@
             // 
             this.txtDmaFile.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             this.txtDmaFile.Font = new System.Drawing.Font("宋体", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.txtDmaFile.Location = new System.Drawing.Point(351, 57);
+            this.txtDmaFile.Location = new System.Drawing.Point(351, 113);
             this.txtDmaFile.Name = "txtDmaFile";
             this.txtDmaFile.Size = new System.Drawing.Size(284, 24);
             this.txtDmaFile.TabIndex = 1;
@@ -95,7 +100,7 @@
             // 
             this.btnDmaFile.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             this.btnDmaFile.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnDmaFile.Location = new System.Drawing.Point(642, 53);
+            this.btnDmaFile.Location = new System.Drawing.Point(642, 109);
             this.btnDmaFile.Name = "btnDmaFile";
             this.btnDmaFile.Size = new System.Drawing.Size(37, 33);
             this.btnDmaFile.TabIndex = 2;
@@ -107,7 +112,7 @@
             // 
             this.txtDmaTime.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             this.txtDmaTime.Font = new System.Drawing.Font("宋体", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.txtDmaTime.Location = new System.Drawing.Point(505, 104);
+            this.txtDmaTime.Location = new System.Drawing.Point(505, 151);
             this.txtDmaTime.Name = "txtDmaTime";
             this.txtDmaTime.ReadOnly = true;
             this.txtDmaTime.Size = new System.Drawing.Size(91, 24);
@@ -119,7 +124,7 @@
             this.lalDmaTime.AutoSize = true;
             this.lalDmaTime.BackColor = System.Drawing.Color.Transparent;
             this.lalDmaTime.Font = new System.Drawing.Font("宋体", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.lalDmaTime.Location = new System.Drawing.Point(402, 108);
+            this.lalDmaTime.Location = new System.Drawing.Point(402, 155);
             this.lalDmaTime.Name = "lalDmaTime";
             this.lalDmaTime.Size = new System.Drawing.Size(80, 15);
             this.lalDmaTime.TabIndex = 4;
@@ -129,7 +134,7 @@
             // 
             this.btnDmaLaun.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             this.btnDmaLaun.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.btnDmaLaun.Location = new System.Drawing.Point(376, 145);
+            this.btnDmaLaun.Location = new System.Drawing.Point(376, 187);
             this.btnDmaLaun.Name = "btnDmaLaun";
             this.btnDmaLaun.Size = new System.Drawing.Size(93, 33);
             this.btnDmaLaun.TabIndex = 5;
@@ -147,7 +152,7 @@
             this.label1.AutoSize = true;
             this.label1.BackColor = System.Drawing.Color.Transparent;
             this.label1.Font = new System.Drawing.Font("Calibri", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(600, 107);
+            this.label1.Location = new System.Drawing.Point(600, 154);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(14, 18);
             this.label1.TabIndex = 6;
@@ -186,7 +191,7 @@
             this.dgvRegWrite.ContextMenuStrip = this.menuRegWrite;
             this.dgvRegWrite.EnableHeadersVisualStyles = false;
             this.dgvRegWrite.GridColor = System.Drawing.Color.Gold;
-            this.dgvRegWrite.Location = new System.Drawing.Point(342, 184);
+            this.dgvRegWrite.Location = new System.Drawing.Point(342, 228);
             this.dgvRegWrite.Name = "dgvRegWrite";
             dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle6.BackColor = System.Drawing.Color.Yellow;
@@ -203,7 +208,7 @@
             this.dgvRegWrite.RowsDefaultCellStyle = dataGridViewCellStyle7;
             this.dgvRegWrite.RowTemplate.Height = 27;
             this.dgvRegWrite.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvRegWrite.Size = new System.Drawing.Size(343, 329);
+            this.dgvRegWrite.Size = new System.Drawing.Size(343, 318);
             this.dgvRegWrite.TabIndex = 8;
             this.dgvRegWrite.TabStop = false;
             this.dgvRegWrite.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvRegWrite_CellContentClick);
@@ -282,35 +287,42 @@
             this.载入表格ToolStripMenuItem,
             this.发送所有选中项ToolStripMenuItem});
             this.menuRegWrite.Name = "ListWriteMenu";
-            this.menuRegWrite.Size = new System.Drawing.Size(153, 136);
+            this.menuRegWrite.Size = new System.Drawing.Size(137, 114);
             // 
             // 添加行ToolStripMenuItem
             // 
             this.添加行ToolStripMenuItem.Name = "添加行ToolStripMenuItem";
-            this.添加行ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.添加行ToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
             this.添加行ToolStripMenuItem.Text = "添加行";
             this.添加行ToolStripMenuItem.Click += new System.EventHandler(this.添加行ToolStripMenuItem_Click);
             // 
             // 删除行ToolStripMenuItem
             // 
             this.删除行ToolStripMenuItem.Name = "删除行ToolStripMenuItem";
-            this.删除行ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.删除行ToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
             this.删除行ToolStripMenuItem.Text = "删除行";
             this.删除行ToolStripMenuItem.Click += new System.EventHandler(this.删除行ToolStripMenuItem_Click);
             // 
             // 保存表格ToolStripMenuItem
             // 
             this.保存表格ToolStripMenuItem.Name = "保存表格ToolStripMenuItem";
-            this.保存表格ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.保存表格ToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
             this.保存表格ToolStripMenuItem.Text = "保存表格";
             this.保存表格ToolStripMenuItem.Click += new System.EventHandler(this.保存表格ToolStripMenuItem_Click);
             // 
             // 载入表格ToolStripMenuItem
             // 
             this.载入表格ToolStripMenuItem.Name = "载入表格ToolStripMenuItem";
-            this.载入表格ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.载入表格ToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
             this.载入表格ToolStripMenuItem.Text = "载入表格";
             this.载入表格ToolStripMenuItem.Click += new System.EventHandler(this.载入表格ToolStripMenuItem_Click);
+            // 
+            // 发送所有选中项ToolStripMenuItem
+            // 
+            this.发送所有选中项ToolStripMenuItem.Name = "发送所有选中项ToolStripMenuItem";
+            this.发送所有选中项ToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
+            this.发送所有选中项ToolStripMenuItem.Text = "发送所有项";
+            this.发送所有选中项ToolStripMenuItem.Click += new System.EventHandler(this.发送所有选中项ToolStripMenuItem_Click);
             // 
             // label2
             // 
@@ -343,7 +355,7 @@
             this.btnDebugSet.Name = "btnDebugSet";
             this.btnDebugSet.Size = new System.Drawing.Size(37, 33);
             this.btnDebugSet.TabIndex = 9;
-            this.btnDebugSet.Text = "...";
+            this.btnDebugSet.Text = "写";
             this.btnDebugSet.UseVisualStyleBackColor = false;
             this.btnDebugSet.Click += new System.EventHandler(this.btnDebugSet_Click);
             // 
@@ -397,7 +409,7 @@
             // 
             this.btnDynamicLoad.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             this.btnDynamicLoad.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.btnDynamicLoad.Location = new System.Drawing.Point(519, 145);
+            this.btnDynamicLoad.Location = new System.Drawing.Point(519, 187);
             this.btnDynamicLoad.Name = "btnDynamicLoad";
             this.btnDynamicLoad.Size = new System.Drawing.Size(93, 33);
             this.btnDynamicLoad.TabIndex = 16;
@@ -405,12 +417,61 @@
             this.btnDynamicLoad.UseVisualStyleBackColor = false;
             this.btnDynamicLoad.Click += new System.EventHandler(this.btnDmaLaun_Click);
             // 
-            // 发送所有选中项ToolStripMenuItem
+            // tboxReadData
             // 
-            this.发送所有选中项ToolStripMenuItem.Name = "发送所有选中项ToolStripMenuItem";
-            this.发送所有选中项ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.发送所有选中项ToolStripMenuItem.Text = "发送所有项";
-            this.发送所有选中项ToolStripMenuItem.Click += new System.EventHandler(this.发送所有选中项ToolStripMenuItem_Click);
+            this.tboxReadData.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            this.tboxReadData.Font = new System.Drawing.Font("宋体", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.tboxReadData.Location = new System.Drawing.Point(571, 56);
+            this.tboxReadData.Name = "tboxReadData";
+            this.tboxReadData.Size = new System.Drawing.Size(65, 24);
+            this.tboxReadData.TabIndex = 21;
+            this.tboxReadData.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // tboxReadAddr
+            // 
+            this.tboxReadAddr.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            this.tboxReadAddr.Font = new System.Drawing.Font("宋体", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.tboxReadAddr.Location = new System.Drawing.Point(454, 56);
+            this.tboxReadAddr.Name = "tboxReadAddr";
+            this.tboxReadAddr.Size = new System.Drawing.Size(70, 24);
+            this.tboxReadAddr.TabIndex = 20;
+            this.tboxReadAddr.Text = "0x1";
+            this.tboxReadAddr.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.tboxReadAddr.WordWrap = false;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.BackColor = System.Drawing.Color.Transparent;
+            this.label5.Font = new System.Drawing.Font("宋体", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label5.Location = new System.Drawing.Point(526, 61);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(43, 15);
+            this.label5.TabIndex = 19;
+            this.label5.Text = "data";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.BackColor = System.Drawing.Color.Transparent;
+            this.label6.Font = new System.Drawing.Font("宋体", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label6.Location = new System.Drawing.Point(409, 63);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(43, 15);
+            this.label6.TabIndex = 18;
+            this.label6.Text = "addr";
+            // 
+            // btnReadFPGA
+            // 
+            this.btnReadFPGA.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.btnReadFPGA.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnReadFPGA.Location = new System.Drawing.Point(644, 51);
+            this.btnReadFPGA.Name = "btnReadFPGA";
+            this.btnReadFPGA.Size = new System.Drawing.Size(37, 33);
+            this.btnReadFPGA.TabIndex = 17;
+            this.btnReadFPGA.Text = "读";
+            this.btnReadFPGA.UseVisualStyleBackColor = false;
+            this.btnReadFPGA.Click += new System.EventHandler(this.btnReadFPGA_Click);
             // 
             // Form1
             // 
@@ -419,7 +480,12 @@
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ClientSize = new System.Drawing.Size(694, 518);
+            this.ClientSize = new System.Drawing.Size(694, 558);
+            this.Controls.Add(this.tboxReadData);
+            this.Controls.Add(this.tboxReadAddr);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.label6);
+            this.Controls.Add(this.btnReadFPGA);
             this.Controls.Add(this.btnDynamicLoad);
             this.Controls.Add(this.tboxDebugData);
             this.Controls.Add(this.tboxDebugAddr);
@@ -482,6 +548,11 @@
         private System.Windows.Forms.TextBox tboxDebugData;
         private System.Windows.Forms.Button btnDynamicLoad;
         private System.Windows.Forms.ToolStripMenuItem 发送所有选中项ToolStripMenuItem;
+        private System.Windows.Forms.TextBox tboxReadData;
+        private System.Windows.Forms.TextBox tboxReadAddr;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Button btnReadFPGA;
     }
 }
 

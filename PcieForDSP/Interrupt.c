@@ -163,12 +163,55 @@ Return Value:
 
 	devExt = DeviceGetContext(WdfInterruptGetDevice(Interrupt));
 	
-	//WdfRequestComplete(devExt->WriteRequest, status);
-	if (devExt->WriteTimeout == FALSE)
+
+	if (devExt->IntStatus)
 	{
-		WdfRequestCompleteWithInformation(devExt->WriteRequest, status, devExt->WriteDmaLength);
-		PcieDMATimerStop(devExt->WriteTimer);
-		DbgPrint("zhu:writeRequestComplete!");
+		if (devExt->CurrentRequest == devExt->WriteRequest)
+		{
+			// Acquire lock						
+			WdfInterruptAcquireLock(Interrupt);
+
+			status = PcieTimerStop(devExt->WriteTimer);
+
+			if (devExt->WriteTimeout == FALSE)
+			{
+				WdfRequestCompleteWithInformation(devExt->WriteRequest, status, devExt->WriteDmaLength);
+
+				DbgPrint("zhu:writeRequestComplete!");
+			}
+			else{
+				DbgPrint("zhu:TimerOut!");
+			}
+
+			// Release lock
+			WdfInterruptReleaseLock(Interrupt);
+			
+		} 
+		else
+		{
+			// Acquire lock						
+			WdfInterruptAcquireLock(Interrupt);
+
+			PVOID out_buffer;
+			size_t out_bufsize;
+			status = WdfRequestRetrieveOutputBuffer(devExt->ReadRequest, 1, &out_buffer, &out_bufsize);
+			if (!NT_SUCCESS(status)){
+				WdfRequestCompleteWithInformation(devExt->ReadRequest, status, 0);
+				return;
+			}
+			if (devExt->ReadTimeout == FALSE)
+			{
+				ULONG data = PcieDeviceReadReg(devExt->MemBar2Base, 0x10);
+				((PULONG)out_buffer)[0] = data;
+				WdfRequestCompleteWithInformation(devExt->ReadRequest, status, 1);
+			}
+			else{
+				DbgPrint("zhu:TimerOut!");
+			}
+
+			// Release lock
+			WdfInterruptReleaseLock(Interrupt);
+		}
 	}
 	//
 	// Check interrupt from user FPGA

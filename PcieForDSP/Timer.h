@@ -8,12 +8,13 @@ _In_ PFN_WDF_TIMER EvtTimerFunc
 );
 
 BOOLEAN
-PcieDMATimerStart(
-_In_ WDFTIMER Timer
+PcieTimerStart(
+_In_ WDFTIMER Timer,
+_In_ ULONGLONG timeByMs
 );
 
 BOOLEAN
-PcieDMATimerStop(
+PcieTimerStop(
 _In_ WDFTIMER Timer
 );
 

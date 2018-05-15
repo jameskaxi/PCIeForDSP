@@ -34,8 +34,9 @@ _In_ PFN_WDF_TIMER EvtTimerFunc
 }
 
 BOOLEAN
-PcieDMATimerStart(
-_In_ WDFTIMER Timer
+PcieTimerStart(
+_In_ WDFTIMER Timer,
+_In_ ULONGLONG timeByMs
 )
 {
 	BOOLEAN status;
@@ -45,7 +46,7 @@ _In_ WDFTIMER Timer
 #endif
 	DbgPrint("zhu:-->PcieDMATimerStart<--  before WdfTimerStart");
 
-	status = WdfTimerStart(Timer, WDF_REL_TIMEOUT_IN_MS(20000));
+	status = WdfTimerStart(Timer, WDF_REL_TIMEOUT_IN_MS(timeByMs));
 
 #ifdef DEBUG_ZHU
 	TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER, "<-- %!FUNC!");
@@ -55,7 +56,7 @@ _In_ WDFTIMER Timer
 }
 
 BOOLEAN
-PcieDMATimerStop(
+PcieTimerStop(
 _In_ WDFTIMER Timer
 )
 {
@@ -94,11 +95,6 @@ _In_ WDFTIMER Timer
 	// Disable DMA interrupt
 	WdfInterruptAcquireLock(devExt->Interrupt);
 
-//	devExt->WriteTimeout = TRUE;
-//	if (devExt->MemBar0Base){
-//	//	PcieDeviceResetDMA(devExt->MemBarBase);
-////		PcieDeviceDisableInterrupt(devExt->MemBar0Base);
-//	}
 	devExt->WriteTimeout = TRUE;
 	if (devExt->MemBar0Base){
 		PcieDeviceDisableInterrupt(devExt->MemBar0Base);
@@ -110,41 +106,47 @@ _In_ WDFTIMER Timer
 
 	WdfRequestCompleteWithInformation(devExt->WriteRequest, STATUS_INVALID_DEVICE_STATE, devExt->WriteDmaLength);
 
-	DbgPrint("zhu:-->DmaWriteTimerEventFunc<--  return requestComplete");
+	DbgPrint("zhu:-->DmaWriteTimerEventFunc<--  TimeOut And requestComplete");
 #ifdef DEBUG_ZHU
 	TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER, "<-- %!FUNC!");
 #endif
 }
 
-//VOID
-//DmaReadTimerEventFunc(
-//_In_ WDFTIMER Timer
-//)
-//{
-//	PDEVICE_CONTEXT devExt;
-//
-//#ifdef DEBUG_ZHU
-//	TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER, "--> %!FUNC!");
-//
-//	TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER, "DmaRead timeout\n");
-//#endif
-//
-//	devExt = DeviceGetContext(WdfTimerGetParentObject(Timer));
-//
-//	// Disable DMA interrupt
-//	WdfInterruptAcquireLock(devExt->Interrupt);
-//
-//	devExt->ReadTimeout = TRUE;
-//	if (devExt->MemBar0Base){
-//	//	PcieDeviceResetDMA(devExt->MemBarBase);
-////		PcieDeviceDisableInterrupt(devExt->MemBar0Base);
-//	}
-//
-//	WdfInterruptReleaseLock(devExt->Interrupt);
-//
-//	WdfRequestCompleteWithInformation(devExt->ReadRequest, STATUS_INVALID_DEVICE_STATE, 0);
-//
-//#ifdef DEBUG_ZHU
-//	TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER, "<-- %!FUNC!");
-//#endif
-//}
+VOID
+DmaReadTimerEventFunc(
+_In_ WDFTIMER Timer
+)
+{
+	PDEVICE_CONTEXT devExt;
+
+#ifdef DEBUG_ZHU
+	TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER, "--> %!FUNC!");
+
+	TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER, "DmaRead timeout\n");
+#endif
+
+	DbgPrint("zhu:-->DmaReadTimerEventFunc<--");
+
+	devExt = DeviceGetContext(WdfTimerGetParentObject(Timer));
+
+	// Disable DMA interrupt
+	WdfInterruptAcquireLock(devExt->Interrupt);
+
+	devExt->ReadTimeout = TRUE;
+	if (devExt->MemBar0Base){
+		PcieDeviceDisableInterrupt(devExt->MemBar0Base);
+		PcieDeviceClearInterrupt(devExt->MemBar0Base);
+	}
+
+	WdfInterruptReleaseLock(devExt->Interrupt);
+
+	WdfRequestCompleteWithInformation(devExt->ReadRequest, STATUS_INVALID_DEVICE_STATE, 0);
+
+	DbgPrint("zhu:-->DmaReadTimerEventFunc<--  TimeOut And requestComplete");
+
+	
+
+#ifdef DEBUG_ZHU
+	TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER, "<-- %!FUNC!");
+#endif
+}

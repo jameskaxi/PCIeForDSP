@@ -273,8 +273,8 @@ bool __stdcall SetDevRegister(DWORD32 devRegAddr,PDWORD32 pRegAddr,DWORD32 regSi
 	inputBufNum = regSize / sizeof(DWORD32)*2 +1;
 	pInputBuf = new DWORD32[inputBufNum];
 
-	pInputBuf[0] = regSize*sizeof(DWORD32);//--》2017/06/27问题：准备让regSize直接为目标值，不再涉及数据类型的问题！《--
-	for(DWORD i=0;i< (inputBufNum-1)/2;i++)
+	pInputBuf[0] = regSize;
+	for(DWORD i=0;i< regSize / sizeof(DWORD32);i++)
 	{
 		pInputBuf[i*2+1] = devRegAddr + i*4;
 		pInputBuf[i*2+2] = pRegAddr[i];
@@ -346,6 +346,34 @@ bool __stdcall DebugRegister(DWORD32 barX,DWORD32 OfferAddr,DWORD32 data)
 		return false;
 	}
 
+	return true;
+
+}
+
+bool __stdcall ReadFPGAReg(DWORD32 OfferAddr,PDWORD32 outBuffer)
+{
+	DWORD32 inputBuf;
+	DWORD32 outputBuf;
+	DWORD outputBufSize;
+	bool state;
+
+	if (hPcieDev == INVALID_HANDLE_VALUE)
+	{
+		wcscpy_s(lastError, L"PCIE设备未打开！");
+		return false;
+	}
+
+	inputBuf = OfferAddr;
+
+	state = DeviceIoControl(hPcieDev,PCIeDMA_IOCTL_READ_REG,&inputBuf,sizeof(DWORD32),&outputBuf,sizeof(DWORD32),&outputBufSize,NULL);
+	
+	if(!state)
+	{
+		wcscpy_s(lastError, L"读取失败！");
+		return false;
+	}
+
+	*outBuffer = outputBuf;
 	return true;
 
 }
