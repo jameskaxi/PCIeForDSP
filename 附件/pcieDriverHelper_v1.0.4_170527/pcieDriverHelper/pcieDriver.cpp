@@ -242,16 +242,8 @@ bool __stdcall SetByCPUMode(PDWORD32 pRegAddr,DWORD32 dataNum)
 
 	inputBufNum = dataNum*2 +1;
 	pInputBuf = new DWORD32[inputBufNum];
-
 	pInputBuf[0] = dataNum*sizeof(DWORD32);
 
-	
-	//for(DWORD i=0;i< dataNum*2;i++)
-	//{
-	//	pInputBuf[i+1] = pRegAddr[i];
-	//}
-	//pInputBuf[0] = devRegAddr;
-	
 	memcpy(&pInputBuf[1],pRegAddr,dataNum*2*sizeof(DWORD32));
 	if (!DeviceIoControl(hPcieDev,PCIeDMA_IOCTL_WRITE_REG,
 		pInputBuf,inputBufNum * sizeof(DWORD32),&outputBuf,sizeof(DWORD32),&outputBufSize,NULL))
@@ -281,7 +273,7 @@ bool __stdcall SetDevRegister(DWORD32 devRegAddr,PDWORD32 pRegAddr,DWORD32 regSi
 	inputBufNum = regSize / sizeof(DWORD32)*2 +1;
 	pInputBuf = new DWORD32[inputBufNum];
 
-	pInputBuf[0] = regSize;//--》2017/06/27问题：准备让regSize直接为目标值，不再涉及数据类型的问题！《--
+	pInputBuf[0] = regSize*sizeof(DWORD32);//--》2017/06/27问题：准备让regSize直接为目标值，不再涉及数据类型的问题！《--
 	for(DWORD i=0;i< (inputBufNum-1)/2;i++)
 	{
 		pInputBuf[i*2+1] = devRegAddr + i*4;
