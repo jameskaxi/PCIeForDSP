@@ -281,13 +281,13 @@ Return Value:
 		ULONG addr = ptr[0];
 
 		devExt->ReadRequest = Request;
-		devExt->CurrentRequest = Request;
+		devExt->CurrentRequestMode = 0xf;
 		devExt->ReadBuffer = out_buffer;
 
 		//向 bar2 的  0x8 发 4 表示CPU方式
 		PcieDeviceWriteReg(devExt->MemBar2Base, 0x8, 0x4);
-		//向DSP写入需读取的地址
-		PcieDeviceWriteReg(devExt->MemBar1Base, 0x100, addr);
+		//向bar2 的  0x18  写入需读取的地址
+		PcieDeviceWriteReg(devExt->MemBar2Base, 0x18, addr);
 		//发送中断，通知DSP开始向FPGA搬数据
 		PcieDeviceEnableInterrupt(devExt->MemBar0Base);
 		PcieDeviceWriteReg(devExt->MemBar0Base, 0x180, 0x1);
@@ -499,7 +499,7 @@ Return Value:
 	KeMemoryBarrier();
 
 	devExt->WriteRequest = Request;
-	devExt->CurrentRequest = Request;
+	devExt->CurrentRequestMode = 0x0;
 
 	devExt->WriteTimeout = FALSE;
 

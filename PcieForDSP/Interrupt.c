@@ -166,7 +166,7 @@ Return Value:
 
 	//if (devExt->IntStatus)
 	//{
-		if (devExt->CurrentRequest == devExt->WriteRequest)
+		if (devExt->CurrentRequestMode != 0xf)
 		{
 			// Acquire lock						
 			WdfInterruptAcquireLock(Interrupt);
@@ -211,6 +211,7 @@ Return Value:
 				if (devExt->ReadRequest){
 					WdfRequestCompleteWithInformation(devExt->ReadRequest, status, 1);
 				}
+				DbgPrint("zhu: ReadRequestComplete!");
 				
 			}
 			else{
@@ -220,79 +221,7 @@ Return Value:
 			// Release lock
 			WdfInterruptReleaseLock(Interrupt);
 		}
-	//}
-	//
-	// Check interrupt from user FPGA
-	//
-/*	if (devExt->IntStatus & INT_FLAG_FPGA_TRIG){
-#ifdef DEBUG_ZHU
-		TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER, "Got user FPGA interrupt");
-#endif
-	}
-*/
 
-	//
-	// Check interrupt for DMA transfer end
-	//
-	//if (devExt->IntStatus){
-		/*
-#ifdef DEBUG_ZHU
-		TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER, "Got DMA transfer end interrupt");
-#endif*/
-
-//		if (devExt->DmaMode.bits.RdWr == TRUE){
-//			// Acquire lock
-//			WdfInterruptAcquireLock(Interrupt);
-//
-//			PcieDMATimerStop(devExt->WriteTimer);
-//			if (devExt->WriteTimeout){
-//				WdfInterruptReleaseLock(Interrupt);
-//#ifdef DEBUG_ZHU
-//				TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER,
-//					"Captured WriteTimeout in the DpcForIsr");
-//#endif
-//				return;
-//			}
-
-			// Release lock
-			//WdfInterruptReleaseLock(Interrupt);
-
-			//WdfRequestCompleteWithInformation(devExt->WriteRequest, STATUS_SUCCESS, devExt->WriteDmaLength);
-//#ifdef DEBUG_ZHU
-//			TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER,
-//				"DMA complete write transfer %d bytes\n",
-//				devExt->WriteDmaLength);
-//#endif
-//		}
-//		else {
-//			// Acquire lock
-//	/*		WdfInterruptAcquireLock(Interrupt);
-//
-//			PcieDMATimerStop(devExt->ReadTimer);
-//			if (devExt->ReadTimeout){
-//				WdfInterruptReleaseLock(Interrupt);
-//#ifdef DEBUG_ZHU
-//				TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER,
-//					"Captured WriteTimeout in the DpcForIsr");
-//#endif
-//				return;
-//			}
-//
-//			// Release lock
-//			WdfInterruptReleaseLock(Interrupt);
-//
-//			if (devExt->ReadBuffer != NULL && devExt->CommonBufferBase != NULL){
-//				RtlCopyMemory(devExt->ReadBuffer, devExt->CommonBufferBase, devExt->ReadDmaLength);
-//				KeMemoryBarrier();
-//*/
-//			}
-//			WdfRequestCompleteWithInformation(devExt->ReadRequest, STATUS_SUCCESS, devExt->ReadDmaLength);
-//#ifdef DEBUG_ZHU
-//			TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER,
-//				"DMA complete read transfer %d bytes\n",
-//				devExt->WriteDmaLength);
-//#endif
-//		}
 }
 
 NTSTATUS
