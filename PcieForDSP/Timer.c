@@ -2,7 +2,7 @@
 #include "Timer.tmh"
 
 NTSTATUS
-PcieDMATimerCreate(
+PcieTimerCreate(
 _In_ WDFTIMER *Timer,
 _In_ WDFDEVICE Device,
 _In_ PFN_WDF_TIMER EvtTimerFunc
@@ -113,7 +113,7 @@ _In_ WDFTIMER Timer
 }
 
 VOID
-DmaReadTimerEventFunc(
+ReadTimerEventFunc(
 _In_ WDFTIMER Timer
 )
 {
@@ -139,8 +139,11 @@ _In_ WDFTIMER Timer
 	}
 
 	WdfInterruptReleaseLock(devExt->Interrupt);
-
-	WdfRequestCompleteWithInformation(devExt->ReadRequest, STATUS_INVALID_DEVICE_STATE, 0);
+	if (devExt->ReadRequest)
+	{
+		WdfRequestCompleteWithInformation(devExt->ReadRequest, STATUS_INVALID_DEVICE_STATE, 0);
+	}
+	
 
 	DbgPrint("zhu:-->DmaReadTimerEventFunc<--  TimeOut And requestComplete");
 

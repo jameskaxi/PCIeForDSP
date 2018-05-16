@@ -285,7 +285,7 @@ Return Value:
 		devExt->ReadBuffer = out_buffer;
 
 		//向 bar2 的  0x8 发 4 表示CPU方式
-		PcieDeviceWriteReg(devExt->MemBar2Base, 0x8, 4);
+		PcieDeviceWriteReg(devExt->MemBar2Base, 0x8, 0x4);
 		//向DSP写入需读取的地址
 		PcieDeviceWriteReg(devExt->MemBar1Base, 0x100, addr);
 		//发送中断，通知DSP开始向FPGA搬数据
@@ -294,7 +294,7 @@ Return Value:
 
 		//启动定时器
 		devExt->ReadTimeout = FALSE;
-		PcieTimerStart(devExt->ReadTimer, 3000);
+		PcieTimerStart(devExt->ReadTimer, 5000);
 
 
 		break;
@@ -499,6 +499,7 @@ Return Value:
 	KeMemoryBarrier();
 
 	devExt->WriteRequest = Request;
+	devExt->CurrentRequest = Request;
 
 	devExt->WriteTimeout = FALSE;
 

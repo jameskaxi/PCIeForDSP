@@ -117,13 +117,13 @@ FALSE  --  This device did not generated this interrupt.
 	if (devExt->MemBar0Base){
 		intStatus = PcieDeviceGetInterrupt(devExt->MemBar0Base);
 
-		if (intStatus){
+		//if (intStatus){
 			PcieDeviceDisableInterrupt(devExt->MemBar0Base);
 			PcieDeviceClearInterrupt(devExt->MemBar0Base);
 			devExt->IntStatus = intStatus;
 			WdfInterruptQueueDpcForIsr(devExt->Interrupt);
 			isRecognized = TRUE;
-		}
+		//}
 	}
 
 	return isRecognized;
@@ -164,8 +164,8 @@ Return Value:
 	devExt = DeviceGetContext(WdfInterruptGetDevice(Interrupt));
 	
 
-	if (devExt->IntStatus)
-	{
+	//if (devExt->IntStatus)
+	//{
 		if (devExt->CurrentRequest == devExt->WriteRequest)
 		{
 			// Acquire lock						
@@ -175,7 +175,10 @@ Return Value:
 
 			if (devExt->WriteTimeout == FALSE)
 			{
-				WdfRequestCompleteWithInformation(devExt->WriteRequest, status, devExt->WriteDmaLength);
+				if (devExt->WriteRequest)
+				{
+					WdfRequestCompleteWithInformation(devExt->WriteRequest, status, devExt->WriteDmaLength);
+				}				
 
 				DbgPrint("zhu:writeRequestComplete!");
 			}
@@ -192,6 +195,8 @@ Return Value:
 			// Acquire lock						
 			WdfInterruptAcquireLock(Interrupt);
 
+			status = PcieTimerStop(devExt->ReadTimer);
+
 			PVOID out_buffer;
 			size_t out_bufsize;
 			status = WdfRequestRetrieveOutputBuffer(devExt->ReadRequest, 1, &out_buffer, &out_bufsize);
@@ -203,7 +208,10 @@ Return Value:
 			{
 				ULONG data = PcieDeviceReadReg(devExt->MemBar2Base, 0x10);
 				((PULONG)out_buffer)[0] = data;
-				WdfRequestCompleteWithInformation(devExt->ReadRequest, status, 1);
+				if (devExt->ReadRequest){
+					WdfRequestCompleteWithInformation(devExt->ReadRequest, status, 1);
+				}
+				
 			}
 			else{
 				DbgPrint("zhu:TimerOut!");
@@ -212,7 +220,7 @@ Return Value:
 			// Release lock
 			WdfInterruptReleaseLock(Interrupt);
 		}
-	}
+	//}
 	//
 	// Check interrupt from user FPGA
 	//

@@ -1,7 +1,7 @@
 
 
 NTSTATUS
-PcieDMATimerCreate(
+PcieTimerCreate(
 _In_ WDFTIMER *Timer,
 _In_ WDFDEVICE Device,
 _In_ PFN_WDF_TIMER EvtTimerFunc
@@ -24,6 +24,6 @@ _In_ WDFTIMER Timer
 );
 
 VOID
-DmaReadTimerEventFunc(
+ReadTimerEventFunc(
 _In_ WDFTIMER Timer
 );
