@@ -209,7 +209,7 @@ Return Value:
 				ULONG data = PcieDeviceReadReg(devExt->MemBar2Base, 0x10);
 				((PULONG)out_buffer)[0] = data;
 				if (devExt->ReadRequest){
-					WdfRequestCompleteWithInformation(devExt->ReadRequest, status, 1);
+					WdfRequestCompleteWithInformation(devExt->ReadRequest, status, sizeof(ULONG));
 				}
 				DbgPrint("zhu: ReadRequestComplete!");
 				
