@@ -55,7 +55,7 @@ typedef struct _DEVICE_CONTEXT
 	WDFTIMER                ReadTimer;
 	BOOLEAN                 ReadTimeout;
 
-	ULONG					CurrentRequestMode; // 0xf--读取模式 ， 0x0-- DMA方式，动态加载
+	ULONG					CurrentRequestMode; // 0xf--读取模式 ， 0x0-- DMA方式，动态加载,0xff--写模式
 	//WDFMEMORY               MemoryBuffer;
 	//PVOID                   BufferPointer;
 
@@ -65,6 +65,7 @@ typedef struct _DEVICE_CONTEXT
 	ULONG                   IntStatus;
 
 	WDFQUEUE                IoDispatchQueue;
+	WDFREQUEST				IoWriteRequest;
 
 
 } DEVICE_CONTEXT, *PDEVICE_CONTEXT;

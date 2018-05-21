@@ -238,6 +238,8 @@ Return Value:
 			(unsigned int)out_buffer, out_bufsize);
 	#endif
 
+		
+	devExt->CurrentRequestMode = 0xff;
 	switch (IoControlCode)
 	{
 	case PCIeDMA_IOCTL_WRITE_REG:
@@ -271,7 +273,9 @@ Return Value:
 		//发送中断，通知DSP开始向FPGA搬数据
 		PcieDeviceEnableInterrupt(devExt->MemBar0Base);
 		PcieDeviceWriteReg(devExt->MemBar0Base, 0x180, 0x1);
-		WdfRequestCompleteWithInformation(Request, status, ret_length);
+
+		devExt->IoWriteRequest = Request;
+		//WdfRequestCompleteWithInformation(Request, status, ret_length);
 		break;
 	}
 	case PCIeDMA_IOCTL_READ_REG:
@@ -296,7 +300,7 @@ Return Value:
 		devExt->ReadTimeout = FALSE;
 		PcieTimerStart(devExt->ReadTimer, 5000);
 
-
+		
 		break;
 	}
 	case PCIE_IOCTL_DEBUG:
@@ -324,7 +328,9 @@ Return Value:
 			PcieDeviceWriteReg(devExt->MemBar2Base,addr, data);
 			status = STATUS_SUCCESS;
 		}
-		WdfRequestCompleteWithInformation(Request, status, ret_length);
+
+		devExt->IoWriteRequest = Request;
+		//WdfRequestCompleteWithInformation(Request, status, ret_length);
 		break;
 	}
 	default:

@@ -166,31 +166,7 @@ Return Value:
 
 	//if (devExt->IntStatus)
 	//{
-		if (devExt->CurrentRequestMode != 0xf)
-		{
-			// Acquire lock						
-			WdfInterruptAcquireLock(Interrupt);
-
-			status = PcieTimerStop(devExt->WriteTimer);
-
-			if (devExt->WriteTimeout == FALSE)
-			{
-				if (devExt->WriteRequest)
-				{
-					WdfRequestCompleteWithInformation(devExt->WriteRequest, status, devExt->WriteDmaLength);
-				}				
-
-				DbgPrint("zhu:writeRequestComplete!");
-			}
-			else{
-				DbgPrint("zhu:TimerOut!");
-			}
-
-			// Release lock
-			WdfInterruptReleaseLock(Interrupt);
-			
-		} 
-		else
+		if (devExt->CurrentRequestMode == 0xf)
 		{
 			// Acquire lock						
 			WdfInterruptAcquireLock(Interrupt);
@@ -212,7 +188,49 @@ Return Value:
 					WdfRequestCompleteWithInformation(devExt->ReadRequest, status, sizeof(ULONG));
 				}
 				DbgPrint("zhu: ReadRequestComplete!");
-				
+
+			}
+			else{
+				DbgPrint("zhu:TimerOut!");
+			}
+
+			// Release lock
+			WdfInterruptReleaseLock(Interrupt);
+			
+		} 
+		else if (devExt->CurrentRequestMode == 0xff)
+		{
+			// Acquire lock						
+			WdfInterruptAcquireLock(Interrupt);
+
+			if (devExt->IoWriteRequest){					
+				WdfRequestCompleteWithInformation(devExt->IoWriteRequest, status, 0);
+				DbgPrint("zhu: IoWriteRequestComplete!");
+			}
+			else{
+				DbgPrint("zhu:IoWriteRequest is null!");
+			}
+
+			// Release lock
+			WdfInterruptReleaseLock(Interrupt);
+		}
+		else
+		{
+			
+
+			// Acquire lock						
+			WdfInterruptAcquireLock(Interrupt);
+
+			status = PcieTimerStop(devExt->WriteTimer);
+
+			if (devExt->WriteTimeout == FALSE)
+			{
+				if (devExt->WriteRequest)
+				{
+					WdfRequestCompleteWithInformation(devExt->WriteRequest, status, devExt->WriteDmaLength);
+				}
+
+				DbgPrint("zhu:writeRequestComplete!");
 			}
 			else{
 				DbgPrint("zhu:TimerOut!");
