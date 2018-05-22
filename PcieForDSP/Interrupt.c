@@ -186,8 +186,12 @@ Return Value:
 				((PULONG)out_buffer)[0] = data;
 				if (devExt->ReadRequest){
 					WdfRequestCompleteWithInformation(devExt->ReadRequest, status, sizeof(ULONG));
+					DbgPrint("zhu: ReadRequestComplete!");
 				}
-				DbgPrint("zhu: ReadRequestComplete!");
+				else{
+					DbgPrint("zhu:ReadRequest is null!");
+				}
+				
 
 			}
 			else{
@@ -203,13 +207,22 @@ Return Value:
 			// Acquire lock						
 			WdfInterruptAcquireLock(Interrupt);
 
-			if (devExt->IoWriteRequest){					
-				WdfRequestCompleteWithInformation(devExt->IoWriteRequest, status, 0);
-				DbgPrint("zhu: IoWriteRequestComplete!");
+			status = PcieTimerStop(devExt->IoWriteTimer);
+
+			if (devExt->IoWriteTimeout == FALSE)
+			{
+				if (devExt->IoWriteRequest){
+					WdfRequestCompleteWithInformation(devExt->IoWriteRequest, status, 0);
+					DbgPrint("zhu: IoWriteRequestComplete!");
+				}
+				else{
+					DbgPrint("zhu:IoWriteRequest is null!");
+				}
 			}
 			else{
-				DbgPrint("zhu:IoWriteRequest is null!");
+				DbgPrint("zhu:TimerOut!");
 			}
+			
 
 			// Release lock
 			WdfInterruptReleaseLock(Interrupt);
@@ -228,9 +241,12 @@ Return Value:
 				if (devExt->WriteRequest)
 				{
 					WdfRequestCompleteWithInformation(devExt->WriteRequest, status, devExt->WriteDmaLength);
+					DbgPrint("zhu:writeRequestComplete!");
 				}
-
-				DbgPrint("zhu:writeRequestComplete!");
+				else{
+					DbgPrint("zhu:writeRequest is null!");
+				}
+				
 			}
 			else{
 				DbgPrint("zhu:TimerOut!");

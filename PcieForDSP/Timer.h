@@ -27,3 +27,8 @@ VOID
 ReadTimerEventFunc(
 _In_ WDFTIMER Timer
 );
+
+VOID
+IoWriteTimerEventFunc(
+_In_ WDFTIMER Timer
+);

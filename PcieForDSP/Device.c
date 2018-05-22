@@ -621,6 +621,13 @@ NTSTATUS
 
 	if (!NT_SUCCESS(status)) {	return status; }
 
+	status = PcieTimerCreate(
+		&DevExt->IoWriteTimer,
+		DevExt->Device,
+		IoWriteTimerEventFunc);
+
+	if (!NT_SUCCESS(status)) { return status; }
+
 	return status;
 }
 /*

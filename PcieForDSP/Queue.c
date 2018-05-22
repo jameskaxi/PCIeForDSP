@@ -251,6 +251,8 @@ Return Value:
 		PULONG data = &ptr[1];
 		ULONG i;
 
+		devExt->IoWriteRequest = Request;
+		devExt->CurrentRequestMode = 0xff;
 
 		//向 bar2 的  0x8 发 2 表示CPU方式
 		PcieDeviceWriteReg(devExt->MemBar2Base, 0x8, 2);
@@ -274,7 +276,10 @@ Return Value:
 		PcieDeviceEnableInterrupt(devExt->MemBar0Base);
 		PcieDeviceWriteReg(devExt->MemBar0Base, 0x180, 0x1);
 
-		devExt->IoWriteRequest = Request;
+		
+		//启动定时器
+		devExt->IoWriteTimeout = FALSE;
+		PcieTimerStart(devExt->IoWriteTimer, 1000);
 		//WdfRequestCompleteWithInformation(Request, status, ret_length);
 		break;
 	}
@@ -328,9 +333,7 @@ Return Value:
 			PcieDeviceWriteReg(devExt->MemBar2Base,addr, data);
 			status = STATUS_SUCCESS;
 		}
-
-		devExt->IoWriteRequest = Request;
-		//WdfRequestCompleteWithInformation(Request, status, ret_length);
+		WdfRequestCompleteWithInformation(Request, status, ret_length);
 		break;
 	}
 	default:

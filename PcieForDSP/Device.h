@@ -66,6 +66,8 @@ typedef struct _DEVICE_CONTEXT
 
 	WDFQUEUE                IoDispatchQueue;
 	WDFREQUEST				IoWriteRequest;
+	BOOLEAN                 IoWriteTimeout;
+	WDFTIMER                IoWriteTimer;
 
 
 } DEVICE_CONTEXT, *PDEVICE_CONTEXT;
