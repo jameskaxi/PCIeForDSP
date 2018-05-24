@@ -5,6 +5,16 @@
 #pragma alloc_text (PAGE, PcieInterruptCreate)
 #endif
 
+/*******************************************************************************
+*  程序描述：
+*  创建中断对象。
+*
+*  参数：
+*  DevExt - 指向 DEVICE_EXTENSION 的句柄
+*
+*  返回值：
+*  NT status code - failure will result in the device stack being torn down
+********************************************************************************/
 NTSTATUS
 PcieInterruptCreate(
 _In_ PDEVICE_CONTEXT DevExt
@@ -59,19 +69,31 @@ NTSTATUS code
 
 	if (!NT_SUCCESS(status)) {
 #ifdef DEBUG_ZHU
-		TraceEvents(TRACE_LEVEL_ERROR, TRACE_DRIVER,
-			"WdfInterruptCreate failed: %!STATUS!", status);
+		//TraceEvents(TRACE_LEVEL_ERROR, TRACE_DRIVER,
+		//	"WdfInterruptCreate failed: %!STATUS!", status);
 #endif
 		return status;
 	}
 
 #ifdef DEBUG_ZHU
-	TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER, "<-- %!FUNC!");
+	//TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER, "<-- %!FUNC!");
 #endif
 	DbgPrint("zhu:-->PcieInterruptCreate  successful!<--");
 	return status;
 }
 
+/*******************************************************************************
+*  程序描述：
+*  中断响应
+*
+*  参数：
+*  Interupt - 指向 中断对象 的句柄
+*  MessageID - MSI 信息ID
+*
+*  返回值：
+*  TRUE   --  This device generated the interrupt.
+*  FALSE  --  This device did not generated this interrupt.
+********************************************************************************/
 BOOLEAN
 PcieEvtInterruptIsr(
 _In_ WDFINTERRUPT Interrupt,
@@ -110,7 +132,7 @@ FALSE  --  This device did not generated this interrupt.
 
 
 #ifdef DEBUG_ZHU
-	TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER, "--> %!FUNC!");
+	//TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER, "--> %!FUNC!");
 #endif
 
 	devExt = DeviceGetContext(WdfInterruptGetDevice(Interrupt));
@@ -129,6 +151,16 @@ FALSE  --  This device did not generated this interrupt.
 	return isRecognized;
 }
 
+/*******************************************************************************
+*  程序描述：
+*  中断响应后的回调函数，完成 当前的读写请求 
+*
+*  参数：
+*  Interupt - 指向 中断对象 的句柄
+*  Device - 设备对象的句柄
+*
+*  返回值：
+********************************************************************************/
 VOID
 PcieEvtInterruptDpc(
 _In_ WDFINTERRUPT Interrupt,
@@ -158,7 +190,7 @@ Return Value:
 	UNREFERENCED_PARAMETER(Device);
 	DbgPrint("zhu:-->PcieEvtInterruptDpc<--");
 #ifdef DEBUG_ZHU
-	TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER, "--> %!FUNC!");
+	//TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER, "--> %!FUNC!");
 #endif
 
 	devExt = DeviceGetContext(WdfInterruptGetDevice(Interrupt));
@@ -166,7 +198,7 @@ Return Value:
 
 	//if (devExt->IntStatus)
 	//{
-		if (devExt->CurrentRequestMode == 0xf)
+		if (devExt->CurrentRequestMode == 0xf) //
 		{
 			// Acquire lock						
 			WdfInterruptAcquireLock(Interrupt);
@@ -258,6 +290,17 @@ Return Value:
 
 }
 
+/*******************************************************************************
+*  程序描述：
+*  使能中断的回调函数
+*
+*  参数：
+*  Interupt - 指向 中断对象 的句柄
+*  Device - 设备对象的句柄
+*
+*  返回值：
+*  NT status code - failure will result in the device stack being torn down
+********************************************************************************/
 NTSTATUS
 PcieEvtInterruptEnable(
 _In_ WDFINTERRUPT Interrupt,
@@ -280,21 +323,32 @@ NTSTATUS
 
 	UNREFERENCED_PARAMETER(Device);
 
+#ifdef DEBUG_ZHU
 	DbgPrint("zhu:->PcieEvtInterruptEnable<--");
+#endif // DEBUG_ZHU
+	
 
 	devExt = DeviceGetContext(WdfInterruptGetDevice(Interrupt));
 
-	/*PcieDeviceWriteReg(devExt->MemBar0Base, 0x188, 0x1);*/
-//	if (devExt->MemBar0Base){
-//		PcieDeviceEnableInterrupt(devExt->MemBar0Base);
-//	}
-//
-//#ifdef DEBUG_ZHU
-//	TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER, "<-- %!FUNC!");
-//#endif
+	//if (devExt->MemBar0Base)
+	//{
+	//	PcieDeviceEnableInterrupt(devExt->MemBar0Base);
+	//}
+
 	return status;
 }
 
+/*******************************************************************************
+*  程序描述：
+*  关闭DSP 的回调函数
+*
+*  参数：
+*  Interupt - 指向 中断对象 的句柄
+*  Device - 设备对象的句柄
+*
+*  返回值：
+*  NT status code - failure will result in the device stack being torn down
+********************************************************************************/
 NTSTATUS
 PcieEvtInterruptDisable(
 _In_ WDFINTERRUPT Interrupt,
@@ -317,10 +371,11 @@ NTSTATUS
 
 	UNREFERENCED_PARAMETER(Device);
 
-//#ifdef DEBUG_ZHU
+#ifdef DEBUG_ZHU
 //	TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER, "--> %!FUNC!");
-//#endif
 	DbgPrint("zhu:-->PcieEvtInterruptDisable<--");
+#endif
+	
 	devExt = DeviceGetContext(WdfInterruptGetDevice(Interrupt));
 	if (devExt->MemBar0Base){
 		PcieDeviceDisableInterrupt(devExt->MemBar0Base);

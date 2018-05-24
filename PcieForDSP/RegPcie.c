@@ -1,7 +1,17 @@
 #include "driver.h"
 #include "RegPcie.tmh"
 
-
+/*******************************************************************************
+*  程序描述：
+*  读指定寄存器的值
+*
+*  参数：
+*  BarXBase - bar 空间的基地址
+*  Address - 偏移地址
+*
+*  返回值：
+*  ULONG - 读取到的数据值
+********************************************************************************/
 ULONG
 PcieDeviceReadReg(
 _In_ PUCHAR BarXBase,
@@ -18,6 +28,17 @@ _In_ ULONG Address
 	return ret;
 }
 
+/*******************************************************************************
+*  程序描述：
+*  向寄存器地址写入值
+*
+*  参数：
+*  BarXBase - bar 空间的基地址
+*  Address - 偏移地址
+*  Data - 要写入的数据
+*
+*  返回值：
+********************************************************************************/
 VOID
 PcieDeviceWriteReg(
 _In_ PUCHAR BarXBase,
@@ -90,6 +111,16 @@ _In_ PUCHAR BarXBase
 }
 */
 
+/*******************************************************************************
+*  程序描述：
+*  获取DSP中断标志位
+*
+*  参数：
+*  BarXBase - bar0 空间的基地址
+*
+*  返回值：
+*  ULONG - 中断标志位
+********************************************************************************/
 ULONG
 PcieDeviceGetInterrupt(
 _In_ PUCHAR BarXBase
@@ -117,7 +148,15 @@ _In_ PUCHAR BarXBase
 	return  PcieIntStatus;
 }
 
-
+/*******************************************************************************
+*  程序描述：
+*  清除DSP中断标志位
+*
+*  参数：
+*  BarXBase - bar0 空间的基地址
+*
+*  返回值：
+********************************************************************************/
 VOID PcieDeviceClearInterrupt
 (
 _In_ PUCHAR BarXBase
@@ -127,7 +166,8 @@ _In_ PUCHAR BarXBase
 //	ULONG		  PcieIntStatus;
 
 #ifdef DEBUG_ZHU
-	TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER, "--> %!FUNC!");
+	//TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER, "--> %!FUNC!");
+	DbgPrint("zhu:-->PcieDeviceClearInterrupt<--");
 #endif
 
 	//dmaRegs = (PCIE_DMA_REGS *)BarXBase;
@@ -136,10 +176,10 @@ _In_ PUCHAR BarXBase
 	//WRITE_REGISTER_ULONG((PULONG), PcieIntStatus);
 	//WRITE_REGISTER_ULONG((PULONG)((ULONG_PTR)BarXBase + 0x18c), 0x1);
 	//(PULONG)((ULONG_PTR)BarXBase + Address)
-	DbgPrint("zhu:-->PcieDeviceClearInterrupt<--");
+	
 	PcieDeviceWriteReg(BarXBase,0x68,0x1);
 #ifdef DEBUG_ZHU
-	TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER, "<-- %!FUNC!");
+	//TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER, "<-- %!FUNC!");
 #endif
 }
 
@@ -179,44 +219,50 @@ _In_ PUCHAR BarXBase
 }
 */
 
+/*******************************************************************************
+*  程序描述：
+*  使能DSP中断
+*
+*  参数：
+*  BarXBase - bar0 空间的基地址
+*
+*  返回值：
+********************************************************************************/
 VOID
 PcieDeviceEnableInterrupt(
 _In_ PUCHAR BarXBase
 )
-// hu 使能中断
 {
-	//PCIE_DMA_REGS *dmaRegs;
-
-//#ifdef DEBUG_ZHU
+#ifdef DEBUG_ZHU
 //	TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER, "--> %!FUNC!");
-//#endif
 	DbgPrint("zhu:-->PcieDeviceEnableInterrupt<--");
-	//dmaRegs = (PCIE_DMA_REGS *)BarXBase;
-
-	//WRITE_REGISTER_ULONG((PULONG)&dmaRegs->DmaInt, INT_MASK_ENABLE);
+#endif
+	
 	PcieDeviceWriteReg(BarXBase, 0x188, 0x1);//允许使能DSP中断
 	
-
 }
 
 
-
+/*******************************************************************************
+*  程序描述：
+*  关闭DSP中断
+*
+*  参数：
+*  BarXBase - bar0 空间的基地址
+*
+*  返回值：
+********************************************************************************/
 VOID
 PcieDeviceDisableInterrupt(
 _In_ PUCHAR BarXBase
 )
-// hu 屏蔽中断
 {
-//	PCIE_DMA_REGS *dmaRegs;
 //
 //#ifdef DEBUG_ZHU
 //	TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER, "--> %!FUNC!");
 //#endif
 
-	//dmaRegs = (PCIE_DMA_REGS *)BarXBase;
-
 	PcieDeviceWriteReg(BarXBase, 0x18c, 0x1);
-	//WRITE_REGISTER_ULONG((PULONG)&dmaRegs->DmaInt, INT_MASK_DISABLE_ALL);
 
 //#ifdef DEBUG_ZHU
 //	TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER, "<-- %!FUNC!");

@@ -103,6 +103,17 @@ Environment:
 //    return status;
 //}
 
+/*  zhu
+*  程序描述：
+*  即插即用管理框架下，添加设备时调用此函数初始化一个对应的设备对象。
+*
+*  参数：
+*  Driver - 指向驱动对象的句柄
+*  DeviceInit - 指向WDFDEVICE_INIT对象的句柄
+*
+*  返回值：
+*  NT status code - failure will result in the device stack being torn down
+*/
 NTSTATUS
 PcieForDSPEvtDeviceAdd(
 _In_    WDFDRIVER       Driver,
@@ -145,11 +156,9 @@ NTSTATUS
 
 	// 注册PNP与Power回调函数
 
-	// zhu
 	// Zero out the PnpPowerCallbacks structure.
 	WDF_PNPPOWER_EVENT_CALLBACKS_INIT(&pnpPowerCallbacks);
 
-	// zhu
 	// Set Callbacks for any of the functions we are interested in.
 	// If no callback is set, Framework will take the default action
 	// by itself.
@@ -160,10 +169,9 @@ NTSTATUS
 	// These two callbacks set up and tear down hardware state that must be
 	// done every time the device moves in and out of the D0-working state.
 	//
-	pnpPowerCallbacks.EvtDeviceD0Entry = PcieForDspDeviceD0Entry;  // hu 进入和退出D0状态时候的回调函数
-	pnpPowerCallbacks.EvtDeviceD0Exit = PcieForDspDeviceD0Exit;   // hu 在此状态下，计算机在全功耗和全功能下运行
+	pnpPowerCallbacks.EvtDeviceD0Entry = PcieForDspDeviceD0Entry;  // zhu 进入和退出D0状态时候的回调函数
+	pnpPowerCallbacks.EvtDeviceD0Exit = PcieForDspDeviceD0Exit;   // zhu 在此状态下，计算机在全功耗和全功能下运行
 
-	// zhu
 	// Register the PnP Callbacks..
 	WdfDeviceInitSetPnpPowerEventCallbacks(DeviceInit, &pnpPowerCallbacks);
 
@@ -189,7 +197,7 @@ NTSTATUS
 	status = WdfDeviceCreate(&DeviceInit, &attributes, &device);
 	if (!NT_SUCCESS(status))
 	{
-		TraceEvents(TRACE_LEVEL_ERROR, TRACE_DRIVER,"WdfDeviceCreate failed %!STATUS!", status);
+		//TraceEvents(TRACE_LEVEL_ERROR, TRACE_DRIVER,"WdfDeviceCreate failed %!STATUS!", status);
 		return status;
 	}
 
@@ -241,6 +249,15 @@ NTSTATUS
 	return status;
 }
 
+/*  zhu
+*  程序描述：
+*  释放所有在DriverEntry中加载的资源。
+*
+*  参数：
+*  DriverObject - 指向WDF 驱动对象的句柄
+*
+*  返回值：
+*/
 VOID
 PcieForDSPEvtDriverContextCleanup(
 _In_ WDFOBJECT DriverObject
@@ -276,7 +293,7 @@ VOID.
 
 /*  zhu 
  *  程序描述：
- *  在启动设备需要初始化时运行，建立一个DMA通道和任一I/O端口。该函数只在设备启动或重启时调用。
+ *  在启动设备需要初始化时运行，获取物理内存资源映射。该函数只在设备启动或重启时调用。
  *
  *  参数：
  *  Device - 指向WDFDEVICE的句柄
@@ -320,8 +337,8 @@ WDFCMRESLIST  ResourcesTranslated
 		{
 			status = STATUS_DEVICE_CONFIGURATION_ERROR;
 #ifdef DEBUG_ZHU
-			TraceEvents(TRACE_LEVEL_ERROR, TRACE_DRIVER,
-				"WdfCmResourceListGetDescriptor failed %!STATUS!", status);
+			//TraceEvents(TRACE_LEVEL_ERROR, TRACE_DRIVER,
+			//	"WdfCmResourceListGetDescriptor failed %!STATUS!", status);
 #endif
 			return status;
 		}
@@ -331,6 +348,7 @@ WDFCMRESLIST  ResourcesTranslated
 		case CmResourceTypeMemory:  // zhu 物理内存资源
 			if (i == 0)
 			{
+				//bar0 空间
 				devExt->PhysicalAddressRegister = desc->u.Memory.Start.LowPart;
 				devExt->MemBar0Base = (PUCHAR)MmMapIoSpace(
 					desc->u.Memory.Start,
@@ -340,6 +358,7 @@ WDFCMRESLIST  ResourcesTranslated
 			}
 			if (i == 2)
 			{
+				//bar1 空间
 				devExt->MemBar1Base = (PUCHAR)MmMapIoSpace(
 					desc->u.Memory.Start,
 					desc->u.Memory.Length,
@@ -348,6 +367,7 @@ WDFCMRESLIST  ResourcesTranslated
 			}
 			else
 			{
+				//bar2 空间
 				devExt->MemBar2Base = (PUCHAR)MmMapIoSpace(
 					desc->u.Memory.Start,
 					desc->u.Memory.Length,
@@ -355,12 +375,15 @@ WDFCMRESLIST  ResourcesTranslated
 				devExt->MemBar2Length = desc->u.Memory.Length;
 			}
 			
-
+#ifdef DEBUG_ZHU
 			DbgPrint("zhu:AType[%I64X--%I64X]  BAR%d", desc->u.Memory.Start.QuadPart, desc->u.Memory.Start.QuadPart + desc->u.Memory.Length - 1, i);
+#endif
 			break;
 			
 		default:
+#ifdef DEBUG_ZHU
 			DbgPrint("zhu: i=%u not case the CmResourceTypeMemory!",i);
+#endif
 			break;
 		}
 	}
@@ -369,30 +392,33 @@ WDFCMRESLIST  ResourcesTranslated
 	{
 		status = STATUS_INSUFFICIENT_RESOURCES;
 #ifdef DEBUG_ZHU
-		TraceEvents(TRACE_LEVEL_ERROR, TRACE_DRIVER,
-			"PcieMapResources: Missing resources BAR0");
+		//TraceEvents(TRACE_LEVEL_ERROR, TRACE_DRIVER,
+		//	"PcieMapResources: Missing resources BAR0");
 #endif
 		return status;
 	}
 
 	if (devExt->MemBar0Base)
 	{
+#ifdef DEBUG_ZHU
 		DbgPrint("zhu:run in the front of PcieDeviceSetupDMA");
+#endif
 		PcieDeviceSetupDMA(devExt->MemBar0Base,
 			devExt->CommonBufferBaseLA);
 	}
 
 
 #ifdef DEBUG_ZHU
-	TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER, "<-- %!FUNC!");
+	//TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER, "<-- %!FUNC!");
 #endif
 	return status;
 }
 
 
-/*  zhu
+/*******************************************************************************
  *  程序描述：
- *  取消PcieForDspPreparaHardware中的映射。在设备因resource rebalance,surprise-removed or query-removed被停止时调用
+ *  取消PcieForDspPreparaHardware中的映射。
+ *  在设备因resource rebalance,surprise-removed or query-removed被停止时调用
  *
  *  参数：
  *  Device - 指向WDFDEVICE的句柄
@@ -400,7 +426,7 @@ WDFCMRESLIST  ResourcesTranslated
  *
  *  返回值：
  *  NT status code - failure will result in the device stack being torn down
- */
+ ********************************************************************************/
 NTSTATUS
 PcieForDspReleaseHardware(
 WDFDEVICE     Device,
@@ -416,7 +442,7 @@ WDFCMRESLIST  ResourcesTranslated
 	PAGED_CODE();
 
 #ifdef DEBUG_ZHU
-	TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER, "--> %!FUNC!");
+	//TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER, "--> %!FUNC!");
 #endif
 
 	devExt = DeviceGetContext(Device);
@@ -441,47 +467,79 @@ WDFCMRESLIST  ResourcesTranslated
 	}
 
 #ifdef DEBUG_ZHU
-	TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER, "<-- %!FUNC!");
+	//TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER, "<-- %!FUNC!");
 #endif
 	return status;
 }
 
-/*
+/************************************************************************
 *  程序描述：
-*  
+*  响应PNP_SET_POWER分发的函数；进入D0状态的回调函数。
 *
 *  参数：
 *  Device - 指向WDFDEVICE的句柄
-*  PreviousState -  
+*  PreviousState -  上一个状态
 *
 *  返回值：
 *  NT status code - failure will result in the device stack being torn down
-*/
+*************************************************************************/
 NTSTATUS
 PcieForDspDeviceD0Entry(
 _In_  WDFDEVICE Device,
 _In_  WDF_POWER_DEVICE_STATE PreviousState
 )
+/*++
+
+Routine Description:
+
+This routine prepares the device for use.  It is called whenever the device
+enters the D0 state, which happens when the device is started, when it is
+restarted, and when it has been powered off.
+
+Note that interrupts will not be enabled at the time that this is called.
+They will be enabled after this callback completes.
+
+This function is not marked pageable because this function is in the
+device power up path. When a function is marked pagable and the code
+section is paged out, it will generate a page fault which could impact
+the fast resume behavior because the client driver will have to wait
+until the system drivers can service this page fault.
+
+Arguments:
+
+Device  - The handle to the WDF device object
+
+PreviousState - The state the device was in before this callback was invoked.
+
+Return Value:
+
+NTSTATUS
+
+Success implies that the device can be used.
+
+Failure will result in the    device stack being torn down.
+
+--*/
 {
 	NTSTATUS  status = STATUS_SUCCESS;
 
 	UNREFERENCED_PARAMETER(Device);
 	UNREFERENCED_PARAMETER(PreviousState);
 
-	TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER, "--> %!FUNC!");
+	//TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER, "--> %!FUNC!");
 
 
-	TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER, "<-- %!FUNC!");
+	//TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER, "<-- %!FUNC!");
 	return status;
 }
 
 /*
 *  程序描述：
-*  
+*  退出D0状态的回调函数。
 *
 *  参数：
 *  Device - 指向WDFDEVICE的句柄
-*  TargetState - 
+*  TargetState - 目标状态
 *
 *  返回值：
 *  NT status code - failure will result in the device stack being torn down
@@ -491,13 +549,39 @@ PcieForDspDeviceD0Exit(
 _In_  WDFDEVICE Device,
 _In_  WDF_POWER_DEVICE_STATE TargetState
 )
+/*++
+
+Routine Description:
+
+This routine undoes anything done in PcieForDspDeviceD0Entry.  It is called
+whenever the device leaves the D0 state, which happens when the device
+is stopped, when it is removed, and when it is powered off.
+
+The device is still in D0 when this callback is invoked, which means that
+the driver can still touch hardware in this routine.
+
+Note that interrupts have already been disabled by the time that this
+callback is invoked.
+
+Arguments:
+
+Device  - The handle to the WDF device object
+
+TargetState - The state the device will go to when this callback completes.
+
+Return Value:
+
+Success implies that the device can be used.  Failure will result in the
+device stack being torn down.
+
+--*/
 {
 	NTSTATUS  status = STATUS_SUCCESS;
 	PDEVICE_CONTEXT   devExt;
 
 	PAGED_CODE();
 
-	TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER, "--> %!FUNC!");
+	//TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER, "--> %!FUNC!");
 
 	devExt = DeviceGetContext(Device);
 
@@ -537,11 +621,21 @@ _In_  WDF_POWER_DEVICE_STATE TargetState
 		break;
 	}
 
-	TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER, "<-- %!FUNC!");
+	//TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER, "<-- %!FUNC!");
 
 	return status;
 }
 
+/*
+*  程序描述：
+*  创建队列、中断、定时器，配置DMA
+*
+*  参数：
+*  DevExt - 指向WDFDEVICE的句柄
+*
+*  返回值：
+*  NT status code - failure will result in the device stack being torn down
+*/
 NTSTATUS
 PcieInitializeDeviceContext(
 //_In_ PWDF_OBJECT_ATTRIBUTES Attributes,
@@ -569,7 +663,7 @@ NTSTATUS
 	PAGED_CODE();
 
 #ifdef DEBUG_ZHU
-	TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER, "--> %!FUNC!");
+	//TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER, "--> %!FUNC!");
 #endif
 
 	status = PcieForDSPQueueInitialize(DevExt);
@@ -577,8 +671,8 @@ NTSTATUS
 	if (!NT_SUCCESS(status))
 	{
 #ifdef DEBUG_ZHU
-		TraceEvents(TRACE_LEVEL_ERROR, TRACE_DRIVER,
-			"PcieQueueInitialize failed: %!STATUS!", status);
+		//TraceEvents(TRACE_LEVEL_ERROR, TRACE_DRIVER,
+		//	"PcieQueueInitialize failed: %!STATUS!", status);
 #endif
 		return status;
 	}
@@ -589,8 +683,8 @@ NTSTATUS
 	status = PcieInterruptCreate(DevExt);
 	if (!NT_SUCCESS(status)) {
 #ifdef DEBUG_ZHU
-		TraceEvents(TRACE_LEVEL_ERROR, TRACE_DRIVER,
-			"PcieInterruptCreate failed: %!STATUS!", status);
+		//TraceEvents(TRACE_LEVEL_ERROR, TRACE_DRIVER,
+		//	"PcieInterruptCreate failed: %!STATUS!", status);
 #endif
 		return status;
 	}
@@ -607,6 +701,8 @@ NTSTATUS
 	//
 	// Init Timers
 	//
+
+	// DMA 的定时器创建
 	status = PcieTimerCreate(
 		&DevExt->WriteTimer,
 		DevExt->Device,
@@ -614,6 +710,7 @@ NTSTATUS
 
 	if (!NT_SUCCESS(status)) {	return status;	}
 
+	// 读操作 定时器创建
 	status = PcieTimerCreate(
 		&DevExt->ReadTimer,
 		DevExt->Device,
@@ -621,6 +718,7 @@ NTSTATUS
 
 	if (!NT_SUCCESS(status)) {	return status; }
 
+	// 写操作 定时器创建
 	status = PcieTimerCreate(
 		&DevExt->IoWriteTimer,
 		DevExt->Device,
@@ -660,6 +758,16 @@ _In_ PDEVICE_CONTEXT DevExt
 }
 */
 
+/*
+*  程序描述：
+*  配置DMA
+*
+*  参数：
+*  DevExt - 指向WDFDEVICE的句柄
+*
+*  返回值：
+*  NT status code - failure will result in the device stack being torn down
+*/
 NTSTATUS
 PcieInitializeDMA(
 _In_ PDEVICE_CONTEXT DevExt
@@ -668,6 +776,7 @@ _In_ PDEVICE_CONTEXT DevExt
 Routine Description:
 
 Initializes the DMA adapter.
+
 
 Arguments:
 
@@ -684,10 +793,11 @@ None
 
 	PAGED_CODE();
 
-	DbgPrint("zhu:-->PcieInitializeDMA<--");
-	//#ifdef DEBUG_ZHU
-	//	TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER, "--> %!FUNC!");
-	//#endif
+	
+	#ifdef DEBUG_ZHU
+		DbgPrint("zhu:-->PcieInitializeDMA<--");
+		//TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER, "--> %!FUNC!");
+	#endif
 
 	//
 	// DMA_TRANSFER_ELEMENTS must be 128-byte aligned
@@ -701,11 +811,11 @@ None
 	// Use Scatter/Gather, 32-bit Addresses, Duplex-type profile.
 	//
 	WDF_DMA_ENABLER_CONFIG_INIT(&dmaConfig,
-		//#ifdef SUPPORT_DMA64
-		//		WdfDmaProfileScatterGather64Duplex,
-		//#else
+#ifdef SUPPORT_DMA64
+		WdfDmaProfileScatterGather64Duplex,
+#else
 		WdfDmaProfileScatterGatherDuplex,
-		//#endif
+#endif
 		MAX_DMA_SIZE_COMMONBUFFER);
 
 	//#ifdef DEBUG_ZHU

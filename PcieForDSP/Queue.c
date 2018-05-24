@@ -7,7 +7,7 @@ Module Name:
 Abstract:
 
     This file contains the queue entry points and callbacks.
-
+	zhu: 读写操作的回调函数
 Environment:
 
     Kernel-mode Driver Framework
@@ -22,6 +22,16 @@ Environment:
 //#pragma alloc_test (PAGE, PcieForDSPEvtIoDeviceControl)
 #endif
 
+/*******************************************************************************
+*  程序描述：
+*  创建并初始化需要的队列
+*
+*  参数：
+*  DevExt - 指向 上下文 的句柄
+*
+*  返回值：
+*  NT status code - failure will result in the device stack being torn down
+********************************************************************************/
 NTSTATUS
 PcieForDSPQueueInitialize(
 _In_ PDEVICE_CONTEXT DevExt
@@ -67,7 +77,7 @@ Return Value:
         );  */
 
 
-	// hu 初始化缺省队列配置，设置I/O请求分发处理方式为串行
+	// zhu 初始化缺省队列配置，设置I/O请求分发处理方式为串行
 	WDF_IO_QUEUE_CONFIG_INIT(&queueConfig, WdfIoQueueDispatchSequential);
 
 	queueConfig.EvtIoWrite = PcieEvtIoWrite;
@@ -87,7 +97,7 @@ Return Value:
 
 	//
 	// Set the Write Queue forwarding for IRP_MJ_WRITE requests.
-	//
+	// 会响应 WriteFile 的 queue
 	status = WdfDeviceConfigureRequestDispatching(DevExt->Device,
 		DevExt->WriteQueue,
 		WdfRequestTypeWrite);
@@ -103,25 +113,26 @@ Return Value:
 	//
 	// Create a new IO Queue for IRP_MJ_READ requests in sequential mode.
 	//
-//	WDF_IO_QUEUE_CONFIG_INIT(&queueConfig, WdfIoQueueDispatchSequential);
-//
-//	queueConfig.EvtIoRead = PcieEvtIoRead;
-//
-//	status = WdfIoQueueCreate(DevExt->Device,
-//		&queueConfig,
-//		WDF_NO_OBJECT_ATTRIBUTES,
-//		&DevExt->ReadQueue);
-//
-//	if (!NT_SUCCESS(status)) {
-////#ifdef DEBUG_ZHU
-////		TraceEvents(TRACE_LEVEL_ERROR, TRACE_DRIVER,
-////			"WdfIoQueueCreate failed: %!STATUS!", status);
-////#endif
-//		return status;
-//	}
+/*	WDF_IO_QUEUE_CONFIG_INIT(&queueConfig, WdfIoQueueDispatchSequential);
+
+	queueConfig.EvtIoRead = PcieEvtIoRead;
+
+	status = WdfIoQueueCreate(DevExt->Device,
+		&queueConfig,
+		WDF_NO_OBJECT_ATTRIBUTES,
+		&DevExt->ReadQueue);
+
+	if (!NT_SUCCESS(status)) {
+//#ifdef DEBUG_ZHU
+//		TraceEvents(TRACE_LEVEL_ERROR, TRACE_DRIVER,
+//			"WdfIoQueueCreate failed: %!STATUS!", status);
+//#endif
+		return status;
+	}*/
+
 	// Create a new IO Dispatch Queue for IRP_MJ_DEVICE_CONTROL  requests in sequential mode.
 	//
-	WDF_IO_QUEUE_CONFIG_INIT(&queueConfig, WdfIoQueueDispatchSequential);//zhu
+	WDF_IO_QUEUE_CONFIG_INIT(&queueConfig, WdfIoQueueDispatchSequential);
 
     queueConfig.EvtIoDeviceControl = PcieForDSPEvtIoDeviceControl;
     queueConfig.EvtIoStop = PcieForDSPEvtIoStop;
@@ -139,7 +150,7 @@ Return Value:
     }
 
 	// Set the IO Dispatch Queue forwarding for IRP_MJ_DEVICE_CONTROL requests.
-	//
+	// 会响应 DeviceIoControl 的 queue
 	status = WdfDeviceConfigureRequestDispatching(DevExt->Device,
 		DevExt->IoDispatchQueue,
 		WdfRequestTypeDeviceControl);
@@ -155,6 +166,20 @@ Return Value:
     return status;
 }
 
+/*******************************************************************************
+*  程序描述：
+*  用户程序调用 DeviceIoControl() 时对应的回调函数;
+*  根据不同的 IoControlCode 进行不同的操作。
+*
+*  参数：
+*  Queue - 当前的 队列 句柄
+*  Request - 当前的 请求 句柄
+*  OutputBufferLength - Size of the output buffer in bytes
+*  InputBufferLength - Size of the input buffer in bytes
+*  IoControlCode - I/O control code.
+*
+*  返回值：
+********************************************************************************/
 VOID
 PcieForDSPEvtIoDeviceControl(
     _In_ WDFQUEUE Queue,
@@ -207,10 +232,14 @@ Return Value:
 	UNREFERENCED_PARAMETER(OutputBufferLength);
 	UNREFERENCED_PARAMETER(InputBufferLength);
 
-	DbgPrint("zhu:-->PcieEvtIoDeviceControl()<--");
+#ifdef DEBUG_ZHU
+	//DbgPrint("zhu:-->PcieEvtIoDeviceControl()<--");
+#endif // DEBUG_ZHU
+	
 	
 
 	devExt = DeviceGetContext(WdfIoQueueGetDevice(Queue));
+
 
 	status = WdfRequestRetrieveOutputBuffer(Request, 1, &out_buffer, &out_bufsize);
 	if (!NT_SUCCESS(status)){
@@ -222,20 +251,20 @@ Return Value:
 	if (!NT_SUCCESS(status)){
 		WdfRequestCompleteWithInformation(Request, status, ret_length);
 		#ifdef DEBUG_ZHU
-				TraceEvents(TRACE_LEVEL_ERROR, TRACE_DRIVER,
-					"WdfRequestRetrieveInputBuffer failed: %!STATUS!", status);
+				//TraceEvents(TRACE_LEVEL_ERROR, TRACE_DRIVER,
+				//	"WdfRequestRetrieveInputBuffer failed: %!STATUS!", status);
 		#endif
 		return;
 	}
 
 	#ifdef DEBUG_ZHU
-		TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER,
-			"PcieEvtIoDeviceControl: in_buffer 0x%x in_bufsize 0x%x",
-			(unsigned int)in_buffer, in_bufsize);
+		//TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER,
+		//	"PcieEvtIoDeviceControl: in_buffer 0x%x in_bufsize 0x%x",
+		//	(unsigned int)in_buffer, in_bufsize);
 	
-		TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER,
-			"PcieEvtIoDeviceControl: out_buffer 0x%x out_bufsize 0x%x",
-			(unsigned int)out_buffer, out_bufsize);
+		//TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER,
+		//	"PcieEvtIoDeviceControl: out_buffer 0x%x out_bufsize 0x%x",
+		//	(unsigned int)out_buffer, out_bufsize);
 	#endif
 
 		
@@ -244,7 +273,10 @@ Return Value:
 	{
 	case PCIeDMA_IOCTL_WRITE_REG:
 	{
+#ifdef DEBUG_ZHU
 		DbgPrint("zhu:-->PCIeDMA_IOCTL_WRITE_REG<--");
+#endif // DEBUG_ZHU
+		
 
 		ULONG *ptr = (PULONG)in_buffer;
 		ULONG size = ptr[0] / sizeof(ULONG);
@@ -285,7 +317,9 @@ Return Value:
 	}
 	case PCIeDMA_IOCTL_READ_REG:
 	{
+#ifdef DEBUG_ZHU
 		DbgPrint("zhu:-->PCIeDMA_IOCTL_READ_REG<--");
+#endif
 		ULONG *ptr = (PULONG)in_buffer;
 		ULONG addr = ptr[0];
 
@@ -310,8 +344,10 @@ Return Value:
 	}
 	case PCIE_IOCTL_DEBUG:
 	{
-
+#ifdef DEBUG_ZHU
 		DbgPrint("zhu:-->PCIE_IOCTL_DEBUG<--");
+#endif
+		
 
 		ULONG *ptr = (PULONG)in_buffer;
 		ULONG barX = ptr[0];
@@ -347,6 +383,17 @@ Return Value:
     return;
 }
 
+/*******************************************************************************
+*  程序描述：
+*  
+*
+*  参数：
+*  Queue - 当前的 队列 句柄
+*  Request - 当前的 请求 句柄
+*  ActionFlags -
+*  
+*  返回值：
+********************************************************************************/
 VOID
 PcieForDSPEvtIoStop(
     _In_ WDFQUEUE Queue,
@@ -377,13 +424,13 @@ Return Value:
 --*/
 {
 #ifdef DEBUG_ZHU
-	TraceEvents(TRACE_LEVEL_INFORMATION, 
-		TRACE_QUEUE,
-		"!FUNC! Queue 0x%p, Request 0x%p ActionFlags %d",
-		Queue, Request, ActionFlags);
+	//TraceEvents(TRACE_LEVEL_INFORMATION, 
+	//	TRACE_QUEUE,
+	//	"!FUNC! Queue 0x%p, Request 0x%p ActionFlags %d",
+	//	Queue, Request, ActionFlags);
 #endif
 	UNREFERENCED_PARAMETER(ActionFlags);
-	UNREFERENCED_PARAMETER(Request);
+	//UNREFERENCED_PARAMETER(Request);
 	UNREFERENCED_PARAMETER(Queue);
     
 	NTSTATUS status = STATUS_SUCCESS;
@@ -429,6 +476,17 @@ Return Value:
 	return;
 }
 
+/*******************************************************************************
+*  程序描述：
+*  用户程序调用WriteFile() 时对应的回调函数;
+*  将数据存入缓冲区并以DMA方式发送给DSP。
+*
+*  参数：
+*  Queue - 当前的 队列 句柄
+*  Request - 当前的 请求 句柄
+*  Length - 
+*  返回值：
+********************************************************************************/
 VOID
 PcieEvtIoWrite(
 _In_ WDFQUEUE         Queue,
@@ -470,10 +528,11 @@ Return Value:
 	size_t 	in_bufsize;
 
 
-//#ifdef DEBUG_ZHU
+#ifdef DEBUG_ZHU
 //	TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER, "--> %!FUNC!: Request %p", Request);
-//#endif
 	DbgPrint("zhu:-->PcieEvtIoWrite<-- ");
+#endif
+	
 
 	//
 	// Get the DevExt from the Queue handle
@@ -485,64 +544,61 @@ Return Value:
 	//
 	if (Length > MAX_DMA_SIZE_COMMONBUFFER)  {
 		status = STATUS_INVALID_BUFFER_SIZE;
-//#ifdef DEBUG_ZHU
-//		TraceEvents(TRACE_LEVEL_ERROR, TRACE_DRIVER,
-//			"%!FUNC! failed: %!STATUS!", status);
-//#endif
 		WdfRequestComplete(Request, status);
 		return;
 	}
 
 	status = WdfRequestRetrieveInputBuffer(Request, 1, &in_buffer, &in_bufsize);
 	if (!NT_SUCCESS(status)){
-//#ifdef DEBUG_ZHU
-//		TraceEvents(TRACE_LEVEL_ERROR, TRACE_DRIVER,
-//			"WdfRequestRetrieveInputBuffer failed: %!STATUS!", status);
-//#endif
+#ifdef DEBUG_ZHU
+		DbgPrint("in_bufsize : %d", in_bufsize);
+#endif
 		WdfRequestComplete(Request, status);
 		return;
 	}
 
 	RtlCopyMemory(devExt->CommonBufferBase, in_buffer, in_bufsize);
+
+	
 	devExt->WriteDmaLength = in_bufsize;
 	KeMemoryBarrier();
 
 	devExt->WriteRequest = Request;
 	devExt->CurrentRequestMode = 0x0;
-
 	devExt->WriteTimeout = FALSE;
 
 	PcieDeviceStartDMA(devExt, devExt->Interrupt);
 
 	PcieTimerStart(devExt->WriteTimer,20000);
-	//WdfRequestComplete(Request, status);
-//	devExt->WriteTimeout = FALSE;
-//	PcieDMATimerStart(devExt->WriteTimer);
 	return;
 }
 
-/*
- *-->说明<--
- * 进行Outbound配置操作
- */
+
+/*******************************************************************************
+*  程序描述：
+*  进行DSP的Outbound配置操作
+*
+*  参数：
+*  Bar0Base - Bar0空间基地址
+*  hostAddress - PcieInitializeDMA() 中申请的 16M 缓冲区的逻辑地址
+*
+*  返回值：
+********************************************************************************/
 VOID
 PcieDeviceSetupDMA(
 _In_ PUCHAR Bar0Base,
-//_In_ PUCHAR Bar1Base,
-//_In_ WDFINTERRUPT interrupt,
 _In_ PHYSICAL_ADDRESS hostAddress
-//_In_ ULONG size
-//_In_ ULONG direction,
-//_In_ BOOLEAN descLoc	// Descriptor location : 0 - external 1 - internal
 )
-// hu 设置DMA寄存器
+// zhu 设置DSP 的 DMA 寄存器
 {
 	//DbgPrint("-->zhu:PcieDeviceSetupDMA<--");
 	ULONG srcAddr;
 	ULONG pageBase;
 
-
+#ifdef DEBUG_ZHU
 	DbgPrint("zhu:-->Outbound Start<-- ");
+#endif 
+	
 	srcAddr = hostAddress.LowPart;
 
 	// zhu 进行Outbound操作
@@ -555,11 +611,25 @@ _In_ PHYSICAL_ADDRESS hostAddress
 		PcieDeviceWriteReg(Bar0Base, OB_OFFSET_INDEX(i), (pageBase | 0x1));
 		PcieDeviceWriteReg(Bar0Base, OB_OFFSET_HI(i), 0x00);
 	}
+#ifdef DEBUG_ZHU
 	DbgPrint("zhu:-->Outbound End<-- ");
+#endif // DEBUG_ZHU
+	
 
 	
 }
 
+
+/*******************************************************************************
+*  程序描述：
+*  配置DSP寄存器并开始DMA
+*
+*  参数：
+*  devExt - 指向 上下文 的句柄
+*  interrupt - 指向中断的句柄（因为初始化时是不使能中断的，所以这里未用到）
+*
+*  返回值：
+********************************************************************************/
 VOID
 PcieDeviceStartDMA(
 _In_ PDEVICE_CONTEXT devExt,
@@ -568,9 +638,6 @@ _In_ WDFINTERRUPT interrupt
 )
 // hu 开始DMA传输
 {
-//	NTSTATUS status = STATUS_SUCCESS;
-	//ULONG uiSize;
-	//ULONG uiTmp;
 	ULONG srcAddr;
 
 	DbgPrint("zhu:-->Start EDMA<--");
@@ -591,12 +658,20 @@ _In_ WDFINTERRUPT interrupt
 
 }
 
-VOID
-PcieEvtIoRead(
-_In_ WDFQUEUE         Queue,
-_In_ WDFREQUEST       Request,
-_In_ size_t           Length
-)
+/*******************************************************************************
+*  程序描述：
+*  用户程序调用ReadFile() 时对应的回调函数
+*
+*  参数：
+*
+*  返回值：
+********************************************************************************/
+//VOID
+//PcieEvtIoRead(
+//_In_ WDFQUEUE         Queue,
+//_In_ WDFREQUEST       Request,
+//_In_ size_t           Length
+//)
 /*++
 
 Routine Description:
@@ -619,13 +694,15 @@ a zero length request.
 Return Value:
 
 --*/
-{
-	UNREFERENCED_PARAMETER(Queue);
-	UNREFERENCED_PARAMETER(Request);
-	UNREFERENCED_PARAMETER(Length);
-	DbgPrint("zhu:-->PcieEvtIoRead<-- ");
-	return;
-}
+//{
+//	UNREFERENCED_PARAMETER(Queue);
+//	UNREFERENCED_PARAMETER(Request);
+//	UNREFERENCED_PARAMETER(Length);
+//
+//	DbgPrint("zhu:-->PcieEvtIoRead<-- ");
+//
+//	return;
+//}
 /*
 
 ULONG

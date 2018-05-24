@@ -48,7 +48,17 @@ Environment:
 #pragma alloc_text (INIT, DriverEntry)
 #endif
 
-
+/*******************************************************************************
+*  程序描述：
+*  驱动程序入口。
+*
+*  参数：
+*  DriverObject - 
+*  RegistryPath - 
+*
+*  返回值：
+*  NT status code - failure will result in the device stack being torn down
+********************************************************************************/
 NTSTATUS
 DriverEntry(
     _In_ PDRIVER_OBJECT  DriverObject,
