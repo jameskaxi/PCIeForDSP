@@ -28,3 +28,4 @@ Class pcieDriverHelper.PcieDriver: AutoLayout, AnsiClass, Class, Public, BeforeF
     SetDeviceRegister(UInt32, UInt32[]): PrivateScope, Public, Static, HideBySig
     SetDebugRegister(UInt32, UInt32, UInt32): PrivateScope, Public, Static, HideBySig
     ReadPFGARegister(UInt32, UInt32[]): PrivateScope, Public, Static, HideBySig
+    DspProloading(Byte[]): PrivateScope, Public, Static, HideBySig

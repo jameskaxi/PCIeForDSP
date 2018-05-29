@@ -1,4 +1,5 @@
-
+#ifndef __TIMER_H_
+#define __TIMER_H_
 
 NTSTATUS
 PcieTimerCreate(
@@ -32,3 +33,6 @@ VOID
 IoWriteTimerEventFunc(
 _In_ WDFTIMER Timer
 );
+
+#endif // !__TIMER_H_
+

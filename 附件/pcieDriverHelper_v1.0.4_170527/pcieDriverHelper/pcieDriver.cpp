@@ -155,7 +155,7 @@ bool __stdcall DmaToDevWithMode(LPDWORD pBufferAddr,DWORD bufferSize,DWORD mode)
 		pInputBuf[0] = 2;
 		pInputBuf[1] = 0x8;
 		pInputBuf[2] = 0x3;
-		bool state = true;
+		BOOL state = true;
 
 		state = DeviceIoControl(hPcieDev,PCIE_IOCTL_DEBUG,pInputBuf,3*sizeof(DWORD32),&outputBuf,sizeof(DWORD32),&outputBufSize,NULL);
 		if(!state)
@@ -172,7 +172,7 @@ bool __stdcall DmaToDevWithMode(LPDWORD pBufferAddr,DWORD bufferSize,DWORD mode)
 		pInputBuf[0] = 2;
 		pInputBuf[1] = 0x8;
 		pInputBuf[2] = 0x1;
-		bool state = true;
+		BOOL state = true;
 
 		state = DeviceIoControl(hPcieDev,PCIE_IOCTL_DEBUG,pInputBuf,3*sizeof(DWORD32),&outputBuf,sizeof(DWORD32),&outputBufSize,NULL);
 		if(!state)
@@ -327,7 +327,7 @@ bool __stdcall DebugRegister(DWORD32 barX,DWORD32 OfferAddr,DWORD32 data)
 	DWORD32 pInputBuf[3];
 	DWORD32 outputBuf;
 	DWORD outputBufSize;
-	bool state;
+	BOOL state;
 
 	if (hPcieDev == INVALID_HANDLE_VALUE)
 	{
@@ -355,7 +355,7 @@ bool __stdcall ReadFPGAReg(DWORD32 OfferAddr,PDWORD32 outBuffer)
 	DWORD32 inputBuf;
 	DWORD32 outputBuf;
 	DWORD outputBufSize;
-	bool state;
+	BOOL state;
 
 	if (hPcieDev == INVALID_HANDLE_VALUE)
 	{
@@ -374,6 +374,27 @@ bool __stdcall ReadFPGAReg(DWORD32 OfferAddr,PDWORD32 outBuffer)
 	}
 
 	*outBuffer = outputBuf;
+	return true;
+
+}
+
+bool __stdcall Proloading(LPDWORD pFileBuf,DWORD32 bufSize)
+{
+	DWORD32 outputBuf;
+	DWORD outputBufSize;
+
+	if (hPcieDev == INVALID_HANDLE_VALUE)
+	{
+		wcscpy_s(lastError, L"PCIE设备未打开！");
+		return false;
+	}
+
+	if (!DeviceIoControl(hPcieDev,DSP_PRELOADING,
+		pFileBuf,bufSize,&outputBuf,sizeof(DWORD32),&outputBufSize,NULL))
+	{
+		wcscpy_s(lastError, L"写入PCIE设备寄存器失败！");
+		return false;
+	}
 	return true;
 
 }

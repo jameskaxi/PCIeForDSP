@@ -835,5 +835,55 @@ namespace PcieDriverTest
             
         }
 
+        private void btnPreloading_Click(object sender, EventArgs e)
+        {
+            String filePath = tboxDSPFilePath.Text;
+            FileStream fs = null;
+            BinaryReader br = null;
+            byte[] buf;
+
+            try
+            {
+                fs = new FileStream(filePath, FileMode.Open, FileAccess.Read);
+                br = new BinaryReader(fs);
+
+                buf = new byte[fs.Length];
+                buf = br.ReadBytes(buf.Length);
+
+#if DEBUG_ZHU
+            txtStatus.Text += "--> 预加载成功！\n";
+#else
+                if (PcieDriver.DspProloading(buf))
+                {
+                    txtStatus.Text += "--> 预加载成功！\n";
+                }
+                else
+                {
+                    txtStatus.Text += "预加载失败！\n";
+                    txtStatus.Text += PcieDriver.GetLastDeviceError() + "\n";
+                }
+#endif
+            }
+            catch (Exception ex)
+            {
+                txtStatus.Text += "预加载失败！\n";
+                txtStatus.Text += ex.Message + "\n";
+            }
+            
+        }
+
+        private void btnDSPFile_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog chaOpeFilDia = new OpenFileDialog();
+            chaOpeFilDia.Filter = "bin files(*.bin)|*.bin|All files(*.*)|*.*";
+            chaOpeFilDia.AddExtension = true;
+            chaOpeFilDia.RestoreDirectory = true;
+            if (chaOpeFilDia.ShowDialog() == DialogResult.OK)
+            {
+                tboxDSPFilePath.Text = chaOpeFilDia.FileName;
+                tipShow.SetToolTip(tboxDSPFilePath, chaOpeFilDia.FileName);
+            }
+        }
+
     }
 }

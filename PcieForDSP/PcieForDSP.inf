@@ -8,7 +8,7 @@ Class=Sample ; TODO: edit Class
 ClassGuid={93E95EEF-AB6A-4C9C-807B-C7828D205BB5} ; TODO: edit ClassGuid
 Provider=%zhudky%
 CatalogFile=PcieForDSP.cat
-DriverVer=04/26/2018,0.5.1; TODO: set DriverVer in stampinf property pages
+DriverVer=05/29/2018,0.5.1; TODO: set DriverVer in stampinf property pages
 
 [DestinationDirs]
 DefaultDestDir = 12

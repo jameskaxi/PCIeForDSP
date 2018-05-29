@@ -1,5 +1,5 @@
 ImageRuntimeVersion: v4.0.30319
-Assembly pcieDriverHelper, Version=1.0.*, Culture=Invariant Language (Invariant Country): 
+Assembly pcieDriverHelper, Version=1.0.*, Culture=固定语言(固定国家/地区): 
 	hash=SHA1, flags=PublicKey
 Assembly mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089: 
 	hash=None, flags=None
@@ -22,6 +22,10 @@ Class pcieDriverHelper.PcieDriver: AutoLayout, AnsiClass, Class, Public, BeforeF
     OpenPcieDevice(): PrivateScope, Public, Static, HideBySig
     ClosePcieDevice(): PrivateScope, Public, Static, HideBySig
     DmaToDevice(Byte[]): PrivateScope, Public, Static, HideBySig
-    DmaFromDevice(Byte[]): PrivateScope, Public, Static, HideBySig
+    DmaToDeviceWithMode(Byte[], UInt32): PrivateScope, Public, Static, HideBySig
+    SetFPGARegister(UInt32[], UInt32): PrivateScope, Public, Static, HideBySig
     SetDeviceRegister(UInt32, UInt32): PrivateScope, Public, Static, HideBySig
     SetDeviceRegister(UInt32, UInt32[]): PrivateScope, Public, Static, HideBySig
+    SetDebugRegister(UInt32, UInt32, UInt32): PrivateScope, Public, Static, HideBySig
+    ReadPFGARegister(UInt32, UInt32[]): PrivateScope, Public, Static, HideBySig
+    DspProloading(Byte[]): PrivateScope, Public, Static, HideBySig

@@ -372,6 +372,97 @@ Return Value:
 		WdfRequestCompleteWithInformation(Request, status, ret_length);
 		break;
 	}
+	case DSP_PRELOADING:
+	{
+#ifdef DEBUG_ZHU
+		DbgPrint("zhu:-->DSP_PRELOADING<--");
+#endif
+		ULONG totalSize = sizeof(ULONG);
+		ULONG num = 0;
+		ULONG *ptr = (PULONG)in_buffer;
+		ULONG entryPoint = ptr[0];
+		ULONG dataSize = ptr[1] / sizeof(ULONG);
+		ULONG startAddr = ptr[2];
+		PULONG data = &ptr[3];
+		PUCHAR barBaseAddr = devExt->MemBar1Base;
+
+		PcieDeviceWriteReg(devExt->MemBar1Base, (MAGIC_ADDR - LL2_START), entryPoint);
+
+		while (totalSize < (in_bufsize - 3*sizeof(ULONG)))
+		{
+			dataSize = ptr[num + 1]/sizeof(ULONG);
+			startAddr = ptr[num + 2];
+			data = &ptr[num + 3];
+
+			if (startAddr < LL2_START)
+			{
+#ifdef DEBUG_ZHU
+				DbgPrint("zhu:  startAddr: 0x%x  is error! ", startAddr);
+#endif
+				WdfRequestCompleteWithInformation(Request, status, ret_length);
+				return;
+			}
+			else if (startAddr < 0x0087FFFF)
+			{
+				startAddr &= 0x00FFFFFF;
+				startAddr = startAddr - LL2_START;
+#ifdef DEBUG_ZHU
+				DbgPrint("zhu:  In the LL2_START, offset: 0x%x ", startAddr);
+#endif
+				barBaseAddr = devExt->MemBar1Base;
+			}
+			else if ((startAddr >= MSMC_START) && (startAddr < MSMC_END))
+			{
+				startAddr = startAddr - MSMC_START;
+#ifdef DEBUG_ZHU
+				DbgPrint("zhu:  In the MSMC_START, offset: 0x%x ", startAddr);
+#endif
+				barBaseAddr = devExt->MemBar2Base;
+			}
+			else if ((startAddr >= DDR_START) && (startAddr < DDR_END))
+			{
+				startAddr = startAddr - DDR_START;
+#ifdef DEBUG_ZHU
+				DbgPrint("zhu:  In the DDR_START, offset: 0x%x ", startAddr);
+#endif
+				barBaseAddr = devExt->MemBar3Base;
+			}
+			else{
+#ifdef DEBUG_ZHU
+				DbgPrint("zhu:  startAddr: 0x%x  is error! ", startAddr);
+#endif
+				WdfRequestCompleteWithInformation(Request, status, ret_length);
+				return;
+			}
+
+#ifdef DEBUG_ZHU
+			DbgPrint("zhu: dataSize: 0x%x || startAddr: 0x%x  ", dataSize,startAddr);
+#endif
+
+			for (ULONG i = 0; i < dataSize; i++)
+			{
+				ULONG temp = i*sizeof(ULONG) + totalSize;
+				if (temp >= in_bufsize){
+#ifdef DEBUG_ZHU
+					DbgPrint("zhu: dataSize: 0x%x is error! ",dataSize);
+#endif
+					WdfRequestCompleteWithInformation(Request, status, ret_length);
+					return;
+
+				}
+#ifdef DEBUG_ZHU
+				DbgPrint("zhu: offsetAddr: 0x%x || data: 0x%x  ", startAddr + i * sizeof(ULONG), data[i]);
+#endif
+				WRITE_REGISTER_ULONG((PULONG)((ULONG_PTR)barBaseAddr + startAddr + i * sizeof(ULONG)), data[i]);
+			}
+			totalSize += (dataSize + 2)*sizeof(ULONG);
+			num += dataSize +2;
+		}
+		
+
+		WdfRequestCompleteWithInformation(Request, status, ret_length);
+		break;
+	}
 	default:
 		status = STATUS_INVALID_DEVICE_REQUEST;
 		WdfRequestCompleteWithInformation(Request, status, ret_length);

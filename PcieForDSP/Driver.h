@@ -27,6 +27,7 @@ Environment:
 #include "Interrupt.h"
 #include "Timer.h"
 #include "RegPcie.h"
+#include "Preloading.h"
 
 //
 // WDFDRIVER Events

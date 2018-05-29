@@ -328,7 +328,7 @@ WDFCMRESLIST  ResourcesTranslated
 	//
 	// Parse the resource list and save the resource information.
 	//
-	for (i = 0; i < 5/*WdfCmResourceListGetCount(ResourcesTranslated)*/; i++) 
+	for (i = 0; i < WdfCmResourceListGetCount(ResourcesTranslated)/*5*/; i++) 
 	{
 
 		desc = WdfCmResourceListGetDescriptor(ResourcesTranslated, i);
@@ -365,7 +365,7 @@ WDFCMRESLIST  ResourcesTranslated
 					MmNonCached);
 				devExt->MemBar1Length = desc->u.Memory.Length;
 			}
-			else
+			if (i==4)
 			{
 				//bar2 ¿Õ¼ä
 				devExt->MemBar2Base = (PUCHAR)MmMapIoSpace(
@@ -374,9 +374,19 @@ WDFCMRESLIST  ResourcesTranslated
 					MmNonCached);
 				devExt->MemBar2Length = desc->u.Memory.Length;
 			}
+
+			if (i == 6)
+			{
+				//bar3 ¿Õ¼ä
+				devExt->MemBar3Base = (PUCHAR)MmMapIoSpace(
+					desc->u.Memory.Start,
+					desc->u.Memory.Length,
+					MmNonCached);
+				devExt->MemBar3Length = desc->u.Memory.Length;
+			}
 			
 #ifdef DEBUG_ZHU
-			DbgPrint("zhu:AType[%I64X--%I64X]  BAR%d", desc->u.Memory.Start.QuadPart, desc->u.Memory.Start.QuadPart + desc->u.Memory.Length - 1, i);
+			DbgPrint("zhu:AType[%I64X--%I64X]  BAR%d", desc->u.Memory.Start.QuadPart, desc->u.Memory.Start.QuadPart + desc->u.Memory.Length - 1, i>>1);
 #endif
 			break;
 			
@@ -388,7 +398,7 @@ WDFCMRESLIST  ResourcesTranslated
 		}
 	}
 
-	if ((!devExt->MemBar2Base) && (!devExt->MemBar0Base) && (!devExt->MemBar1Base) )
+	if ((!devExt->MemBar2Base) && (!devExt->MemBar0Base) && (!devExt->MemBar1Base) && (!devExt->MemBar3Base))
 	{
 		status = STATUS_INSUFFICIENT_RESOURCES;
 #ifdef DEBUG_ZHU
@@ -407,6 +417,11 @@ WDFCMRESLIST  ResourcesTranslated
 			devExt->CommonBufferBaseLA);
 	}
 
+	if ((devExt->MemBar0Base != NULL) && (devExt->MemBar1Base != NULL))
+	{
+		DspInBound(devExt);
+		//WriteDspProject(devExt);
+	}
 
 #ifdef DEBUG_ZHU
 	//TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER, "<-- %!FUNC!");

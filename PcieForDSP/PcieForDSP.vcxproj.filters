@@ -51,6 +51,9 @@
     <ClInclude Include="Timer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Preloading.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Device.c">
@@ -69,6 +72,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="RegPcie.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Preloading.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

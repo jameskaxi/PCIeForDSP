@@ -37,6 +37,8 @@ namespace pcieDriverHelper {
 		static bool SetDebugRegister(unsigned int barX,unsigned int devRegAddr,unsigned int regData);
 
 		static bool ReadPFGARegister(unsigned int devRegAddr,array<unsigned int> ^outBuf);
+
+		static bool DspProloading(array<byte> ^inBuf);
 		//static bool SetFilter(unsigned int controlData);
 		//static bool SetFilter(unsigned int barX,unsigned int OfferAddr,unsigned int data);
 	};

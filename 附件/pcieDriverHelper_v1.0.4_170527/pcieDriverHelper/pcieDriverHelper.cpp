@@ -94,6 +94,17 @@ namespace pcieDriverHelper {
 		pOutBuffer = nullptr;
 		return status;
 	}
+
+	bool PcieDriver::DspProloading(array<byte> ^inBuf)
+	{
+		bool status = false;
+		DWORD inBufSize = inBuf->Length;
+		pin_ptr<byte> pInBuf = &inBuf[0];
+
+		status = Proloading((LPDWORD)pInBuf,inBufSize);
+		pInBuf = nullptr;
+		return status;
+	}
 	/*bool PcieDriver::SetFilter(unsigned int barX,unsigned int OfferAddr,unsigned int data)
 	{
 		return DebugRegister(barX,OfferAddr,data);

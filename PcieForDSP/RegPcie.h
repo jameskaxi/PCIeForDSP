@@ -5,8 +5,11 @@
 
 
 //-----------------------------------------------------------------------------
-//Outbound操作相关地址及寄存器
+//DSP 相关地址及寄存器
 //-----------------------------------------------------------------------------
+
+#define MAGIC_ADDR                   0x0087FFFC
+
 #define PCIE_BASE_ADDRESS            (0x21800000)
 #define OB_SIZE                      (0x30)
 #define PRIORITY                     (0x3C)
@@ -25,9 +28,14 @@
 /* For 1MB outbound translation window size */
 #define PCIE_ADLEN_8MB               (0x00800000)
 #define PCIE_8MB_BITMASK             (0xFF800000)
-//#define LL2_START                    (0x00800000)
-//#define MSMC_START                   (0x0C000000)  /* Shared L2 */
+#define LL2_START                    (0x00800000)
+#define LL2_END                      (0x1087FFFF)//CorePac n L2 SRAM END
+//#define LL2_START(n)                 (0x10800000 + (0X1000000 * n))//CorePac n L2 SRAM
+//#define LL2_END(n)                   (0x1087FFFF + (0X1000000 * n))//CorePac n L2 SRAM END
+#define MSMC_START                   (0x0C000000)  /* Shared L2 */
+#define MSMC_END                     0x0C3FFFFF  /* Shared L2 END*/
 #define DDR_START                    (0x80000000)
+#define DDR_END                      0xFFFFFFFF  /* DDR END*/
 #define PCIE_DATA                    (0x60000000)  
 
 #define OUTBOUND_BUFFER_SIZE         (8*1024*1024)

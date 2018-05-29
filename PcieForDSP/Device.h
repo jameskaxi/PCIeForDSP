@@ -28,10 +28,15 @@ typedef struct _DEVICE_CONTEXT
 
 	PUCHAR                  MemBar0Base;      	//zhu: bar0 Registers base address (must be 32bit align)
 	ULONG                   MemBar0Length;    	//zhu  bar0 Registers base length
+
 	PUCHAR                  MemBar1Base;      	//zhu: bar1 Registers base address (must be 32bit align)
 	ULONG                   MemBar1Length;    	//zhu：bar1 Registers base length
+
 	PUCHAR                  MemBar2Base;      	//zhu：bar2  Registers base address (must be 32bit align)
 	ULONG                   MemBar2Length;    	//zhu：bar2  Registers base length
+
+	PUCHAR                  MemBar3Base;      	//zhu：bar3  Registers base address (must be 32bit align)
+	ULONG                   MemBar3Length;    	//zhu：bar3  Registers base length
 
 	WDFDMAENABLER           DmaEnabler;         //
 	WDFCOMMONBUFFER         CommonBuffer;       // 为 DMA 申请的一个 16M 的内存空间
