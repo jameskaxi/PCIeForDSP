@@ -386,13 +386,23 @@ Return Value:
 		PULONG data = &ptr[3];
 		PUCHAR barBaseAddr = devExt->MemBar1Base;
 
-		PcieDeviceWriteReg(devExt->MemBar1Base, (MAGIC_ADDR - LL2_START), entryPoint);
+		//DSP Inbound 操作
+		DspInBound(devExt);
 
+		//写数据
 		while (totalSize < (in_bufsize - 3*sizeof(ULONG)))
 		{
-			dataSize = ptr[num + 1]/sizeof(ULONG);
+			dataSize = ptr[num + 1];// sizeof(ULONG);
 			startAddr = ptr[num + 2];
 			data = &ptr[num + 3];
+
+			if (dataSize % sizeof(ULONG) != 0)
+			{
+				dataSize = dataSize / sizeof(ULONG) + 1;
+			}
+			else{
+				dataSize = dataSize / sizeof(ULONG);
+			}
 
 			if (startAddr < LL2_START)
 			{
@@ -402,7 +412,7 @@ Return Value:
 				WdfRequestCompleteWithInformation(Request, status, ret_length);
 				return;
 			}
-			else if (startAddr < 0x0087FFFF)
+			else if (startAddr < LL2_END)
 			{
 				startAddr &= 0x00FFFFFF;
 				startAddr = startAddr - LL2_START;
@@ -458,9 +468,49 @@ Return Value:
 			totalSize += (dataSize + 2)*sizeof(ULONG);
 			num += dataSize +2;
 		}
-		
+
+		//写入口地址
+		PcieDeviceWriteReg(devExt->MemBar1Base, (MAGIC_ADDR - LL2_START), entryPoint);
+
+		//发送中断信号
+		PcieDeviceEnableInterrupt(devExt->MemBar0Base);
+		PcieDeviceWriteReg(devExt->MemBar0Base, 0x180, 0x1);
 
 		WdfRequestCompleteWithInformation(Request, status, ret_length);
+		break;
+	}
+	case DSP_READ:
+	{
+#ifdef DEBUG_ZHU
+		DbgPrint("zhu:-->DSP_READ<--");
+#endif
+		ULONG *outPtr = (PULONG)out_buffer;
+
+		ULONG *ptr = (PULONG)in_buffer;
+		ULONG barX = ptr[0];
+		ULONG addr = ptr[1];
+
+		if (barX == 0)
+		{
+			outPtr[0] = PcieDeviceReadReg(devExt->MemBar0Base, addr);
+			status = STATUS_SUCCESS;
+		}
+		else if (barX == 1)
+		{
+			outPtr[0] = PcieDeviceReadReg(devExt->MemBar1Base, addr);
+			status = STATUS_SUCCESS;
+		}
+		else if (barX == 2)
+		{
+			outPtr[0] = PcieDeviceReadReg(devExt->MemBar2Base, addr);
+			status = STATUS_SUCCESS;
+		}else if (barX == 3)
+		{
+			outPtr[0] = PcieDeviceReadReg(devExt->MemBar3Base, addr);
+			status = STATUS_SUCCESS;
+		}
+
+		WdfRequestCompleteWithInformation(Request, status, sizeof(ULONG));
 		break;
 	}
 	default:

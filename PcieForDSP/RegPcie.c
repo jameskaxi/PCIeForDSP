@@ -23,7 +23,7 @@ _In_ ULONG Address
 
 	ret = READ_REGISTER_ULONG((PULONG)((ULONG_PTR)BarXBase + Address));
 
-	DbgPrint("zhu:Read BaseAddr:0x%x  offset:0x%x   data:0x%x", (ULONG_PTR)BarXBase, Address, ret);
+	DbgPrint("zhu:Read BaseAddr:0x%x || offset:0x%x ||  data:0x%x", (ULONG_PTR)BarXBase, Address, ret);
 
 	return ret;
 }
@@ -48,7 +48,7 @@ _In_ ULONG Data
 // zhu 写入PCIE设备寄存器值
 {
 	WRITE_REGISTER_ULONG((PULONG)((ULONG_PTR)BarXBase + Address), Data);
-	DbgPrint("zhu:BaseAddr:0x%x  OffAdd:0x%x  data:0x%x", (ULONG_PTR)BarXBase, Address, Data);
+	DbgPrint("zhu:BaseAddr:0x%x || OffAdd:0x%x || data:0x%x", (ULONG_PTR)BarXBase, Address, Data);
 
 }
 

@@ -29,8 +29,8 @@
 #define PCIE_ADLEN_8MB               (0x00800000)
 #define PCIE_8MB_BITMASK             (0xFF800000)
 #define LL2_START                    (0x00800000)
-#define LL2_END                      (0x1087FFFF)//CorePac n L2 SRAM END
-//#define LL2_START(n)                 (0x10800000 + (0X1000000 * n))//CorePac n L2 SRAM
+#define LL2_END                      (0x0087FFFF)//CorePac n L2 SRAM END
+#define LL2_START_0                   0x10800000 //+ (0X1000000 * n))//CorePac n L2 SRAM
 //#define LL2_END(n)                   (0x1087FFFF + (0X1000000 * n))//CorePac n L2 SRAM END
 #define MSMC_START                   (0x0C000000)  /* Shared L2 */
 #define MSMC_END                     0x0C3FFFFF  /* Shared L2 END*/

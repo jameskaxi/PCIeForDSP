@@ -6,10 +6,10 @@ DspInBound(
 _In_ PDEVICE_CONTEXT devExt
 );
 
-//NTSTATUS
-//WriteDspProject(
-//_In_ PDEVICE_CONTEXT devExt,
-//_In_ ULONG step
-//);
+NTSTATUS
+WriteDspProject(
+_In_ PDEVICE_CONTEXT devExt,
+_In_ ULONG step
+);
 
 #endif //__PRELOADING_H_
