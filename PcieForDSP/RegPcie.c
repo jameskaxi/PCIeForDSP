@@ -237,8 +237,8 @@ _In_ PUCHAR BarXBase
 //	TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER, "--> %!FUNC!");
 	DbgPrint("zhu:-->PcieDeviceEnableInterrupt<--");
 #endif
-	
-	PcieDeviceWriteReg(BarXBase, 0x188, 0x1);//允许使能DSP中断
+	UNREFERENCED_PARAMETER(BarXBase);
+	//PcieDeviceWriteReg(BarXBase, 0x188, 0x1);//允许使能DSP中断
 	
 }
 
@@ -261,8 +261,8 @@ _In_ PUCHAR BarXBase
 //#ifdef DEBUG_ZHU
 //	TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER, "--> %!FUNC!");
 //#endif
-
-	PcieDeviceWriteReg(BarXBase, 0x18c, 0x1);
+	UNREFERENCED_PARAMETER(BarXBase);
+	//PcieDeviceWriteReg(BarXBase, 0x18c, 0x1);
 
 //#ifdef DEBUG_ZHU
 //	TraceEvents(TRACE_LEVEL_INFORMATION, TRACE_DRIVER, "<-- %!FUNC!");
